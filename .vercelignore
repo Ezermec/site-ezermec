@@ -1,0 +1,4 @@
+# Arquivos de desenvolvimento local — não precisam ir para a Vercel
+.claude/
+.git/
+*.log
