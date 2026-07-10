@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Ezermec — Peças e soluções para manutenção industrial',
   description:
     'Ezermec — peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Catálogo profissional de peças para máquinas industriais.',
-  icons: { icon: '/assets/logo-ezermec.png' },
+  icons: { icon: '/assets/logo-ezermec-icon.png' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

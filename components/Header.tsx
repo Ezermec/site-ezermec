@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/config';
+import { Logo } from './Logo';
 
 export function Header() {
   const router = useRouter();
@@ -29,8 +30,7 @@ export function Header() {
     <header className="site-header" ref={ref}>
       <div className="container header-top">
         <Link href="/" className="logo-btn" aria-label="Ezermec — início">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/logo-ezermec.png" alt="Ezermec" style={{ height: 46, display: 'block' }} />
+          <Logo variant="color" height={38} />
         </Link>
 
         <div className="search-box">

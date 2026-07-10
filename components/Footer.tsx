@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { site } from '@/lib/config';
+import { Logo } from './Logo';
 
 const colTitle = { fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase' as const, color: 'var(--orange2)', marginBottom: 14 };
 const colLink = { color: '#dce7f4', textAlign: 'left' as const, fontSize: 14, textDecoration: 'none' };
@@ -10,8 +11,9 @@ export function Footer() {
     <footer style={{ background: 'var(--navy)', color: '#fff', marginTop: 20 }}>
       <div className="container" style={{ paddingTop: 56, paddingBottom: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 36 }}>
         <div style={{ maxWidth: 300 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/logo-ezermec-white.png" alt="Ezermec" style={{ height: 44, marginBottom: 16 }} />
+          <div style={{ marginBottom: 16 }}>
+            <Logo variant="white" height={36} />
+          </div>
           <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#dce7f4' }}>Peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Qualidade, estoque e atendimento especializado.</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
             <a href={site.waHref} target="_blank" rel="noopener" className="ez-lift" style={social}><i className="ph-fill ph-whatsapp-logo" /></a>
