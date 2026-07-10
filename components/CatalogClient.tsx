@@ -33,7 +33,7 @@ export function CatalogClient({
   const view = useMemo(() => {
     const bySearch = products.filter((p) => {
       if (!term) return true;
-      return [p.name, p.code, p.fab, p.brand, p.cat, p.supplier, p.short, p.tags.join(' ')]
+      return [p.name, p.code, p.fab, p.brand, p.cat, p.short, p.tags.join(' ')]
         .join(' ').toLowerCase().includes(term);
     });
 

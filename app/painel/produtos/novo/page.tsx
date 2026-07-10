@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getBrands, getCategories } from '@/lib/data';
 import { ProductForm } from '@/components/admin/ProductForm';
 
 export const metadata = { title: 'Novo produto — Painel Ezermec' };
@@ -16,6 +17,7 @@ export default async function NewProductPage({
   if (!user) redirect('/painel/login');
 
   const sp = await searchParams;
+  const [brands, categories] = await Promise.all([getBrands(), getCategories()]);
 
   return (
     <main className="container" style={{ paddingTop: 32, paddingBottom: 60, maxWidth: 860 }}>
@@ -26,7 +28,7 @@ export default async function NewProductPage({
       <h1 style={{ fontSize: 'clamp(22px,2.6vw,28px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 24px' }}>Novo produto</h1>
 
       <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 28 }}>
-        <ProductForm error={sp.error} />
+        <ProductForm brands={brands} categories={categories} error={sp.error} />
       </div>
     </main>
   );

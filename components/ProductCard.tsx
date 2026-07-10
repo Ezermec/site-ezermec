@@ -1,15 +1,22 @@
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
+import { productImageUrl } from '@/lib/storage';
 import { StockBadge } from './StockBadge';
 
 type Variant = 'home' | 'catalog' | 'related';
 
 export function ProductCard({ product: p, variant = 'home' }: { product: Product; variant?: Variant }) {
   const iconSize = variant === 'related' ? 56 : 64;
+  const cover = p.images[0];
   return (
     <Link href={`/produto/${p.slug}`} className="pcard ez-card-h">
-      <div className="pcard-img">
-        <i className={`ph ${p.icon}`} style={{ fontSize: iconSize, color: 'rgba(5,40,87,.13)' }} />
+      <div className="pcard-img" style={cover ? { background: '#fff' } : undefined}>
+        {cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={productImageUrl(cover)} alt={p.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <i className={`ph ${p.icon}`} style={{ fontSize: iconSize, color: 'rgba(5,40,87,.13)' }} />
+        )}
         <span className="pcard-code">{p.code}</span>
         {variant !== 'related' && <StockBadge stock={p.stock} />}
       </div>

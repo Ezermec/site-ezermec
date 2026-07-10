@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect, notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getProductBySlug } from '@/lib/data';
+import { getProductBySlug, getBrands, getCategories } from '@/lib/data';
 import { ProductForm } from '@/components/admin/ProductForm';
 
 export const metadata = { title: 'Editar produto — Painel Ezermec' };
@@ -23,6 +23,8 @@ export default async function EditProductPage({
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
+  const [brands, categories] = await Promise.all([getBrands(), getCategories()]);
+
   return (
     <main className="container" style={{ paddingTop: 32, paddingBottom: 60, maxWidth: 860 }}>
       <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
@@ -32,7 +34,7 @@ export default async function EditProductPage({
       <h1 style={{ fontSize: 'clamp(22px,2.6vw,28px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 24px' }}>Editar produto</h1>
 
       <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 28 }}>
-        <ProductForm product={product} error={sp.error} />
+        <ProductForm product={product} brands={brands} categories={categories} error={sp.error} />
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { mapProductRow, type Product, type ProductRow } from '@/lib/types';
+import { mapProductRow, type Brand, type Category, type Product, type ProductRow } from '@/lib/types';
 
 /** Busca todos os produtos, ordenados pela posição definida no catálogo. */
 export async function getProducts(): Promise<Product[]> {
@@ -26,6 +26,32 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     return null;
   }
   return data ? mapProductRow(data as ProductRow) : null;
+}
+
+/** Lista as marcas cadastradas (ordem alfabética). */
+export async function getBrands(): Promise<Brand[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from('brands').select('id, name').order('name');
+  if (error) {
+    console.error('[Ezermec] Erro ao buscar marcas:', error.message);
+    return [];
+  }
+  return data as Brand[];
+}
+
+/** Lista as categorias cadastradas (por posição, depois nome). */
+export async function getCategories(): Promise<Category[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('categories')
+    .select('id, name, icon, position')
+    .order('position', { ascending: true, nullsFirst: false })
+    .order('name');
+  if (error) {
+    console.error('[Ezermec] Erro ao buscar categorias:', error.message);
+    return [];
+  }
+  return data as Category[];
 }
 
 /** Produtos em destaque para a home (marcados como featured; fallback: 4 primeiros). */

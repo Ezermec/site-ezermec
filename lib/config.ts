@@ -9,7 +9,6 @@ export const site = {
   whatsappNumber: WA,
   phoneDisplay,
   email,
-  productImage: '/assets/produto-exemplo.webp',
   waHref:
     'https://wa.me/' +
     WA +

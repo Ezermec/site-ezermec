@@ -17,14 +17,14 @@ create table if not exists public.products (
   fab                 text,
   brand               text not null,
   cat                 text not null,
-  supplier            text,
   icon                text not null default 'ph-package',
   weight              text,
   dims                text,
   material            text,
   short               text,
   full_description    text,
-  tags                text[] not null default '{}',
+  tags                text[] not null default '{}',  -- geradas automaticamente
+  images              text[] not null default '{}',  -- caminhos no Storage (1ª = principal)
   stock_quantity      integer not null default 0,
   low_stock_threshold integer not null default 5,
   -- Status derivado automaticamente da quantidade em estoque:
@@ -106,3 +106,50 @@ create policy "Admin pode remover produtos"
   for delete
   to authenticated
   using (true);
+
+-- --------------------------------------------------------------------------
+-- Marcas e categorias (registro selecionável no cadastro de produto)
+--   Leitura pública; escrita apenas para authenticated (admin).
+-- --------------------------------------------------------------------------
+create table if not exists public.brands (
+  id         bigint generated always as identity primary key,
+  name       text not null unique,
+  created_at timestamptz not null default now()
+);
+alter table public.brands enable row level security;
+create policy "Leitura pública das marcas" on public.brands for select to anon, authenticated using (true);
+create policy "Admin insere marcas"  on public.brands for insert to authenticated with check (true);
+create policy "Admin atualiza marcas" on public.brands for update to authenticated using (true) with check (true);
+create policy "Admin remove marcas"  on public.brands for delete to authenticated using (true);
+
+create table if not exists public.categories (
+  id         bigint generated always as identity primary key,
+  name       text not null unique,
+  icon       text not null default 'ph-package',
+  position   integer,
+  created_at timestamptz not null default now()
+);
+alter table public.categories enable row level security;
+create policy "Leitura pública das categorias" on public.categories for select to anon, authenticated using (true);
+create policy "Admin insere categorias"  on public.categories for insert to authenticated with check (true);
+create policy "Admin atualiza categorias" on public.categories for update to authenticated using (true) with check (true);
+create policy "Admin remove categorias"  on public.categories for delete to authenticated using (true);
+
+-- --------------------------------------------------------------------------
+-- Storage: bucket público de imagens de produto
+--   Leitura via URL pública (sem política de SELECT, para não permitir listar
+--   o bucket inteiro). Escrita apenas para authenticated (admin).
+-- --------------------------------------------------------------------------
+insert into storage.buckets (id, name, public)
+values ('product-images', 'product-images', true)
+on conflict (id) do nothing;
+
+create policy "product-images admin insere"
+  on storage.objects for insert to authenticated
+  with check (bucket_id = 'product-images');
+create policy "product-images admin atualiza"
+  on storage.objects for update to authenticated
+  using (bucket_id = 'product-images') with check (bucket_id = 'product-images');
+create policy "product-images admin remove"
+  on storage.objects for delete to authenticated
+  using (bucket_id = 'product-images');

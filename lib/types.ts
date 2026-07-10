@@ -9,7 +9,6 @@ export interface ProductRow {
   fab: string | null;
   brand: string;
   cat: string;
-  supplier: string | null;
   icon: string;
   weight: string | null;
   dims: string | null;
@@ -17,6 +16,7 @@ export interface ProductRow {
   short: string | null;
   full_description: string | null;
   tags: string[] | null;
+  images: string[] | null;
   stock_quantity: number;
   low_stock_threshold: number;
   stock_status: StockStatus;
@@ -32,7 +32,6 @@ export interface Product {
   fab: string;
   brand: string;
   cat: string;
-  supplier: string;
   icon: string;
   weight: string;
   dims: string;
@@ -40,10 +39,23 @@ export interface Product {
   short: string;
   full: string;
   tags: string[];
+  images: string[];
   stock: StockStatus;
   stockQty: number;
   lowStockThreshold: number;
   featured: boolean;
+  position: number | null;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  icon: string;
   position: number | null;
 }
 
@@ -55,7 +67,6 @@ export function mapProductRow(row: ProductRow): Product {
     fab: row.fab ?? '',
     brand: row.brand,
     cat: row.cat,
-    supplier: row.supplier ?? '',
     icon: row.icon || 'ph-package',
     weight: row.weight ?? '',
     dims: row.dims ?? '',
@@ -63,6 +74,7 @@ export function mapProductRow(row: ProductRow): Product {
     short: row.short ?? '',
     full: row.full_description ?? '',
     tags: Array.isArray(row.tags) ? row.tags : [],
+    images: Array.isArray(row.images) ? row.images : [],
     stock: row.stock_status,
     stockQty: row.stock_quantity,
     lowStockThreshold: row.low_stock_threshold,

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProducts, getProductBySlug, getRelated } from '@/lib/data';
-import { site, productWaHref, productMailHref } from '@/lib/config';
-import { StockBadge } from '@/components/StockBadge';
+import { productWaHref, productMailHref } from '@/lib/config';
 import { ProductCard } from '@/components/ProductCard';
+import { ProductGallery } from '@/components/ProductGallery';
 import { ShareButton } from '@/components/ShareButton';
 
 const crumbBtn = { background: 'none', border: 'none', color: 'var(--muted)', fontFamily: 'inherit', fontSize: 13, padding: 0 } as const;
@@ -20,11 +20,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const mailHref = productMailHref(product.name, product.code, product.fab, product.brand);
 
   const specs: Array<[string, string]> = [
-    ['Marca', product.brand], ['Categoria', product.cat], ['Fornecedor', product.supplier],
+    ['Marca', product.brand], ['Categoria', product.cat],
     ['Código do fabricante', product.fab], ['Material', product.material], ['Peso', product.weight],
     ['Dimensões', product.dims], ['Garantia', '12 meses'],
-  ];
-  const galleryIcons = [product.icon, 'ph-image', 'ph-image', 'ph-magnifying-glass-plus'];
+  ].filter(([, v]) => v) as Array<[string, string]>;
 
   return (
     <main className="ez-fade container" style={{ paddingTop: 26, paddingBottom: 60 }}>
@@ -39,20 +38,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(330px,1fr))', gap: 38, alignItems: 'start' }}>
           {/* GALERIA */}
-          <div>
-            <div style={{ position: 'relative', aspectRatio: '1/1', borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)', background: '#fff' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={site.productImage} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              <StockBadge stock={product.stock} big />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginTop: 12 }}>
-              {galleryIcons.map((ic, i) => (
-                <div key={i} style={{ aspectRatio: '1/1', borderRadius: 12, border: '1px solid var(--border)', background: 'repeating-linear-gradient(135deg,#f1f5fa,#f1f5fa 8px,#e8edf3 8px,#e8edf3 16px)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(5,40,87,.16)', fontSize: 26 }}>
-                  <i className={`ph ${ic}`} />
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductGallery images={product.images} name={product.name} icon={product.icon} stock={product.stock} />
 
           {/* INFO */}
           <div>
@@ -66,7 +52,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, margin: '18px 0 0' }}>
               <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 14px' }}><div className="mono" style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.06em' }}>Categoria</div><div style={{ fontWeight: 700, fontSize: 14.5, marginTop: 3 }}>{product.cat}</div></div>
-              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 14px' }}><div className="mono" style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.06em' }}>Fornecedor</div><div style={{ fontWeight: 700, fontSize: 14.5, marginTop: 3 }}>{product.supplier}</div></div>
+              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 14px' }}><div className="mono" style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.06em' }}>Marca</div><div style={{ fontWeight: 700, fontSize: 14.5, marginTop: 3 }}>{product.brand}</div></div>
             </div>
 
             <p style={{ fontSize: 15.5, lineHeight: 1.65, color: 'var(--text)', margin: '20px 0 0' }}>{product.full}</p>

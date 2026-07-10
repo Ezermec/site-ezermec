@@ -37,6 +37,9 @@ export default async function PainelPage({
           <Link href="/painel/produtos/novo" className="ez-lift" style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--orange)', color: '#fff', borderRadius: 10, padding: '11px 20px', fontWeight: 700, fontSize: 14 }}>
             <i className="ph ph-plus" />Novo produto
           </Link>
+          <Link href="/painel/marcas-categorias" className="ez-lift" style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14 }}>
+            <i className="ph ph-tag" />Marcas e categorias
+          </Link>
           <form action={signOut}>
             <button type="submit" className="ez-lift" style={{ background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
               Sair

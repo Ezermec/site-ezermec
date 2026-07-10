@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import type { Product } from '@/lib/types';
+import type { Brand, Category, Product } from '@/lib/types';
 import { upsertProduct, deleteProduct } from '@/app/painel/actions';
+import { ImageManager } from './ImageManager';
 
 const label = { display: 'block', fontWeight: 700, fontSize: 13, color: 'var(--navy)', marginBottom: 6 };
 const input = { width: '100%', border: '1px solid var(--border)', borderRadius: 9, padding: '10px 12px', fontSize: 14, fontFamily: 'inherit', color: 'var(--navy)', background: '#fff' };
@@ -17,7 +18,17 @@ function Field({ children, htmlFor, title }: { children: React.ReactNode; htmlFo
   );
 }
 
-export function ProductForm({ product, error }: { product?: Product; error?: string }) {
+export function ProductForm({
+  product,
+  brands,
+  categories,
+  error,
+}: {
+  product?: Product;
+  brands: Brand[];
+  categories: Category[];
+  error?: string;
+}) {
   const isNew = !product;
   const [featured, setFeatured] = useState(!!product?.featured);
 
@@ -31,6 +42,12 @@ export function ProductForm({ product, error }: { product?: Product; error?: str
           {error}
         </div>
       )}
+
+      {/* IMAGENS */}
+      <div style={{ ...field, marginBottom: 24 }}>
+        <span style={label}>Imagens do produto</span>
+        <ImageManager initialImages={product?.images ?? []} />
+      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 0 }}>
         <Field htmlFor="name" title="Nome do produto *">
@@ -46,13 +63,16 @@ export function ProductForm({ product, error }: { product?: Product; error?: str
           <input id="fab" name="fab" defaultValue={product?.fab} style={input} />
         </Field>
         <Field htmlFor="brand" title="Marca *">
-          <input id="brand" name="brand" required defaultValue={product?.brand} style={input} />
+          <select id="brand" name="brand" required defaultValue={product?.brand ?? ''} style={input}>
+            <option value="" disabled>Selecione uma marca…</option>
+            {brands.map((b) => <option key={b.id} value={b.name}>{b.name}</option>)}
+          </select>
         </Field>
         <Field htmlFor="cat" title="Categoria *">
-          <input id="cat" name="cat" required defaultValue={product?.cat} style={input} />
-        </Field>
-        <Field htmlFor="supplier" title="Fornecedor">
-          <input id="supplier" name="supplier" defaultValue={product?.supplier} style={input} />
+          <select id="cat" name="cat" required defaultValue={product?.cat ?? ''} style={input}>
+            <option value="" disabled>Selecione uma categoria…</option>
+            {categories.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
+          </select>
         </Field>
         <Field htmlFor="icon" title="Ícone (Phosphor, ex: ph-gear)">
           <input id="icon" name="icon" defaultValue={product?.icon || 'ph-package'} style={input} />
@@ -77,9 +97,10 @@ export function ProductForm({ product, error }: { product?: Product; error?: str
       <Field htmlFor="full_description" title="Descrição completa (página do produto)">
         <textarea id="full_description" name="full_description" defaultValue={product?.full} rows={4} style={{ ...input, resize: 'vertical' as const }} />
       </Field>
-      <Field htmlFor="tags" title="Tags (separadas por vírgula)">
-        <input id="tags" name="tags" defaultValue={product?.tags?.join(', ')} style={input} />
-      </Field>
+
+      <p style={{ fontSize: 12.5, color: 'var(--muted)', margin: '0 0 20px' }}>
+        <i className="ph ph-tag" style={{ marginRight: 5 }} />As tags de busca são geradas automaticamente a partir do nome, marca, categoria e códigos.
+      </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 0, background: '#fff', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 18px 4px', marginTop: 8, marginBottom: 20 }}>
         <Field htmlFor="stock_quantity" title="Quantidade em estoque *">
