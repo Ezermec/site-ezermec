@@ -1,6 +1,6 @@
-// Dados de contato (placeholder do design — trocar pelos reais antes do go-live)
-const whatsappNumber = '5511940001234';
-const phoneDisplay = '(11) 4000-1234';
+// Dados de contato
+const whatsappNumber = '5547996524168';
+const phoneDisplay = '(47) 99652-4168';
 const email = 'vendas@ezermec.com.br';
 
 const WA = whatsappNumber.replace(/\D/g, '');
