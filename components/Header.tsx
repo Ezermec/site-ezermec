@@ -64,13 +64,13 @@ export function Header() {
           <Link href="/sobre" className="ez-navbtn">Sobre</Link>
           <Link href="/#contato" className="ez-navbtn">Contato</Link>
           <span style={{ flex: 1 }} />
-          <button
+          <Link
+            href="/painel"
             title="Acesso restrito ao administrador"
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', padding: '13px 14px', fontSize: 13.5, fontWeight: 600, color: 'var(--muted)', cursor: 'not-allowed' }}
-            disabled
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', padding: '13px 14px', fontSize: 13.5, fontWeight: 600, color: 'var(--muted)' }}
           >
             <i className="ph ph-lock-key" style={{ fontSize: 16 }} />Painel
-          </button>
+          </Link>
         </div>
       </nav>
     </header>

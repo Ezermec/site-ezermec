@@ -4,8 +4,7 @@ import { supabaseConfig } from '@/lib/config';
 
 /**
  * Proxy (antigo "middleware") que mantém a sessão do Supabase atualizada nos
- * cookies. Hoje o site é público (sem login), mas isto já deixa a base pronta
- * para proteger rotas de admin (ex.: /painel) quando a autenticação existir.
+ * cookies e protege as rotas do painel administrativo (/painel).
  */
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -25,8 +24,24 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  // Atualiza a sessão (no-op enquanto não há usuário autenticado).
-  await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { pathname } = request.nextUrl;
+  const isPainelRoute = pathname.startsWith('/painel');
+  const isLoginRoute = pathname === '/painel/login';
+
+  if (isPainelRoute && !isLoginRoute && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/painel/login';
+    url.searchParams.set('next', pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (isLoginRoute && user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/painel';
+    url.search = '';
+    return NextResponse.redirect(url);
+  }
 
   return response;
 }

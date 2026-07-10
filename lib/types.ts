@@ -42,7 +42,9 @@ export interface Product {
   tags: string[];
   stock: StockStatus;
   stockQty: number;
+  lowStockThreshold: number;
   featured: boolean;
+  position: number | null;
 }
 
 export function mapProductRow(row: ProductRow): Product {
@@ -63,6 +65,8 @@ export function mapProductRow(row: ProductRow): Product {
     tags: Array.isArray(row.tags) ? row.tags : [],
     stock: row.stock_status,
     stockQty: row.stock_quantity,
+    lowStockThreshold: row.low_stock_threshold,
     featured: Boolean(row.featured),
+    position: row.position,
   };
 }

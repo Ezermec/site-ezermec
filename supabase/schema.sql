@@ -71,8 +71,10 @@ create trigger trg_products_set_updated_at
 -- --------------------------------------------------------------------------
 -- Row Level Security
 --   Leitura pública (site usa a chave publicável / role anon).
---   Escrita NÃO é permitida por RLS -> só via service_role ou painel Supabase.
---   (Quando houver autenticação de admin, criar policies de INSERT/UPDATE.)
+--   Escrita liberada para qualquer usuário autenticado (role `authenticated`):
+--   não há modelo multiusuário/propriedade por linha — toda conta autenticada
+--   é, por definição, uma conta de administrador do painel (login criado
+--   manualmente, sem cadastro público). Ver app/painel/.
 -- --------------------------------------------------------------------------
 alter table public.products enable row level security;
 
@@ -81,4 +83,26 @@ create policy "Leitura pública dos produtos"
   on public.products
   for select
   to anon, authenticated
+  using (true);
+
+drop policy if exists "Admin pode inserir produtos" on public.products;
+create policy "Admin pode inserir produtos"
+  on public.products
+  for insert
+  to authenticated
+  with check (true);
+
+drop policy if exists "Admin pode atualizar produtos" on public.products;
+create policy "Admin pode atualizar produtos"
+  on public.products
+  for update
+  to authenticated
+  using (true)
+  with check (true);
+
+drop policy if exists "Admin pode remover produtos" on public.products;
+create policy "Admin pode remover produtos"
+  on public.products
+  for delete
+  to authenticated
   using (true);
