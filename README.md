@@ -93,5 +93,4 @@ Enquanto não há painel administrativo com login, edite direto no Supabase:
 
 ## Pendências antes do go-live
 
-- Substituir o **e-mail e endereço** (placeholder) em `lib/config.ts` e no rodapé — WhatsApp/telefone já são os reais.
-- Substituir as **fotos placeholder** (hero, sobre, estrutura) por imagens reais.
+- Substituir as **fotos placeholder** (hero, sobre, estrutura) por imagens reais. Dados de contato (WhatsApp, telefone, e-mail, endereço, horário) já são os reais.

@@ -48,8 +48,8 @@ export function Footer() {
             <a href={site.waHref} target="_blank" rel="noopener" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph-fill ph-whatsapp-logo" style={{ color: 'var(--green)', fontSize: 18 }} />{site.phoneDisplay}</a>
             <a href={site.telHref} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-phone" style={{ fontSize: 18 }} />{site.phoneDisplay}</a>
             <a href={site.mailGeneral} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-envelope-simple" style={{ fontSize: 18 }} />{site.email}</a>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-map-pin" style={{ fontSize: 18, marginTop: 2 }} />Av. Industrial, 1000 — Distrito Industrial<br />São Paulo / SP</span>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-clock" style={{ fontSize: 18, marginTop: 2 }} />Seg a Sex, 8h às 18h<br />Sáb, 8h às 12h</span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-map-pin" style={{ fontSize: 18, marginTop: 2 }} />Blumenau - Santa Catarina</span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-clock" style={{ fontSize: 18, marginTop: 2 }} />Seg a Qui, 8h às 17h<br />Sex, 8h às 16h</span>
           </div>
         </div>
       </div>
