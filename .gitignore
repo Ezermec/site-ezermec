@@ -1,6 +1,14 @@
 # Dependências
 node_modules/
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Variáveis de ambiente locais
+.env*.local
+
 # Logs
 *.log
 npm-debug.log*
