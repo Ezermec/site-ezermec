@@ -10,7 +10,7 @@ import { supabaseConfig } from '@/lib/config';
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(supabaseConfig.url, supabaseConfig.anonKey, {
+  const supabase = createServerClient(supabaseConfig.url, supabaseConfig.publishableKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();

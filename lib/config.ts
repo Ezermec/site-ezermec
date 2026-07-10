@@ -49,6 +49,8 @@ export function productMailHref(name: string, code: string, fab: string, brand: 
 // funcionar mesmo sem .env configurado — o acesso é restrito por RLS).
 export const supabaseConfig = {
   url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://qawzvbgxlyohppereybe.supabase.co',
-  anonKey:
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'sb_publishable_T5ewD1mX8a_PlvU6cJo7vw_s7qkCzGE',
+  publishableKey:
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    'sb_publishable_T5ewD1mX8a_PlvU6cJo7vw_s7qkCzGE',
 };

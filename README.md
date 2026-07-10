@@ -57,7 +57,7 @@ A Vercel detecta o Next.js automaticamente — sem configuração manual de buil
 1. Importe o repositório em [vercel.com/new](https://vercel.com/new).
 2. (Opcional, recomendado) Configure as env vars em *Settings → Environment Variables*:
    - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
    - Sem elas, o site usa o fallback público embutido.
 3. Deploy. Cada `git push` na `main` refaz o deploy.
 
