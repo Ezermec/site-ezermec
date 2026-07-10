@@ -1,18 +1,5 @@
-// Conteúdo presentational da home (categorias em destaque e diferenciais).
-// As contagens são ilustrativas; os filtros do catálogo usam dados reais.
-
-export const HOME_CATS = [
-  { name: 'Lançadeiras', cat: 'Lançadeiras', icon: 'ph-gear', count: 42 },
-  { name: 'Agulhas', cat: 'Agulhas', icon: 'ph-needle', count: 68 },
-  { name: 'Quadros e Bastidores', cat: 'Quadros e Bastidores', icon: 'ph-frame-corners', count: 25 },
-  { name: 'Rolamentos', cat: 'Rolamentos', icon: 'ph-circle', count: 156 },
-  { name: 'Correias', cat: 'Correias', icon: 'ph-arrows-clockwise', count: 89 },
-  { name: 'Motores', cat: 'Motores', icon: 'ph-engine', count: 34 },
-  { name: 'Polias', cat: 'Polias', icon: 'ph-disc', count: 47 },
-  { name: 'Pneumática', cat: 'Pneumática', icon: 'ph-wind', count: 51 },
-  { name: 'Componentes Elétricos', cat: 'Componentes Elétricos', icon: 'ph-lightning', count: 73 },
-  { name: 'Correntes', cat: 'Correntes', icon: 'ph-link-simple', count: 29 },
-];
+// Conteúdo presentational da home (diferenciais). As categorias e suas
+// contagens vêm do banco (ver lib/data.ts::getCategories + produtos reais).
 
 export const DIFERENCIAIS = [
   { icon: 'ph-seal-check', title: 'Revenda autorizada', desc: 'Distribuidor oficial Fischertec com garantia de procedência.' },

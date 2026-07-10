@@ -1,14 +1,20 @@
 import Link from 'next/link';
-import { getProducts, getFeatured } from '@/lib/data';
-import { HOME_CATS, DIFERENCIAIS } from '@/lib/content';
+import { getProducts, getFeatured, getCategories } from '@/lib/data';
+import { DIFERENCIAIS } from '@/lib/content';
 import { site } from '@/lib/config';
+import { roundedItemCountLabel } from '@/lib/format';
 import { HeroSearch } from '@/components/HeroSearch';
 import { ProductCard } from '@/components/ProductCard';
 import { ImageSlot } from '@/components/ImageSlot';
 
 export default async function HomePage() {
-  const products = await getProducts();
+  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
   const featured = getFeatured(products);
+
+  const catCounts = products.reduce<Record<string, number>>((acc, p) => {
+    acc[p.cat] = (acc[p.cat] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <main className="ez-fade">
@@ -31,7 +37,7 @@ export default async function HomePage() {
               <a href={site.waHref} target="_blank" rel="noopener" className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>Solicitar orçamento</a>
             </div>
             <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', margin: '30px 0 0' }}>
-              {[['+800', 'itens em catálogo'], ['12', 'categorias'], ['100%', 'peças originais']].map(([n, l], i) => (
+              {[[roundedItemCountLabel(products.length), 'itens em catálogo'], [String(categories.length), 'categorias'], ['100%', 'peças originais']].map(([n, l], i) => (
                 <div key={i} style={{ display: 'flex', gap: 26 }}>
                   {i > 0 && <div style={{ width: 1, background: 'var(--border)', marginLeft: -26 }} />}
                   <div>
@@ -84,13 +90,16 @@ export default async function HomePage() {
           <Link href="/catalogo" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--navy)', fontWeight: 700, fontSize: 15 }}>Ver todos os produtos <i className="ph ph-arrow-right" /></Link>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 16 }}>
-          {HOME_CATS.map((c) => (
-            <Link key={c.cat} href={`/catalogo?cat=${encodeURIComponent(c.cat)}`} className="ez-card-h" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 22, display: 'flex', flexDirection: 'column' }}>
-              <span style={{ width: 54, height: 54, borderRadius: 14, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 27, marginBottom: 16 }}><i className={`ph ${c.icon}`} /></span>
-              <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{c.name}</span>
-              <span className="mono" style={{ fontSize: 12, color: 'var(--muted)', marginTop: 5 }}>{c.count} itens</span>
-            </Link>
-          ))}
+          {categories.map((c) => {
+            const count = catCounts[c.name] || 0;
+            return (
+              <Link key={c.id} href={`/catalogo?cat=${encodeURIComponent(c.name)}`} className="ez-card-h" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 22, display: 'flex', flexDirection: 'column' }}>
+                <span style={{ width: 54, height: 54, borderRadius: 14, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 27, marginBottom: 16 }}><i className={`ph ${c.icon}`} /></span>
+                <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{c.name}</span>
+                <span className="mono" style={{ fontSize: 12, color: 'var(--muted)', marginTop: 5 }}>{count} {count === 1 ? 'item' : 'itens'}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
