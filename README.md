@@ -27,9 +27,14 @@ app/
     page.tsx             # lista de produtos + estoque
     produtos/[slug]/     # editar produto existente
     produtos/novo/       # criar produto
-    actions.ts           # Server Actions: signIn, signOut, upsertProduct, deleteProduct
+    marcas-categorias/   # gerenciar marcas e categorias
+    historico/           # histórico de alterações (audit log)
+    usuarios/            # gerenciar usuários do painel (só owner)
+    actions.ts           # Server Actions (produtos, marcas/categorias, usuários)
 components/             # Header, Footer, ProductCard, StockBadge, etc.
+  ProductGallery.tsx     # galeria de imagens na página de produto
   admin/ProductForm.tsx  # formulário de produto usado em criar/editar
+  admin/ImageManager.tsx # upload de imagens direto ao Storage
 lib/
   data.ts               # acesso aos produtos no Supabase
   types.ts              # tipos + normalização das linhas
@@ -104,14 +109,44 @@ Alternativa: editar direto em **app.supabase.com** → projeto Ezermec →
 **Table Editor** → `products`.
 
 > **Segurança**: a leitura da tabela `products` é pública (RLS); a escrita
-> (`insert`/`update`/`delete`) exige um usuário autenticado. Como não há
-> cadastro público, toda conta autenticada é por definição uma conta de
-> admin — não há um segundo nível de permissão. As rotas `/painel/*` (exceto
-> `/painel/login`) são protegidas em `proxy.ts`, que redireciona quem não
-> estiver logado.
+> (`insert`/`update`/`delete`) exige um usuário autenticado. As rotas
+> `/painel/*` (exceto `/painel/login`) são protegidas em `proxy.ts`, que
+> redireciona quem não estiver logado.
 >
-> Para criar/trocar a senha do admin: **app.supabase.com** → projeto Ezermec
+> Para trocar a senha de um usuário: **app.supabase.com** → projeto Ezermec
 > → **Authentication → Users**.
+
+### Usuários e papéis (`/painel/usuarios`)
+
+Existem dois papéis:
+
+- **owner** (administrador principal) — único hoje é `ezermec@gmail.com`.
+  Além de gerenciar produtos, pode criar, renomear e remover outros usuários
+  em `/painel/usuarios`.
+- **admin** — gerencia produtos, marcas, categorias e vê o histórico, mas não
+  acessa `/painel/usuarios`.
+
+O papel fica na tabela `profiles` (não em `auth.users`). A criação de usuário
+usa o endpoint público de signup do Supabase + uma função no banco
+(`admin_finish_new_user`, só chamável pelo owner) que confirma o e-mail e cria
+o perfil — **não depende da `service_role` key**.
+
+> **Limite de e-mail do Supabase**: o passo de signup tenta enviar um e-mail
+> de confirmação (mesmo sendo confirmado automaticamente em seguida). Contas
+> gratuitas do Supabase têm um limite baixo de envios por hora; criar vários
+> usuários em sequência pode esbarrar nesse limite (erro "muitas tentativas").
+> Se isso acontecer, aguarde alguns minutos. Alternativa: criar o usuário
+> direto em **Authentication → Users** no Supabase — no primeiro login dele,
+> o app cria o perfil automaticamente (papel `admin`).
+
+### Histórico de alterações (`/painel/historico`)
+
+Toda alteração em produtos, marcas e categorias (criar/editar/remover) é
+registrada automaticamente na tabela `audit_log` via **trigger no banco**
+(`log_audit_change`) — não depende do código da aplicação, então nenhuma
+alteração passa despercebida. Cada registro guarda quem fez (nome/e-mail),
+quando, em qual tabela/item, e o que mudou (diff de campos, para updates).
+A tabela é somente-leitura para os usuários do painel (só o trigger escreve).
 
 ## Pendências antes do go-live
 

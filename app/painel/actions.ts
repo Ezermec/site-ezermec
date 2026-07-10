@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { supabaseConfig } from '@/lib/config';
 
 function deaccent(text: string): string {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -53,6 +54,11 @@ export async function signIn(formData: FormData) {
   if (error) {
     redirect(`/painel/login?error=${encodeURIComponent('E-mail ou senha inválidos.')}&next=${encodeURIComponent(next)}`);
   }
+
+  // Garante que exista um perfil (nome/papel), mesmo para contas criadas
+  // direto pelo Dashboard do Supabase em vez de /painel/usuarios.
+  await supabase.rpc('ensure_own_profile');
+
   redirect(next);
 }
 
@@ -189,4 +195,76 @@ export async function deleteCategory(formData: FormData) {
   if (error) taxRedirect('error', error.message);
   revalidatePath(TAX_PATH);
   taxRedirect('deleted');
+}
+
+// ---------- Usuários (somente o admin principal / owner) ----------
+
+const USERS_PATH = '/painel/usuarios';
+
+function usersRedirect(kind: 'saved' | 'deleted' | 'error', msg?: string): never {
+  if (kind === 'error') redirect(`${USERS_PATH}?error=${encodeURIComponent(msg || 'Erro')}`);
+  redirect(`${USERS_PATH}?${kind}=1`);
+}
+
+/**
+ * Cria um novo usuário do painel. Usa o endpoint público de signup (não o
+ * client com sessão, para não substituir a sessão do owner) e, em seguida,
+ * confirma o e-mail e cria o perfil via RPC (só o owner consegue chamá-la —
+ * ver função admin_finish_new_user no banco). Não depende de service_role key.
+ */
+export async function createAdminUser(formData: FormData) {
+  const name = String(formData.get('name') || '').trim();
+  const email = String(formData.get('email') || '').trim();
+  const password = String(formData.get('password') || '');
+
+  if (!name || !email || password.length < 6) {
+    usersRedirect('error', 'Preencha nome, e-mail e uma senha com pelo menos 6 caracteres.');
+  }
+
+  const signupRes = await fetch(`${supabaseConfig.url}/auth/v1/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', apikey: supabaseConfig.publishableKey },
+    body: JSON.stringify({ email, password }),
+  });
+  const signupBody = await signupRes.json();
+
+  if (!signupRes.ok) {
+    const msg = signupRes.status === 429
+      ? 'Muitas tentativas de criação de conta em pouco tempo. Aguarde alguns minutos e tente novamente.'
+      : (signupBody.msg || signupBody.error_description || 'Não foi possível criar o usuário.');
+    usersRedirect('error', msg);
+  }
+  if (!signupBody.id) usersRedirect('error', 'Este e-mail já está cadastrado.');
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc('admin_finish_new_user', { target_id: signupBody.id, target_name: name });
+  if (error) usersRedirect('error', error.message);
+
+  revalidatePath(USERS_PATH);
+  usersRedirect('saved');
+}
+
+export async function updateUserName(formData: FormData) {
+  const id = String(formData.get('id') || '');
+  const name = String(formData.get('name') || '').trim();
+  if (!id || !name) usersRedirect('error', 'Informe um nome válido.');
+
+  const supabase = await createClient();
+  const { error } = await supabase.from('profiles').update({ name }).eq('id', id);
+  if (error) usersRedirect('error', error.message);
+
+  revalidatePath(USERS_PATH);
+  usersRedirect('saved');
+}
+
+export async function deleteAdminUser(formData: FormData) {
+  const id = String(formData.get('id') || '');
+  if (!id) return;
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc('admin_delete_user', { target_id: id });
+  if (error) usersRedirect('error', error.message);
+
+  revalidatePath(USERS_PATH);
+  usersRedirect('deleted');
 }

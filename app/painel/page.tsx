@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getProducts } from '@/lib/data';
+import { getProducts, getCurrentRole } from '@/lib/data';
 import { signOut } from './actions';
 
 export const metadata = { title: 'Painel — Ezermec' };
@@ -23,7 +23,8 @@ export default async function PainelPage({
   if (!user) redirect('/painel/login');
 
   const sp = await searchParams;
-  const products = await getProducts();
+  const [products, role] = await Promise.all([getProducts(), getCurrentRole()]);
+  const isOwner = role === 'owner';
 
   return (
     <main className="container" style={{ paddingTop: 32, paddingBottom: 60 }}>
@@ -40,6 +41,14 @@ export default async function PainelPage({
           <Link href="/painel/marcas-categorias" className="ez-lift" style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14 }}>
             <i className="ph ph-tag" />Marcas e categorias
           </Link>
+          <Link href="/painel/historico" className="ez-lift" style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14 }}>
+            <i className="ph ph-clock-counter-clockwise" />Histórico
+          </Link>
+          {isOwner && (
+            <Link href="/painel/usuarios" className="ez-lift" style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14 }}>
+              <i className="ph ph-users" />Usuários
+            </Link>
+          )}
           <form action={signOut}>
             <button type="submit" className="ez-lift" style={{ background: '#fff', color: 'var(--navy)', border: '1.5px solid var(--border2)', borderRadius: 10, padding: '11px 18px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
               Sair

@@ -59,6 +59,31 @@ export interface Category {
   position: number | null;
 }
 
+export type UserRole = 'owner' | 'admin';
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string | null;
+  role: UserRole;
+  createdAt: string;
+  lastSignInAt: string | null;
+}
+
+export type AuditAction = 'insert' | 'update' | 'delete';
+
+export interface AuditLogEntry {
+  id: number;
+  actorId: string | null;
+  actorEmail: string | null;
+  actorName: string | null;
+  action: AuditAction;
+  tableName: string;
+  recordLabel: string | null;
+  changes: Record<string, unknown> | null;
+  createdAt: string;
+}
+
 export function mapProductRow(row: ProductRow): Product {
   return {
     slug: row.slug,
