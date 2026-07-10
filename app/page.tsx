@@ -50,7 +50,7 @@ export default async function HomePage() {
           </div>
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3.4', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 40px 80px -40px rgba(5,40,87,.4)' }}>
-              <ImageSlot placeholder="Foto: indústria / manutenção de máquinas" />
+              <ImageSlot placeholder="Foto: indústria / manutenção de máquinas" src="/assets/hero-industria-manutencao.png" />
             </div>
             <div style={{ position: 'absolute', left: -14, bottom: 26, background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: '0 20px 40px -20px rgba(5,40,87,.35)' }}>
               <span style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><i className="ph-fill ph-seal-check" /></span>
