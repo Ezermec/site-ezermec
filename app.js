@@ -16,8 +16,22 @@
   var telHref = 'tel:+55' + CFG.phoneDisplay.replace(/\D/g, '');
   var PROD_IMG = 'assets/produto-exemplo.webp';
 
+  // ---------- Supabase ----------
+  // A chave publicável é segura para uso no frontend: o acesso é restrito
+  // por Row Level Security (somente leitura pública na tabela products).
+  var SUPABASE = {
+    url: 'https://qawzvbgxlyohppereybe.supabase.co',
+    key: 'sb_publishable_T5ewD1mX8a_PlvU6cJo7vw_s7qkCzGE'
+  };
+
   // ---------- Dados ----------
-  var DATA = [
+  // Fonte real: tabela `products` no Supabase (carregada em loadProducts).
+  // DATA_SEED é um fallback offline, usado apenas se a busca falhar.
+  var DATA = [];
+  var loaded = false;
+  var loadError = false;
+
+  var DATA_SEED = [
     { slug:'kit-regulagem-lancadeira', name:'Kit de Regulagem da Lançadeira', code:'EZ-LZ-1001', fab:'FZ-4420', brand:'Fischertec', cat:'Lançadeiras', supplier:'Fischertec Ind.', stock:'em', icon:'ph-gear', weight:'0,85 kg', dims:'180 × 120 × 60 mm', material:'Aço temperado', short:'Kit completo para ajuste fino e regulagem da lançadeira em máquinas de costura industrial.', full:'O Kit de Regulagem da Lançadeira reúne todas as peças e ferramentas necessárias para o ajuste preciso do tempo e da folga da lançadeira, garantindo pontos uniformes e reduzindo quebras de linha. Compatível com as principais máquinas de costura industrial e desenvolvido com o padrão de qualidade Fischertec.', tags:['lançadeira','regulagem','costura','kit','ajuste'] },
     { slug:'agulhas-costura-personalizadas', name:'Agulhas de Costura Personalizadas', code:'EZ-AG-2050', fab:'FZ-2050', brand:'Fischertec', cat:'Agulhas', supplier:'Fischertec Ind.', stock:'em', icon:'ph-needle', weight:'0,02 kg', dims:'Sob medida', material:'Aço-liga niquelado', short:'Agulhas fabricadas sob medida por tipo de tecido, ponto e máquina.', full:'Agulhas de costura personalizadas conforme a aplicação: espessura de tecido, tipo de ponto e modelo da máquina. Acabamento niquelado que reduz atrito e aquecimento, prolongando a vida útil e evitando falhas de costura. Produção sob especificação técnica do cliente.', tags:['agulha','costura','personalizada','sob medida'] },
     { slug:'quadros-tecidos-costura', name:'Quadros para Tecidos de Costura', code:'EZ-QD-3300', fab:'EZ-QD-3300', brand:'Ezermec', cat:'Quadros e Bastidores', supplier:'Ezermec', stock:'baixo', icon:'ph-frame-corners', weight:'1,20 kg', dims:'Sob medida', material:'Alumínio anodizado', short:'Quadros e bastidores para prender tecidos com medidas específicas.', full:'Quadros para fixação e tensionamento de tecidos, fabricados com medidas específicas conforme a necessidade do processo de costura ou bordado. Estrutura em alumínio anodizado, leve e resistente, com fixação uniforme que evita franzimento do tecido.', tags:['quadro','bastidor','tecido','medida','bordado'] },
@@ -164,7 +178,9 @@
         '<span style="font-family:\'JetBrains Mono\';font-size:12px;color:#9AA7B5;margin-top:5px">' + c.count + ' itens</span></button>';
     }).join('');
 
-    var destaques = [DATA[0], DATA[1], DATA[2], DATA[3]].map(productCardHome).join('');
+    var feat = DATA.filter(function (p) { return p.featured; });
+    if (feat.length < 4) feat = DATA.slice(0, 4);
+    var destaques = feat.slice(0, 4).map(productCardHome).join('');
 
     return '<main class="ez-fade">' +
     // HERO
@@ -577,10 +593,26 @@
   // ---------- Render ----------
   function uniq(arr) { var out = [], seen = {}; arr.forEach(function (v) { if (!seen[v]) { seen[v] = 1; out.push(v); } }); return out; }
 
+  function viewLoading() {
+    return '<main class="ez-fade" style="max-width:1280px;margin:0 auto;padding:120px 24px;text-align:center;color:#3A4653">' +
+      '<i class="ph ph-circle-notch" style="font-size:44px;color:#F5660C;display:inline-block;animation:ezspin 1s linear infinite"></i>' +
+      '<div style="font-weight:700;font-size:18px;color:#052857;margin-top:18px">Carregando catálogo…</div>' +
+      '</main>';
+  }
+  function viewLoadError() {
+    return '<main class="ez-fade" style="max-width:640px;margin:0 auto;padding:100px 24px;text-align:center">' +
+      '<i class="ph ph-wifi-slash" style="font-size:48px;color:#DCE7F4"></i>' +
+      '<div style="font-weight:800;font-size:20px;margin-top:16px">Não foi possível carregar o catálogo</div>' +
+      '<div style="font-size:14px;color:#3A4653;margin-top:8px">Verifique sua conexão e tente novamente.</div>' +
+      '<button data-action="reload-products" class="ez-lift" style="margin-top:20px;background:#052857;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-weight:700;cursor:pointer">Tentar novamente</button>' +
+      '</main>';
+  }
+
   function renderView() {
     var el = document.getElementById('view');
     var html;
-    if (state.screen === 'catalog') html = viewCatalog();
+    if (!loaded) html = loadError ? viewLoadError() : viewLoading();
+    else if (state.screen === 'catalog') html = viewCatalog();
     else if (state.screen === 'product') html = viewProduct();
     else if (state.screen === 'sobre') html = viewSobre();
     else html = viewHome();
@@ -679,6 +711,7 @@
       if (a === 'goto-page') { state.page = Number(actEl.getAttribute('data-page')); flash('gridLoading'); top(); return; }
       if (a === 'clear-filters') { clearFilters(); return; }
       if (a === 'share') { shareProduct(); return; }
+      if (a === 'reload-products') { loaded = false; loadError = false; renderView(); loadProducts(); return; }
     }
 
     // clique em [data-cat] sem data-action (rodapé)
@@ -708,6 +741,50 @@
     if (h && body) body.style.paddingTop = h.offsetHeight + 'px';
   }
 
+  // ---------- Carregamento dos produtos (Supabase) ----------
+  function mapRow(row) {
+    return {
+      slug: row.slug, name: row.name, code: row.code, fab: row.fab,
+      brand: row.brand, cat: row.cat, supplier: row.supplier, icon: row.icon || 'ph-package',
+      weight: row.weight, dims: row.dims, material: row.material,
+      short: row.short, full: row.full_description,
+      tags: Array.isArray(row.tags) ? row.tags : [],
+      stock: row.stock_status, stockQty: row.stock_quantity, featured: !!row.featured
+    };
+  }
+  function loadProducts() {
+    loadError = false;
+    var url = SUPABASE.url + '/rest/v1/products?select=*&order=position.asc';
+    return fetch(url, { headers: { apikey: SUPABASE.key, Authorization: 'Bearer ' + SUPABASE.key } })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (rows) {
+        if (!Array.isArray(rows) || !rows.length) throw new Error('Resposta vazia');
+        DATA = rows.map(mapRow);
+        loaded = true;
+        renderView();
+        syncHeaderOffset();
+      })
+      .catch(function (err) {
+        console.error('[Ezermec] Falha ao carregar produtos do Supabase:', err);
+        // Fallback offline: mantém o site utilizável com os dados embarcados.
+        if (DATA_SEED && DATA_SEED.length) {
+          DATA = DATA_SEED.map(function (p, i) {
+            var q = p.stock === 'sem' ? 0 : (p.stock === 'baixo' ? 3 : 24);
+            return { slug:p.slug, name:p.name, code:p.code, fab:p.fab, brand:p.brand, cat:p.cat,
+              supplier:p.supplier, icon:p.icon, weight:p.weight, dims:p.dims, material:p.material,
+              short:p.short, full:p.full, tags:p.tags || [], stock:p.stock, stockQty:q, featured:i < 4 };
+          });
+          loaded = true;
+          renderView();
+          syncHeaderOffset();
+        } else {
+          loadError = true;
+          loaded = false;
+          renderView();
+        }
+      });
+  }
+
   // ---------- Init ----------
   window.addEventListener('resize', syncHeaderOffset);
   window.addEventListener('load', syncHeaderOffset);
@@ -716,6 +793,7 @@
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('change', handleChange);
   bindStatic();
-  renderView();
+  renderView();      // mostra o estado de carregamento
   syncHeaderOffset();
+  loadProducts();    // busca no Supabase e re-renderiza
 })();

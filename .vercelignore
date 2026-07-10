@@ -1,4 +1,6 @@
 # Arquivos de desenvolvimento local — não precisam ir para a Vercel
 .claude/
+.agents/
+skills-lock.json
 .git/
 *.log

@@ -7,11 +7,46 @@ Implementado em **HTML + CSS + JavaScript puro** (sem framework, sem build step)
 ## Estrutura
 
 ```
-index.html      # marcação, header/rodapé, estilos
-app.js          # dados dos produtos + toda a lógica (busca, filtros, páginas)
-assets/         # logos e imagens
-vercel.json     # configuração de deploy (cache, headers)
+index.html       # marcação, header/rodapé, estilos
+app.js           # lógica do site (busca, filtros, páginas) + integração Supabase
+assets/          # logos e imagens
+supabase/        # schema.sql do banco (referência/versionamento)
+vercel.json      # configuração de deploy (cache, headers)
 ```
+
+## Backend (Supabase)
+
+Os produtos e o **estoque** vêm da tabela `products` no Supabase (projeto
+`qawzvbgxlyohppereybe`). O site é estático e lê os dados via API REST usando a
+**chave publicável** (segura para o frontend — o acesso é somente leitura,
+garantido por Row Level Security).
+
+- Configuração no topo do `app.js`, objeto `SUPABASE` (`url` + `key`).
+- Schema completo em [`supabase/schema.sql`](supabase/schema.sql).
+
+### Como o estoque funciona
+
+Cada produto tem `stock_quantity` (quantidade real). O status exibido no site
+(`Em estoque` / `Estoque baixo` / `Sem estoque`) é **calculado automaticamente**
+pelo banco a partir da quantidade e do `low_stock_threshold` (padrão 5):
+
+| Quantidade | Status         |
+|-----------:|----------------|
+| `0`        | Sem estoque    |
+| `1..limite`| Estoque baixo  |
+| `> limite` | Em estoque     |
+
+### Gerenciar produtos/estoque
+
+Enquanto não há painel administrativo com login, edite direto no Supabase:
+
+1. Acesse **app.supabase.com** → projeto Ezermec → **Table Editor** → `products`.
+2. Altere `stock_quantity` (ou outros campos) e salve.
+3. O site reflete a mudança no próximo carregamento da página.
+
+> A escrita é bloqueada por RLS para o público; alterações só acontecem pelo
+> painel do Supabase (ou service_role). Um painel de admin com autenticação
+> pode ser adicionado depois.
 
 ## Rodar localmente
 
