@@ -12,7 +12,7 @@ export function Footer() {
       <div className="container" style={{ paddingTop: 56, paddingBottom: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 36 }}>
         <div style={{ maxWidth: 300 }}>
           <div style={{ marginBottom: 16 }}>
-            <Logo variant="white" height={36} />
+            <Logo variant="white" height={40} />
           </div>
           <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#dce7f4' }}>Peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Qualidade, estoque e atendimento especializado.</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>

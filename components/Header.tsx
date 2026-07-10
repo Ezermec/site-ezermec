@@ -30,7 +30,7 @@ export function Header() {
     <header className="site-header" ref={ref}>
       <div className="container header-top">
         <Link href="/" className="logo-btn" aria-label="Ezermec — início">
-          <Logo variant="color" height={38} />
+          <Logo variant="color" height={44} />
         </Link>
 
         <div className="search-box">
