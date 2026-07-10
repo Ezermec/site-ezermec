@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Product, StockStatus } from '@/lib/types';
 import { ProductCard } from './ProductCard';
 
@@ -27,6 +27,15 @@ export function CatalogClient({
   const [activeStock, setActiveStock] = useState<'all' | StockStatus>('all');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
+
+  // Sincroniza a busca/categoria com a URL. Sem isso, uma nova busca pela barra
+  // do topo (navegação client-side) muda a URL mas não o estado, e os resultados
+  // ficam presos no valor da primeira montagem da página.
+  useEffect(() => {
+    setQuery(initialQuery);
+    setActiveCategory(initialCat);
+    setPage(1);
+  }, [initialQuery, initialCat]);
 
   const term = query.trim().toLowerCase();
 
