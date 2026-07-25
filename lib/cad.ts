@@ -6,9 +6,9 @@
 
 export const cad = {
   name: 'Ezermec CAD',
-  tagline: 'O aplicativo CAD da Ezermec para desenho e conferência de peças industriais.',
+  tagline: 'O aplicativo CAD da Ezermec, desenvolvido especificamente para máquinas Fischertec.',
   description:
-    'O Ezermec CAD foi desenvolvido pela Ezermec para agilizar o dia a dia de quem trabalha com peças de máquinas industriais. Com ele é possível desenhar, medir e conferir peças diretamente no computador, transformando a medida da peça em um desenho técnico pronto para produção ou orçamento.',
+    'O Ezermec CAD foi desenvolvido pela Ezermec para quem trabalha com máquinas Fischertec. Como revenda autorizada, conhecemos essas máquinas por dentro — e transformamos esse conhecimento em um aplicativo que já nasce ajustado a elas, sem a configuração e a complexidade de um CAD genérico.',
 
   // PLACEHOLDER: trocar pelo link real (instalador, loja de aplicativos ou app web).
   // Deixe em null enquanto o app ainda não estiver disponível — a página passa a
@@ -18,19 +18,24 @@ export const cad = {
 
   features: [
     {
+      icon: 'ph-fill ph-seal-check',
+      title: 'Feito para Fischertec',
+      desc: 'Não é um CAD genérico adaptado: foi desenvolvido do zero pensando nas máquinas Fischertec.',
+    },
+    {
       icon: 'ph-ruler',
       title: 'Desenho técnico rápido',
-      desc: 'Crie o desenho da peça a partir das medidas, sem precisar de software pesado ou licença cara.',
+      desc: 'Monte o desenho a partir das medidas, sem software pesado nem licença cara.',
     },
     {
       icon: 'ph-crosshair-simple',
       title: 'Medidas precisas',
-      desc: 'Cotas, tolerâncias e conferência dimensional para garantir que a peça saia exatamente como especificada.',
+      desc: 'Cotas e conferência dimensional para garantir que a peça saia exatamente como especificada.',
     },
     {
       icon: 'ph-stack-simple',
-      title: 'Biblioteca de peças',
-      desc: 'Modelos das peças que a Ezermec trabalha, prontos para usar como ponto de partida.',
+      title: 'Biblioteca Fischertec',
+      desc: 'Modelos e medidas das máquinas Fischertec já prontos, para usar como ponto de partida.',
     },
     {
       icon: 'ph-file-arrow-down',
@@ -42,17 +47,12 @@ export const cad = {
       title: 'Orçamento direto',
       desc: 'Do desenho para o orçamento: envie a peça desenhada para a equipe Ezermec e receba a cotação.',
     },
-    {
-      icon: 'ph-lightning',
-      title: 'Leve e simples',
-      desc: 'Feito para quem está no chão de fábrica: interface direta, sem curva de aprendizado.',
-    },
   ],
 
   steps: [
     ['Instale o aplicativo', 'Baixe o Ezermec CAD e instale no computador da oficina ou do escritório.'],
-    ['Desenhe a peça', 'Informe as medidas ou parta de um modelo da biblioteca para montar o desenho.'],
-    ['Confira as cotas', 'Revise dimensões e tolerâncias antes de fechar o desenho.'],
+    ['Escolha a máquina', 'Selecione o modelo Fischertec com o qual você vai trabalhar.'],
+    ['Monte o desenho', 'Informe as medidas ou parta de um modelo da biblioteca e confira as cotas.'],
     ['Exporte e envie', 'Salve o arquivo e envie para a produção ou para a Ezermec orçar.'],
   ] as Array<[string, string]>,
 

@@ -29,7 +29,7 @@ export default function EzermecCadPage() {
       <section className="container" style={{ paddingTop: 6, paddingBottom: 56, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 48, alignItems: 'center' }}>
         <div>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', fontWeight: 600, background: '#fdede1', padding: '7px 13px', borderRadius: 100 }}>
-            <i className="ph-fill ph-cube" />Aplicativo desenvolvido pela Ezermec
+            <i className="ph-fill ph-seal-check" />Desenvolvido para máquinas Fischertec
           </span>
           <h1 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.08, color: 'var(--navy)' }}>{cad.name}</h1>
           <p style={{ fontSize: 17.5, lineHeight: 1.6, color: 'var(--text)', margin: '16px 0 0', maxWidth: 560 }}>{cad.tagline}</p>
@@ -60,6 +60,34 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
+      {/* FISCHERTEC */}
+      <section className="container" style={{ paddingBottom: 8 }}>
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 20, padding: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 26, alignItems: 'center' }}>
+          <div>
+            <span className="eyebrow">Compatibilidade</span>
+            <h2 style={{ fontSize: 'clamp(21px,2.3vw,27px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0', color: 'var(--navy)' }}>Desenvolvido para máquinas Fischertec</h2>
+            <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--text)', margin: '10px 0 0' }}>
+              A Ezermec é revenda autorizada Fischertec. O {cad.name} nasceu dessa convivência diária com as máquinas: as medidas, os modelos e a forma de trabalhar já vêm configurados de fábrica no aplicativo — você não perde tempo adaptando um CAD genérico.
+            </p>
+            <Link href="/catalogo" className="btn btn-white ez-lift" style={{ padding: '13px 22px', fontSize: 15, marginTop: 20 }}>
+              Ver peças Fischertec <i className="ph ph-arrow-right" />
+            </Link>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
+            {[
+              ['ph-fill ph-seal-check', 'Revenda autorizada Fischertec'],
+              ['ph-gear-fine', 'Modelos e medidas Fischertec pré-carregados'],
+              ['ph-headset', 'Suporte técnico da própria Ezermec'],
+            ].map(([ic, label]) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
+                <i className={ic.startsWith('ph-fill') ? ic : `ph ${ic}`} style={{ fontSize: 22, color: 'var(--orange)' }} />
+                <span style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--navy)' }}>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* RECURSOS */}
       <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container" style={{ paddingTop: 64, paddingBottom: 64 }}>
@@ -70,7 +98,7 @@ export default function EzermecCadPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 18 }}>
             {cad.features.map((f) => (
               <div key={f.title} className="ez-card-h" style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 24 }}>
-                <span style={{ width: 52, height: 52, borderRadius: 14, background: '#fff', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, marginBottom: 16 }}><i className={`ph ${f.icon}`} /></span>
+                <span style={{ width: 52, height: 52, borderRadius: 14, background: '#fff', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, marginBottom: 16 }}><i className={f.icon.startsWith('ph-fill') ? f.icon : `ph ${f.icon}`} /></span>
                 <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)' }}>{f.title}</div>
                 <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.5, marginTop: 6 }}>{f.desc}</div>
               </div>
