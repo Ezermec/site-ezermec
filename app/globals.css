@@ -58,6 +58,8 @@ input::placeholder { color: var(--muted); }
 .header-nav-inner { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .ez-navbtn { background: none; border: none; padding: 13px 14px; font-size: 14.5px; font-weight: 600; color: var(--navy); cursor: pointer; border-bottom: 2px solid transparent; transition: border-color .15s; text-decoration: none; }
 .ez-navbtn:hover { border-bottom: 2px solid var(--orange); color: var(--navy); }
+/* Página atual: destaque permanente no menu */
+.ez-navbtn.active { border-bottom: 2px solid var(--orange); color: var(--orange); font-weight: 700; }
 .wa-pill { display: flex; align-items: center; gap: 8px; background: var(--green); color: #fff; padding: 10px 16px; border-radius: 11px; font-weight: 600; font-size: 14px; }
 .wa-pill:hover { color: #fff; }
 

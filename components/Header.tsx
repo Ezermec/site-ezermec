@@ -1,13 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/config';
 import { Logo } from './Logo';
 
+// Itens do menu. `match` decide quando o item fica marcado como página atual —
+// "Produtos" também cobre a página de detalhe do produto, e os links de âncora
+// (#categorias / #contato) só marcam quando já estamos na home.
+const NAV: Array<{ href: string; label: string; match: (path: string) => boolean }> = [
+  { href: '/', label: 'Início', match: (p) => p === '/' },
+  { href: '/catalogo', label: 'Produtos', match: (p) => p.startsWith('/catalogo') || p.startsWith('/produto') },
+  { href: '/#categorias', label: 'Categorias', match: () => false },
+  { href: '/ezermec-cad', label: 'Ezermec CAD', match: (p) => p.startsWith('/ezermec-cad') },
+  { href: '/sobre', label: 'Sobre', match: (p) => p.startsWith('/sobre') },
+  { href: '/#contato', label: 'Contato', match: () => false },
+];
+
 export function Header() {
   const router = useRouter();
+  const pathname = usePathname() ?? '/';
   const [q, setQ] = useState('');
   const ref = useRef<HTMLElement>(null);
 
@@ -58,17 +71,25 @@ export function Header() {
 
       <nav className="header-nav">
         <div className="container header-nav-inner">
-          <Link href="/" className="ez-navbtn">Início</Link>
-          <Link href="/catalogo" className="ez-navbtn">Produtos</Link>
-          <Link href="/#categorias" className="ez-navbtn">Categorias</Link>
-          <Link href="/ezermec-cad" className="ez-navbtn">Ezermec CAD</Link>
-          <Link href="/sobre" className="ez-navbtn">Sobre</Link>
-          <Link href="/#contato" className="ez-navbtn">Contato</Link>
+          {NAV.map((item) => {
+            const active = item.match(pathname);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`ez-navbtn${active ? ' active' : ''}`}
+                aria-current={active ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
           <span style={{ flex: 1 }} />
           <Link
             href="/painel"
             title="Acesso restrito ao administrador"
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', padding: '13px 14px', fontSize: 13.5, fontWeight: 600, color: 'var(--muted)' }}
+            aria-current={pathname.startsWith('/painel') ? 'page' : undefined}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', padding: '13px 14px', fontSize: 13.5, fontWeight: 600, color: pathname.startsWith('/painel') ? 'var(--orange)' : 'var(--muted)' }}
           >
             <i className="ph ph-lock-key" style={{ fontSize: 16 }} />Painel
           </Link>
