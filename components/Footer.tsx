@@ -29,6 +29,7 @@ export function Footer() {
             <Link href="/" className="ez-lift" style={colLink}>Início</Link>
             <Link href="/catalogo" className="ez-lift" style={colLink}>Produtos</Link>
             <Link href="/#categorias" className="ez-lift" style={colLink}>Categorias</Link>
+            <Link href="/ezermec-cad" className="ez-lift" style={colLink}>Ezermec CAD</Link>
             <Link href="/sobre" className="ez-lift" style={colLink}>Sobre</Link>
           </div>
         </div>

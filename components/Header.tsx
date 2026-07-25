@@ -61,6 +61,7 @@ export function Header() {
           <Link href="/" className="ez-navbtn">Início</Link>
           <Link href="/catalogo" className="ez-navbtn">Produtos</Link>
           <Link href="/#categorias" className="ez-navbtn">Categorias</Link>
+          <Link href="/ezermec-cad" className="ez-navbtn">Ezermec CAD</Link>
           <Link href="/sobre" className="ez-navbtn">Sobre</Link>
           <Link href="/#contato" className="ez-navbtn">Contato</Link>
           <span style={{ flex: 1 }} />
