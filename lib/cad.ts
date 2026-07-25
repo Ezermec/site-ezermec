@@ -1,14 +1,17 @@
 // Conteúdo da página do Ezermec CAD.
 //
+// O Ezermec CAD é um CAD de desenhos de costura para máquinas Fischertec,
+// desenvolvido pela própria Ezermec.
+//
 // Tudo aqui é editável sem mexer no layout da página. Os campos marcados como
 // PLACEHOLDER precisam ser preenchidos com as informações reais do aplicativo
 // (link de download, versão, requisitos e prints de tela).
 
 export const cad = {
   name: 'Ezermec CAD',
-  tagline: 'O aplicativo CAD da Ezermec, desenvolvido especificamente para máquinas Fischertec.',
+  tagline: 'O CAD de desenhos de costura para máquinas Fischertec, desenvolvido pela Ezermec.',
   description:
-    'O Ezermec CAD foi desenvolvido pela Ezermec para quem trabalha com máquinas Fischertec. Como revenda autorizada, conhecemos essas máquinas por dentro — e transformamos esse conhecimento em um aplicativo que já nasce ajustado a elas, sem a configuração e a complexidade de um CAD genérico.',
+    'O Ezermec CAD é o aplicativo que a Ezermec desenvolveu para criar os desenhos de costura das máquinas Fischertec. Você desenha o traçado da costura na tela, ajusta o desenho como precisa e leva o arquivo direto para a máquina — sem depender de software genérico nem de retrabalho na hora de costurar.',
 
   // PLACEHOLDER: trocar pelo link real (instalador, loja de aplicativos ou app web).
   // Deixe em null enquanto o app ainda não estiver disponível — a página passa a
@@ -20,47 +23,47 @@ export const cad = {
     {
       icon: 'ph-fill ph-seal-check',
       title: 'Feito para Fischertec',
-      desc: 'Não é um CAD genérico adaptado: foi desenvolvido do zero pensando nas máquinas Fischertec.',
+      desc: 'Desenvolvido pela Ezermec especificamente para as máquinas Fischertec — não é um CAD genérico adaptado.',
+    },
+    {
+      icon: 'ph-scribble-loop',
+      title: 'Desenho da costura',
+      desc: 'Trace o caminho da costura na tela: retas, curvas e contornos, do jeito que a peça pede.',
     },
     {
       icon: 'ph-ruler',
-      title: 'Desenho técnico rápido',
-      desc: 'Monte o desenho a partir das medidas, sem software pesado nem licença cara.',
+      title: 'Medidas na escala certa',
+      desc: 'O desenho é feito em escala real, então o que aparece na tela é o que a máquina vai costurar.',
     },
     {
-      icon: 'ph-crosshair-simple',
-      title: 'Medidas precisas',
-      desc: 'Cotas e conferência dimensional para garantir que a peça saia exatamente como especificada.',
+      icon: 'ph-sliders-horizontal',
+      title: 'Ajuste dos pontos',
+      desc: 'Configure o desenho ponto a ponto e corrija detalhes antes de mandar para a produção.',
     },
     {
       icon: 'ph-stack-simple',
-      title: 'Biblioteca Fischertec',
-      desc: 'Modelos e medidas das máquinas Fischertec já prontos, para usar como ponto de partida.',
+      title: 'Biblioteca de desenhos',
+      desc: 'Salve os desenhos usados no dia a dia e reaproveite em novos trabalhos.',
     },
     {
       icon: 'ph-file-arrow-down',
-      title: 'Exportação',
-      desc: 'Gere o arquivo do desenho para enviar à produção, ao cliente ou junto com o pedido de orçamento.',
-    },
-    {
-      icon: 'ph-chat-circle-text',
-      title: 'Orçamento direto',
-      desc: 'Do desenho para o orçamento: envie a peça desenhada para a equipe Ezermec e receba a cotação.',
+      title: 'Arquivo pronto para a máquina',
+      desc: 'Exporte o desenho no formato da Fischertec e transfira direto para a máquina.',
     },
   ],
 
   steps: [
-    ['Instale o aplicativo', 'Baixe o Ezermec CAD e instale no computador da oficina ou do escritório.'],
-    ['Escolha a máquina', 'Selecione o modelo Fischertec com o qual você vai trabalhar.'],
-    ['Monte o desenho', 'Informe as medidas ou parta de um modelo da biblioteca e confira as cotas.'],
-    ['Exporte e envie', 'Salve o arquivo e envie para a produção ou para a Ezermec orçar.'],
+    ['Instale o aplicativo', 'Baixe o Ezermec CAD e instale no computador da produção.'],
+    ['Desenhe a costura', 'Trace o caminho da costura em escala real, na tela.'],
+    ['Ajuste e confira', 'Revise os pontos e as medidas antes de fechar o desenho.'],
+    ['Envie para a máquina', 'Exporte o arquivo e transfira para a máquina Fischertec.'],
   ] as Array<[string, string]>,
 
   // PLACEHOLDER: substituir pelos prints reais do aplicativo em /public/assets.
   screenshots: [
     'Print: tela principal do Ezermec CAD',
-    'Print: desenho de peça com cotas',
-    'Print: exportação do desenho',
+    'Print: desenho de costura em edição',
+    'Print: exportação para a máquina',
   ],
 
   // PLACEHOLDER: confirmar requisitos reais.
@@ -68,6 +71,6 @@ export const cad = {
     ['ph-desktop', 'Sistema', 'Windows 10 ou superior'],
     ['ph-hard-drives', 'Espaço em disco', 'A confirmar'],
     ['ph-memory', 'Memória', 'A confirmar'],
-    ['ph-wifi-high', 'Internet', 'Necessária apenas para envio de orçamentos'],
+    ['ph-usb', 'Transferência', 'A confirmar (USB / rede)'],
   ] as Array<[string, string, string]>,
 };

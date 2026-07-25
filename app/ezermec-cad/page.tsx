@@ -67,7 +67,7 @@ export default function EzermecCadPage() {
             <span className="eyebrow">Compatibilidade</span>
             <h2 style={{ fontSize: 'clamp(21px,2.3vw,27px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0', color: 'var(--navy)' }}>Desenvolvido para máquinas Fischertec</h2>
             <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--text)', margin: '10px 0 0' }}>
-              A Ezermec é revenda autorizada Fischertec. O {cad.name} nasceu dessa convivência diária com as máquinas: as medidas, os modelos e a forma de trabalhar já vêm configurados de fábrica no aplicativo — você não perde tempo adaptando um CAD genérico.
+              A Ezermec é revenda autorizada Fischertec, e foi dessa convivência diária com as máquinas que nasceu o {cad.name}. O desenho de costura sai do aplicativo já no formato que a máquina entende — sem adaptar um CAD genérico e sem retrabalho na hora de costurar.
             </p>
             <Link href="/catalogo" className="btn btn-white ez-lift" style={{ padding: '13px 22px', fontSize: 15, marginTop: 20 }}>
               Ver peças Fischertec <i className="ph ph-arrow-right" />
@@ -76,7 +76,7 @@ export default function EzermecCadPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
             {[
               ['ph-fill ph-seal-check', 'Revenda autorizada Fischertec'],
-              ['ph-gear-fine', 'Modelos e medidas Fischertec pré-carregados'],
+              ['ph-file-arrow-down', 'Exportação no formato da máquina Fischertec'],
               ['ph-headset', 'Suporte técnico da própria Ezermec'],
             ].map(([ic, label]) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
