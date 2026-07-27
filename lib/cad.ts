@@ -13,7 +13,7 @@ export const cad = {
   description:
     'O Ezermec CAD é o aplicativo que a Ezermec desenvolveu para criar os desenhos de costura das máquinas Fischertec. Você desenha o traçado na tela com ferramentas de CAD, define a ordem da costura, simula o resultado e salva o arquivo NGC pronto para a máquina — um desenho que antes tomava tempo fica pronto em poucos minutos.',
 
-  // PLACEHOLDER: trocar pelo link real (instalador ou app web).
+  // PLACEHOLDER: trocar pelo link real do instalador (.exe para Windows).
   // Deixe em null enquanto o app ainda não estiver disponível — a página passa a
   // exibir "em breve" e direciona o contato para o WhatsApp.
   downloadUrl: null as string | null,
@@ -64,7 +64,7 @@ export const cad = {
   ],
 
   steps: [
-    ['Abra o aplicativo', 'Comece um desenho novo ou importe um DXF/NGC que você já tem.'],
+    ['Instale o aplicativo', 'Baixe o instalador e abra o Ezermec CAD no computador da produção.'],
     ['Desenhe a costura', 'Trace o caminho com as ferramentas de CAD, em escala real.'],
     ['Defina a ordem', 'Ajuste a sequência dos percursos, o retrocesso e as interligações.'],
     ['Simule e salve o NGC', 'Confira a costura na simulação e salve o G-code para a máquina.'],
@@ -80,8 +80,8 @@ export const cad = {
 
   // PLACEHOLDER: confirmar requisitos reais.
   requirements: [
-    ['ph-browser', 'Onde roda', 'No navegador do computador'],
-    ['ph-desktop', 'Sistema', 'Windows 10 ou superior'],
+    ['ph-desktop', 'Onde roda', 'No computador, como programa instalado'],
+    ['ph-windows-logo', 'Sistema', 'Windows 10 ou superior'],
     ['ph-file-code', 'Saída', 'NGC (G-code) · DXF · SVG'],
     ['ph-wifi-slash', 'Internet', 'Não é necessária para desenhar'],
   ] as Array<[string, string, string]>,

@@ -50,9 +50,10 @@ export default function EzermecCadPage() {
             </a>
           </div>
 
-          {cad.version && (
-            <div className="mono" style={{ fontSize: 12, color: 'var(--muted)', marginTop: 14 }}>Versão atual: {cad.version}</div>
-          )}
+          <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--muted)', marginTop: 14 }}>
+            <i className="ph ph-windows-logo" style={{ fontSize: 15 }} />
+            Programa para Windows (.exe){cad.version && ` · versão ${cad.version}`}
+          </div>
         </div>
 
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#0d1117', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
