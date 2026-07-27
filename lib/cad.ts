@@ -9,9 +9,9 @@
 
 export const cad = {
   name: 'Ezermec CAD',
-  tagline: 'O CAD de desenhos de costura para máquinas Fischertec, desenvolvido pela Ezermec.',
+  tagline: 'O CAD que facilita e agiliza a produção de desenhos de costura para máquinas Fischertec.',
   description:
-    'O Ezermec CAD é o aplicativo que a Ezermec desenvolveu para criar os desenhos de costura das máquinas Fischertec. Você desenha o traçado da costura na tela, ajusta o desenho como precisa e leva o arquivo direto para a máquina — sem depender de software genérico nem de retrabalho na hora de costurar.',
+    'O Ezermec CAD é o aplicativo que a Ezermec desenvolveu para criar os desenhos de costura das máquinas Fischertec. Você desenha o traçado na tela, ajusta o que precisa e leva o arquivo direto para a máquina — um desenho que antes tomava tempo fica pronto em poucos minutos, sem software genérico e sem retrabalho na hora de costurar.',
 
   // PLACEHOLDER: trocar pelo link real (instalador, loja de aplicativos ou app web).
   // Deixe em null enquanto o app ainda não estiver disponível — a página passa a
@@ -29,6 +29,11 @@ export const cad = {
       icon: 'ph-scribble-loop',
       title: 'Desenho da costura',
       desc: 'Trace o caminho da costura na tela: retas, curvas e contornos, do jeito que a peça pede.',
+    },
+    {
+      icon: 'ph-lightning',
+      title: 'Produção mais rápida',
+      desc: 'Menos etapas manuais do desenho até a máquina: o que tomava tempo fica pronto em poucos minutos.',
     },
     {
       icon: 'ph-ruler',
