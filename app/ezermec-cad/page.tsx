@@ -31,9 +31,14 @@ export default function EzermecCadPage() {
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', fontWeight: 600, background: '#fdede1', padding: '7px 13px', borderRadius: 100 }}>
             <i className="ph-fill ph-seal-check" />Desenvolvido para máquinas Fischertec
           </span>
-          <h1 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.08, color: 'var(--navy)' }}>{cad.name}</h1>
-          <p style={{ fontSize: 17.5, lineHeight: 1.6, color: 'var(--text)', margin: '16px 0 0', maxWidth: 560 }}>{cad.tagline}</p>
-          <p style={{ fontSize: 15.5, lineHeight: 1.65, color: 'var(--text)', margin: '14px 0 0', maxWidth: 560 }}>{cad.description}</p>
+          {/* O logo do app só existe em branco (é o do topo escuro do aplicativo),
+              por isso vai sobre uma placa navy. O nome continua em <h1> de texto. */}
+          <div style={{ display: 'inline-flex', background: 'var(--navy)', borderRadius: 16, padding: '16px 22px', margin: '22px 0 0', boxShadow: '0 20px 40px -24px rgba(5,40,87,.5)' }}>
+            <img src="/assets/logo-ezermec-cad-white.png" alt="Ezermec CAD" width={280} height={76} style={{ display: 'block', height: 52, width: 'auto' }} />
+          </div>
+          {/* O nome do app já está no logo acima, então o h1 carrega a proposta. */}
+          <h1 style={{ fontSize: 'clamp(26px,3.2vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.15, color: 'var(--navy)', maxWidth: 560 }}>{cad.tagline}</h1>
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--text)', margin: '16px 0 0', maxWidth: 560 }}>{cad.description}</p>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 26 }}>
             {cad.downloadUrl ? (
