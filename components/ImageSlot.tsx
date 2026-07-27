@@ -1,6 +1,16 @@
 import Image from 'next/image';
 
-export function ImageSlot({ placeholder, src }: { placeholder: string; src?: string }) {
+// `fit` existe para os prints de tela: recortar um screenshot esconde parte da
+// interface, então nesses casos usamos 'contain' em vez do 'cover' das fotos.
+export function ImageSlot({
+  placeholder,
+  src,
+  fit = 'cover',
+}: {
+  placeholder: string;
+  src?: string;
+  fit?: 'cover' | 'contain';
+}) {
   if (src) {
     return (
       <Image
@@ -8,7 +18,7 @@ export function ImageSlot({ placeholder, src }: { placeholder: string; src?: str
         alt={placeholder}
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        style={{ objectFit: 'cover' }}
+        style={{ objectFit: fit }}
         priority
       />
     );

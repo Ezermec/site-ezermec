@@ -55,8 +55,8 @@ export default function EzermecCadPage() {
           )}
         </div>
 
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3.2', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
-          <ImageSlot placeholder={`Print: tela principal do ${cad.name}`} />
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#0d1117', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
+          <ImageSlot placeholder={cad.screenshots[0].alt} src={cad.screenshots[0].src ?? undefined} fit="contain" />
         </div>
       </section>
 
@@ -67,7 +67,7 @@ export default function EzermecCadPage() {
             <span className="eyebrow">Compatibilidade</span>
             <h2 style={{ fontSize: 'clamp(21px,2.3vw,27px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0', color: 'var(--navy)' }}>Desenvolvido para máquinas Fischertec</h2>
             <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--text)', margin: '10px 0 0' }}>
-              A Ezermec é revenda autorizada Fischertec, e foi dessa convivência diária com as máquinas que nasceu o {cad.name}. O desenho de costura sai do aplicativo já no formato que a máquina entende — sem adaptar um CAD genérico e sem retrabalho na hora de costurar.
+              A Ezermec é revenda autorizada Fischertec, e foi dessa convivência diária com as máquinas que nasceu o {cad.name}. O desenho sai do aplicativo em NGC, já com o preâmbulo e os presets da máquina — sem adaptar um CAD genérico e sem retrabalho na hora de costurar.
             </p>
             <Link href="/catalogo" className="btn btn-white ez-lift" style={{ padding: '13px 22px', fontSize: 15, marginTop: 20 }}>
               Ver peças Fischertec <i className="ph ph-arrow-right" />
@@ -76,7 +76,7 @@ export default function EzermecCadPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
             {[
               ['ph-fill ph-seal-check', 'Revenda autorizada Fischertec'],
-              ['ph-file-arrow-down', 'Exportação no formato da máquina Fischertec'],
+              ['ph-file-code', 'Saída em NGC com o preâmbulo Fischertec'],
               ['ph-headset', 'Suporte técnico da própria Ezermec'],
             ].map(([ic, label]) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
@@ -131,9 +131,9 @@ export default function EzermecCadPage() {
           <h2 style={{ fontSize: 'clamp(24px,2.8vw,32px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0' }}>Telas do {cad.name}</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
-          {cad.screenshots.map((ph) => (
-            <div key={ph} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
-              <ImageSlot placeholder={ph} />
+          {cad.screenshots.map((shot) => (
+            <div key={shot.alt} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
+              <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
             </div>
           ))}
         </div>
