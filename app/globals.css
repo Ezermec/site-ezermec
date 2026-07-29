@@ -29,6 +29,7 @@ input::placeholder { color: var(--muted); }
 .mono { font-family: var(--font-mono), monospace; }
 
 @keyframes ezup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes drawerin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 @keyframes ezpulse {
   0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
   70% { box-shadow: 0 0 0 16px rgba(37,211,102,0); }
@@ -62,6 +63,12 @@ input::placeholder { color: var(--muted); }
 .ez-navbtn.active { border-bottom: 2px solid var(--orange); color: var(--orange); font-weight: 700; }
 .wa-pill { display: flex; align-items: center; gap: 8px; background: var(--green); color: #fff; padding: 10px 16px; border-radius: 11px; font-weight: 600; font-size: 14px; }
 .wa-pill:hover { color: #fff; }
+
+/* Menu suspenso do celular — escondido por padrão, ou seja, no desktop. */
+.nav-toggle { display: none; }
+.mobile-drawer { display: none; }
+/* !important porque o botão flutuante define `display` no próprio elemento. */
+body[data-menu-open] .wa-float { display: none !important; }
 
 /* Botões */
 .btn { display: inline-flex; align-items: center; gap: 9px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; }
@@ -124,12 +131,42 @@ input::placeholder { color: var(--muted); }
   .search-box { order: 3; min-width: 100%; }
   .search-box input { padding: 11px 6px; font-size: 14px; }
   .btn-search { padding: 8px 14px; }
-  .header-nav-inner { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .header-nav-inner::-webkit-scrollbar { display: none; }
-  /* O espaçador que empurra o "Painel" para a direita não pode esticar
-     dentro de um container rolável, senão cria rolagem falsa. */
-  .header-nav-inner > span { flex: 0 0 6px !important; }
-  .ez-navbtn { padding: 11px 11px; font-size: 14px; white-space: nowrap; }
+  /* A faixa de menu do desktop dá lugar ao menu suspenso. */
+  .header-nav { display: none; }
+
+  .nav-toggle {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; flex: none; margin-left: -8px;
+    background: none; border: none; padding: 0; cursor: pointer;
+    color: var(--navy); font-size: 26px;
+  }
+
+  /* Painel em tela cheia, abaixo da barra fixa do topo. */
+  .mobile-drawer {
+    display: flex; flex-direction: column;
+    position: fixed; left: 0; right: 0;
+    top: var(--header-h, 150px); bottom: 0;
+    z-index: 59; background: #fff;
+    overflow-y: auto;
+    animation: drawerin .18s ease-out both;
+  }
+  .drawer-links { display: flex; flex-direction: column; padding: 6px 0; }
+  .drawer-link {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 17px 24px; font-size: 16.5px; font-weight: 600; color: var(--navy);
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer-link i { font-size: 17px; color: var(--muted); }
+  .drawer-link.active { color: var(--orange); }
+  .drawer-link.active i { color: var(--orange); }
+
+  .drawer-foot { margin-top: auto; padding: 20px 24px 28px; display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--border); }
+  .drawer-call { display: flex; align-items: center; gap: 12px; color: var(--navy); font-weight: 700; font-size: 17px; }
+  .drawer-call i { font-size: 22px; color: var(--orange); }
+  .drawer-call span { display: flex; flex-direction: column; line-height: 1.2; }
+  .drawer-call small { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .drawer-painel { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14.5px; font-weight: 600; }
+  .drawer-painel i { font-size: 17px; }
 
   /* CATÁLOGO — empilhados, os 3 blocos de filtro empurravam os produtos
      para muito abaixo da dobra. No celular cada lista vira uma fileira
@@ -159,7 +196,9 @@ input::placeholder { color: var(--muted); }
   .header-top { gap: 8px; }
   .logo-btn img { height: 30px !important; }
   .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
-  .header-phone { padding: 0 !important; }
-  .header-phone span:last-child { font-size: 13.5px !important; }
+  /* O telefone sai da barra para tudo caber em uma linha só — ele continua
+     acessível no rodapé do menu suspenso. (!important porque o elemento
+     define `display` no próprio style.) */
+  .header-phone { display: none !important; }
   .container { padding-left: 16px; padding-right: 16px; }
 }
