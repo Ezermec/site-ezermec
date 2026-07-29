@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useState } from 'react';
 import type { Product, StockStatus } from '@/lib/types';
 import { ProductCard } from './ProductCard';
@@ -27,6 +28,9 @@ export function CatalogClient({
   const [activeStock, setActiveStock] = useState<'all' | StockStatus>('all');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
+  // Folha de filtros do celular. No desktop a barra e a folha ficam
+  // escondidas por CSS e o painel lateral continua sendo o único controle.
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   // Sincroniza a busca/categoria com a URL. Sem isso, uma nova busca pela barra
   // do topo (navegação client-side) muda a URL mas não o estado, e os resultados
@@ -78,6 +82,24 @@ export function CatalogClient({
     setQuery(''); setActiveCategory('all'); setActiveBrand('all'); setActiveStock('all'); setPage(1);
   }
 
+  const activeCount =
+    (activeCategory === 'all' ? 0 : 1) + (activeBrand === 'all' ? 0 : 1) + (activeStock === 'all' ? 0 : 1);
+
+  // Com a folha aberta, trava a rolagem do fundo e permite fechar com Esc.
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.body.dataset.menuOpen = 'true';
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSheetOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      delete document.body.dataset.menuOpen;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [sheetOpen]);
+
   return (
     <main className="ez-fade container" style={{ paddingTop: 26, paddingBottom: 60 }}>
       <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
@@ -85,6 +107,23 @@ export function CatalogClient({
         <i className="ph ph-caret-right" style={{ fontSize: 12 }} /><span style={{ color: 'var(--navy)' }}>Catálogo</span>
       </div>
       <h1 style={{ fontSize: 'clamp(26px,3vw,34px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px' }}>Catálogo de produtos</h1>
+
+      {/* BARRA DE FILTROS DO CELULAR — no desktop fica escondida por CSS. */}
+      <div className="mfilter-bar">
+        <button type="button" className="mfilter-btn" onClick={() => setSheetOpen(true)}>
+          <i className="ph ph-sliders-horizontal" />Filtros
+          {activeCount > 0 && <span className="mfilter-count">{activeCount}</span>}
+        </button>
+        <div className="mfilter-sort">
+          <i className="ph ph-arrows-down-up" />
+          <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setPage(1); }} aria-label="Ordenar produtos">
+            <option value="relevance">Relevância</option>
+            <option value="name-asc">Nome (A-Z)</option>
+            <option value="name-desc">Nome (Z-A)</option>
+            <option value="recent">Mais recentes</option>
+          </select>
+        </div>
+      </div>
 
       <div className="catalog-grid">
         {/* FILTROS */}
@@ -134,7 +173,7 @@ export function CatalogClient({
               <strong style={{ color: 'var(--navy)' }}>{view.total}</strong> resultado(s)
               {term && <> para &quot;<strong style={{ color: 'var(--navy)' }}>{query}</strong>&quot;</>}
             </span>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13.5, color: 'var(--text)' }}>Ordenar por
+            <label className="sort-desktop" style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13.5, color: 'var(--text)' }}>Ordenar por
               <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setPage(1); }} style={{ border: '1px solid var(--border)', background: 'var(--bg)', borderRadius: 9, padding: '9px 12px', fontFamily: 'var(--font-archivo), sans-serif', fontSize: 13.5, fontWeight: 600, color: 'var(--navy)', cursor: 'pointer' }}>
                 <option value="relevance">Relevância</option>
                 <option value="name-asc">Nome (A-Z)</option>
@@ -167,6 +206,67 @@ export function CatalogClient({
           )}
         </section>
       </div>
+
+      {/* FOLHA DE FILTROS — sobe de baixo, como nos aplicativos de compras.
+          Vai num portal para o <body> porque o <main> tem a animação de
+          entrada `ez-fade`: o transform que ela deixa cria um bloco de
+          contenção e o `position: fixed` passaria a se ancorar no <main>,
+          jogando a folha para fora da tela. */}
+      {sheetOpen && createPortal(
+        <div className="sheet-bg" onClick={() => setSheetOpen(false)}>
+          <div className="sheet" role="dialog" aria-modal="true" aria-label="Filtros" onClick={(e) => e.stopPropagation()}>
+            <div className="sheet-head">
+              <span>Filtros</span>
+              <button type="button" onClick={() => setSheetOpen(false)} aria-label="Fechar filtros"><i className="ph ph-x" /></button>
+            </div>
+
+            <div className="sheet-body">
+              <div className="sheet-group">
+                <div className="sheet-label mono">Categorias</div>
+                <div className="sheet-list">
+                  {catKeys.map((k) => (
+                    <button key={k} type="button" onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
+                      <span>{k === 'all' ? 'Todas as categorias' : k}</span>
+                      <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.catCounts[k] || 0)}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sheet-group">
+                <div className="sheet-label mono">Marcas</div>
+                <div className="sheet-list">
+                  {brandKeys.map((k) => (
+                    <button key={k} type="button" onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
+                      <span>{k === 'all' ? 'Todas as marcas' : k}</span>
+                      <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.brandCounts[k] || 0)}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sheet-group">
+                <div className="sheet-label mono">Disponibilidade</div>
+                <div className="sheet-list">
+                  {stockKeys.map(([k, label]) => (
+                    <button key={k} type="button" onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
+                      <span>{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="sheet-foot">
+              <button type="button" className="sheet-clear" onClick={clearFilters}>Limpar</button>
+              <button type="button" className="sheet-apply" onClick={() => setSheetOpen(false)}>
+                Ver {view.total} {view.total === 1 ? 'produto' : 'produtos'}
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
     </main>
   );
 }

@@ -30,6 +30,8 @@ input::placeholder { color: var(--muted); }
 
 @keyframes ezup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes drawerin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@keyframes sheetfade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheetup { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes ezpulse {
   0% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
   70% { box-shadow: 0 0 0 16px rgba(37,211,102,0); }
@@ -69,6 +71,11 @@ input::placeholder { color: var(--muted); }
 .mobile-drawer { display: none; }
 /* Versão curta do texto do hero — só aparece no celular. */
 .lead-short { display: none; }
+
+/* Barra e folha de filtros do celular — no desktop o painel lateral
+   continua sendo o único controle, então ficam escondidas. */
+.mfilter-bar { display: none; }
+.sheet-bg { display: none; }
 /* !important porque o botão flutuante define `display` no próprio elemento. */
 body[data-menu-open] .wa-float { display: none !important; }
 
@@ -178,23 +185,74 @@ body[data-menu-open] .wa-float { display: none !important; }
   .drawer-painel { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14.5px; font-weight: 600; }
   .drawer-painel i { font-size: 17px; }
 
-  /* CATÁLOGO — empilhados, os 3 blocos de filtro empurravam os produtos
-     para muito abaixo da dobra. No celular cada lista vira uma fileira
-     de chips que rola na horizontal, ocupando uma linha em vez de dez. */
-  /* Sem isto, o `min-width: auto` padrão do grid deixa a coluna crescer
-     até caber a fileira de chips inteira, e a página toda rola de lado. */
+  /* CATÁLOGO — o painel lateral de filtros dá lugar a uma barra fixa com
+     "Filtros" e "Ordenar", que abre uma folha deslizante de baixo. É o
+     padrão dos aplicativos de compras. */
   .catalog-grid > * { min-width: 0; }
-  .catalog-grid aside > div { min-width: 0; }
-  .filter-list {
-    flex-direction: row !important;
-    max-height: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 4px;
-    scrollbar-width: none;
+  /* !important porque o <aside> define `display` no próprio style. */
+  .catalog-grid aside { display: none !important; }
+
+  /* O "Ordenar por" já está na barra; no cabeçalho de resultados ficaria
+     duplicado. (!important porque o <label> define `display` inline.) */
+  .sort-desktop { display: none !important; }
+
+  .mfilter-bar {
+    display: flex; gap: 10px; align-items: stretch;
+    position: sticky; top: var(--header-h, 114px); z-index: 40;
+    background: var(--bg); padding: 10px 0 12px;
   }
-  .filter-list::-webkit-scrollbar { display: none; }
-  .filter-list .filter-btn { width: auto; flex: 0 0 auto; white-space: nowrap; }
+  .mfilter-btn, .mfilter-sort {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 11px 14px; font: 600 14px var(--font-archivo), system-ui, sans-serif;
+    color: var(--navy); cursor: pointer;
+  }
+  .mfilter-btn { flex: none; }
+  .mfilter-btn i, .mfilter-sort i { font-size: 18px; color: var(--muted); }
+  .mfilter-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px; border-radius: 100px;
+    background: var(--orange); color: #fff; font-size: 11.5px; font-weight: 700;
+  }
+  .mfilter-sort { flex: 1; padding-right: 6px; min-width: 0; }
+  .mfilter-sort select {
+    flex: 1; min-width: 0; border: none; background: transparent; outline: none;
+    font: 600 14px var(--font-archivo), system-ui, sans-serif;
+    color: var(--navy); cursor: pointer;
+  }
+
+  /* A folha sobe de baixo, com o fundo escurecido. */
+  .sheet-bg {
+    display: flex; align-items: flex-end;
+    position: fixed; inset: 0; z-index: 80;
+    background: rgba(5, 40, 87, .45);
+    animation: sheetfade .18s ease-out both;
+  }
+  .sheet {
+    display: flex; flex-direction: column;
+    width: 100%; max-height: 82vh;
+    background: #fff; border-radius: 20px 20px 0 0;
+    animation: sheetup .22s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  .sheet-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    font-weight: 800; font-size: 17px; color: var(--navy);
+  }
+  .sheet-head button { background: none; border: none; padding: 4px; font-size: 24px; color: var(--navy); cursor: pointer; display: flex; }
+  .sheet-body { overflow-y: auto; padding: 4px 20px 12px; }
+  .sheet-group { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .sheet-group:last-child { border-bottom: none; }
+  .sheet-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .sheet-list { display: flex; flex-direction: column; gap: 7px; }
+  .sheet-list .filter-btn { padding: 12px 14px; font-size: 14.5px; }
+  .sheet-foot {
+    display: flex; gap: 10px;
+    padding: 14px 20px calc(18px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+  }
+  .sheet-clear { flex: none; background: #fff; border: 1.5px solid var(--border2); border-radius: 12px; padding: 14px 22px; font-weight: 700; font-size: 15px; color: var(--navy); cursor: pointer; }
+  .sheet-apply { flex: 1; background: var(--navy); border: none; border-radius: 12px; padding: 14px 20px; font-weight: 700; font-size: 15px; color: #fff; cursor: pointer; }
 
   /* Dois produtos por linha no celular. O !important é necessário porque
      as grades definem `grid-template-columns` no próprio style. */
