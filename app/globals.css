@@ -194,6 +194,15 @@ body[data-menu-open] .wa-float { display: none !important; }
   .filter-list::-webkit-scrollbar { display: none; }
   .filter-list .filter-btn { width: auto; flex: 0 0 auto; white-space: nowrap; }
 
+  /* Dois produtos por linha no celular. O !important é necessário porque
+     as grades definem `grid-template-columns` no próprio style. */
+  .product-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .product-grid .pcard-code { font-size: 10px; padding: 3px 6px; top: 8px; left: 8px; }
+  /* Com o card estreito, o código e a etiqueta de estoque se sobrepunham no
+     topo. A etiqueta desce para o rodapé da imagem. */
+  .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
+  .product-grid .pcard-img i { font-size: 46px !important; }
+
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }
 }

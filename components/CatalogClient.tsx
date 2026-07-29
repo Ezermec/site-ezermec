@@ -146,7 +146,7 @@ export function CatalogClient({
 
           {view.total > 0 ? (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 18 }}>
+              <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 18 }}>
                 {view.paged.map((p) => <ProductCard key={p.slug} product={p} variant="catalog" />)}
               </div>
               {view.pageCount > 1 && (

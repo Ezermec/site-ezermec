@@ -109,7 +109,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         {/* RELACIONADOS */}
         <div style={{ marginTop: 48 }}>
           <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 18px' }}>Produtos relacionados</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 18 }}>
+          <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 18 }}>
             {related.map((p) => <ProductCard key={p.slug} product={p} variant="related" />)}
           </div>
         </div>

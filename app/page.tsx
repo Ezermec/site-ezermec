@@ -109,7 +109,7 @@ export default async function HomePage() {
           <span className="eyebrow">Em destaque</span>
           <h2 style={{ fontSize: 'clamp(26px,3vw,36px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0' }}>Produtos mais procurados</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(230px,1fr))', gap: 18 }}>
+        <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(230px,1fr))', gap: 18 }}>
           {featured.map((p) => <ProductCard key={p.slug} product={p} variant="home" />)}
         </div>
       </section>
