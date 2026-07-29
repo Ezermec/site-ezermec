@@ -203,6 +203,26 @@ body[data-menu-open] .wa-float { display: none !important; }
   .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
   .product-grid .pcard-img i { font-size: 46px !important; }
 
+  /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
+     No celular viram uma fileira que desliza na horizontal, com encaixe
+     em cada card. As margens negativas sangram até a borda da tela, para
+     o card seguinte aparecer cortado e indicar que dá para arrastar. */
+  .cat-grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 12px !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-left: -24px; margin-right: -24px;
+    padding-left: 24px; padding-right: 24px;
+    /* Sem isto o encaixe ignora o recuo e cola o primeiro card na borda. */
+    scroll-padding-left: 24px;
+  }
+  .cat-grid::-webkit-scrollbar { display: none; }
+  .cat-grid > a { flex: 0 0 152px; scroll-snap-align: start; }
+
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }
 }
@@ -214,4 +234,6 @@ body[data-menu-open] .wa-float { display: none !important; }
   .logo-btn img { height: 30px !important; }
   .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
   .container { padding-left: 16px; padding-right: 16px; }
+  /* A sangria da fileira de categorias acompanha o recuo menor do container. */
+  .cat-grid { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; scroll-padding-left: 16px; }
 }

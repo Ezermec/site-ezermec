@@ -89,7 +89,7 @@ export default async function HomePage() {
           </div>
           <Link href="/catalogo" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--navy)', fontWeight: 700, fontSize: 15 }}>Ver todos os produtos <i className="ph ph-arrow-right" /></Link>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 16 }}>
+        <div className="cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 16 }}>
           {categories.map((c) => {
             const count = catCounts[c.name] || 0;
             return (
