@@ -20,16 +20,19 @@ export default async function HomePage() {
     <main className="ez-fade">
       {/* HERO */}
       <section style={{ background: 'linear-gradient(180deg,#fff 0%,#f7f8fa 100%)', borderBottom: '1px solid var(--border)' }}>
-        <div className="container" style={{ paddingTop: 56, paddingBottom: 64, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(340px,1fr))', gap: 48, alignItems: 'center' }}>
-          <div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', fontWeight: 600, background: '#fdede1', padding: '7px 13px', borderRadius: 100 }}>
+        <div className="hero-grid container" style={{ paddingTop: 56, paddingBottom: 64, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(340px,1fr))', gap: 48, alignItems: 'center' }}>
+          <div className="hero-text">
+            <span className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', fontWeight: 600, background: '#fdede1', padding: '7px 13px', borderRadius: 100 }}>
               <i className="ph-fill ph-seal-check" />Revenda autorizada Fischertec
             </span>
-            <h1 style={{ fontSize: 'clamp(34px,4.4vw,54px)', lineHeight: 1.05, fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', color: 'var(--navy)' }}>
+            <h1 className="hero-title" style={{ fontSize: 'clamp(34px,4.4vw,54px)', lineHeight: 1.05, fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', color: 'var(--navy)' }}>
               Peças e soluções para{' '}<br className="hero-br" />manutenção industrial.
             </h1>
-            <p style={{ fontSize: 17.5, lineHeight: 1.6, color: 'var(--text)', maxWidth: 540, margin: '20px 0 0' }}>
-              A Ezermec é especializada na comercialização de peças para máquinas industriais, oferecendo qualidade, atendimento especializado e sendo revenda autorizada da Fischertec.
+            {/* Duas versões do texto: a curta aparece só no celular, para o
+                hero não virar um bloco de leitura antes da foto. */}
+            <p className="hero-lead" style={{ fontSize: 17.5, lineHeight: 1.6, color: 'var(--text)', maxWidth: 540, margin: '20px 0 0' }}>
+              <span className="lead-full">A Ezermec é especializada na comercialização de peças para máquinas industriais, oferecendo qualidade, atendimento especializado e sendo revenda autorizada da Fischertec.</span>
+              <span className="lead-short">Peças para máquinas industriais, com atendimento especializado.</span>
             </p>
             <HeroSearch />
             <div className="hero-cta" style={{ display: 'flex', gap: 14, flexWrap: 'wrap', margin: '26px 0 0' }}>
@@ -48,8 +51,8 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
-          <div style={{ position: 'relative' }}>
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3.4', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 40px 80px -40px rgba(5,40,87,.4)' }}>
+          <div className="hero-photo" style={{ position: 'relative' }}>
+            <div className="hero-photo-box" style={{ position: 'relative', width: '100%', aspectRatio: '4/3.4', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 40px 80px -40px rgba(5,40,87,.4)' }}>
               <ImageSlot placeholder="Foto: indústria / manutenção de máquinas" src="/assets/hero-industria-manutencao.png" />
             </div>
             <div className="hero-selo" style={{ position: 'absolute', left: -14, bottom: 26, background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: '0 20px 40px -20px rgba(5,40,87,.35)' }}>

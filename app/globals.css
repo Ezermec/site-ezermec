@@ -67,6 +67,8 @@ input::placeholder { color: var(--muted); }
 /* Menu suspenso do celular — escondido por padrão, ou seja, no desktop. */
 .nav-toggle { display: none; }
 .mobile-drawer { display: none; }
+/* Versão curta do texto do hero — só aparece no celular. */
+.lead-short { display: none; }
 /* !important porque o botão flutuante define `display` no próprio elemento. */
 body[data-menu-open] .wa-float { display: none !important; }
 
@@ -207,6 +209,26 @@ body[data-menu-open] .wa-float { display: none !important; }
      A busca do hero ficava colada na busca do cabeçalho — duas caixas de
      busca iguais, uma embaixo da outra. No celular fica só a do topo. */
   .hero-search { display: none !important; }
+
+  /* Menos texto: a versão longa dá lugar à curta. */
+  .lead-full { display: none; }
+  .lead-short { display: inline; }
+  .hero-lead { font-size: 16px !important; margin-top: 14px !important; }
+
+  /* Mais imagem: `display: contents` dissolve a coluna de texto, e assim a
+     foto pode ser reordenada para logo abaixo da chamada, em vez de ficar
+     no fim do hero depois dos botões e dos números. */
+  /* O `align-items: center` do desktop faria os itens encolherem à largura
+     do conteúdo em coluna, e a foto (largura 100%) colapsaria para zero. */
+  .hero-grid { display: flex !important; flex-direction: column; align-items: stretch !important; gap: 0 !important; padding-top: 26px !important; padding-bottom: 34px !important; }
+  .hero-text { display: contents; }
+  .hero-badge { order: 1; }
+  .hero-title { order: 2; font-size: 31px !important; margin-top: 16px !important; }
+  .hero-lead { order: 3; }
+  .hero-photo { order: 4; margin-top: 22px; }
+  .hero-cta { order: 5; }
+  .hero-stats { order: 6; }
+  .hero-photo-box { aspect-ratio: 4/3.1 !important; }
 
   /* Os dois botões tinham larguras diferentes e ficavam desalinhados;
      agora ocupam a linha inteira, um sob o outro. */
