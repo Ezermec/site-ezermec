@@ -91,7 +91,75 @@ input::placeholder { color: var(--muted); }
 .page-btn { min-width: 42px; height: 42px; padding: 0 12px; border-radius: 11px; font: 700 14px var(--font-archivo), system-ui, sans-serif; cursor: pointer; transition: .15s; background: #fff; color: var(--navy); border: 1px solid var(--border); }
 .page-btn.active { background: var(--orange); color: #fff; border: 1px solid var(--orange); box-shadow: 0 8px 18px -8px rgba(245,102,12,.6); }
 
+/* Missão/visão/valores da home */
+.mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
 @media (max-width: 860px) {
   .catalog-grid { grid-template-columns: 1fr; }
   .catalog-grid aside { position: static !important; top: auto !important; }
+}
+
+/* ================================================================
+   CELULAR
+   Tudo daqui para baixo só vale em telas estreitas. O layout de
+   computador não é tocado por nenhuma destas regras.
+   ================================================================ */
+@media (max-width: 760px) {
+  /* A quebra de linha fixa do título da home deixava a palavra "para"
+     sozinha numa linha; no celular o texto flui naturalmente. */
+  .hero-br { display: none; }
+
+  /* Empilha os cards de missão/visão/valores — em 3 colunas eles ficavam
+     com ~100px cada e estouravam a largura da tela. */
+  .mvv-grid { grid-template-columns: 1fr; }
+
+  /* HEADER — era o maior problema: fixo e com 336px de altura (41% da
+     tela do celular), porque o menu quebrava em 3 linhas. Agora o menu
+     é uma única linha que rola na horizontal. */
+  .header-top { gap: 12px; padding-top: 10px; padding-bottom: 10px; }
+  .logo-btn img { height: 34px !important; width: auto !important; }
+  .header-contact { gap: 8px !important; margin-left: auto; }
+  .wa-pill { padding: 9px 13px; font-size: 13.5px; }
+  /* A busca vai para uma linha só dela, abaixo do logo e do contato. */
+  .search-box { order: 3; min-width: 100%; }
+  .search-box input { padding: 11px 6px; font-size: 14px; }
+  .btn-search { padding: 8px 14px; }
+  .header-nav-inner { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .header-nav-inner::-webkit-scrollbar { display: none; }
+  /* O espaçador que empurra o "Painel" para a direita não pode esticar
+     dentro de um container rolável, senão cria rolagem falsa. */
+  .header-nav-inner > span { flex: 0 0 6px !important; }
+  .ez-navbtn { padding: 11px 11px; font-size: 14px; white-space: nowrap; }
+
+  /* CATÁLOGO — empilhados, os 3 blocos de filtro empurravam os produtos
+     para muito abaixo da dobra. No celular cada lista vira uma fileira
+     de chips que rola na horizontal, ocupando uma linha em vez de dez. */
+  /* Sem isto, o `min-width: auto` padrão do grid deixa a coluna crescer
+     até caber a fileira de chips inteira, e a página toda rola de lado. */
+  .catalog-grid > * { min-width: 0; }
+  .catalog-grid aside > div { min-width: 0; }
+  .filter-list {
+    flex-direction: row !important;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .filter-list::-webkit-scrollbar { display: none; }
+  .filter-list .filter-btn { width: auto; flex: 0 0 auto; white-space: nowrap; }
+
+  /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
+  .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }
+}
+
+/* Aparelhos estreitos (360px e menos): sem isto, logo + WhatsApp +
+   telefone não cabem na mesma linha e sobra estouro horizontal. */
+@media (max-width: 400px) {
+  .header-top { gap: 8px; }
+  .logo-btn img { height: 30px !important; }
+  .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
+  .header-phone { padding: 0 !important; }
+  .header-phone span:last-child { font-size: 13.5px !important; }
+  .container { padding-left: 16px; padding-right: 16px; }
 }

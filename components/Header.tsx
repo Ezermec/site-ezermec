@@ -58,11 +58,11 @@ export function Header() {
           <button onClick={submit} className="btn-search ez-lift">Buscar</button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 'none' }}>
+        <div className="header-contact" style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 'none' }}>
           <a href={site.waHref} target="_blank" rel="noopener" className="wa-pill ez-lift">
             <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 19 }} />WhatsApp
           </a>
-          <a href={site.telHref} style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, padding: '0 4px', color: 'var(--navy)' }}>
+          <a href={site.telHref} className="header-phone" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, padding: '0 4px', color: 'var(--navy)' }}>
             <span className="mono" style={{ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Ligue agora</span>
             <span style={{ fontWeight: 700, fontSize: 15 }}>{site.phoneDisplay}</span>
           </a>

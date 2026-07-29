@@ -95,7 +95,7 @@ export function CatalogClient({
               <button onClick={clearFilters} style={{ background: 'none', border: 'none', color: 'var(--orange)', fontWeight: 600, fontSize: 12.5, cursor: 'pointer' }}>Limpar</button>
             </div>
             <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '6px 0 8px' }}>Categorias</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 260, overflow: 'auto' }}>
+            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 260, overflow: 'auto' }}>
               {catKeys.map((k) => (
                 <button key={k} onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
                   <span>{k === 'all' ? 'Todas as categorias' : k}</span>
@@ -106,7 +106,7 @@ export function CatalogClient({
           </div>
           <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 18 }}>
             <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 8px' }}>Marcas</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {brandKeys.map((k) => (
                 <button key={k} onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
                   <span>{k === 'all' ? 'Todas as marcas' : k}</span>
@@ -117,7 +117,7 @@ export function CatalogClient({
           </div>
           <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 18 }}>
             <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 8px' }}>Disponibilidade</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {stockKeys.map(([k, label]) => (
                 <button key={k} onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
                   <span>{label}</span>

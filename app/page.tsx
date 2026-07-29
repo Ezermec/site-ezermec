@@ -26,7 +26,7 @@ export default async function HomePage() {
               <i className="ph-fill ph-seal-check" />Revenda autorizada Fischertec
             </span>
             <h1 style={{ fontSize: 'clamp(34px,4.4vw,54px)', lineHeight: 1.05, fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', color: 'var(--navy)' }}>
-              Peças e soluções para<br />manutenção industrial.
+              Peças e soluções para{' '}<br className="hero-br" />manutenção industrial.
             </h1>
             <p style={{ fontSize: 17.5, lineHeight: 1.6, color: 'var(--text)', maxWidth: 540, margin: '20px 0 0' }}>
               A Ezermec é especializada na comercialização de peças para máquinas industriais, oferecendo qualidade, atendimento especializado e sendo revenda autorizada da Fischertec.
@@ -121,7 +121,7 @@ export default async function HomePage() {
             <span className="eyebrow" style={{ color: 'var(--orange2)' }}>Sobre a Ezermec</span>
             <h2 style={{ fontSize: 'clamp(26px,3vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '14px 0 0', lineHeight: 1.1 }}>Especialistas em peças para máquinas industriais</h2>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: '#dce7f4', margin: '18px 0 0' }}>Atuamos na comercialização de peças, manutenção industrial e assistência técnica. Como revenda autorizada da Fischertec, entregamos peças originais com o suporte técnico que a sua operação precisa para não parar.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginTop: 28 }}>
+            <div className="mvv-grid" style={{ marginTop: 28 }}>
               {[['ph-target', 'Missão', 'Manter a indústria em movimento com a peça certa, na hora certa.'], ['ph-eye', 'Visão', 'Ser referência em peças e manutenção industrial na região.'], ['ph-handshake', 'Valores', 'Qualidade, confiança e atendimento especializado.']].map(([ic, t, d]) => (
                 <div key={t} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 14, padding: 18 }}>
                   <i className={`ph ${ic}`} style={{ fontSize: 24, color: 'var(--orange2)' }} />

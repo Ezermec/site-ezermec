@@ -7,7 +7,7 @@ export function FloatingWhatsApp() {
       target="_blank"
       rel="noopener"
       title="Fale conosco no WhatsApp"
-      className="ez-lift"
+      className="ez-lift wa-float"
       style={{
         position: 'fixed', right: 22, bottom: 22, zIndex: 70, width: 60, height: 60,
         borderRadius: '50%', background: 'var(--green)', color: '#fff', display: 'flex',
