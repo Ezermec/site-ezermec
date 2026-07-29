@@ -32,14 +32,14 @@ export default async function HomePage() {
               A Ezermec é especializada na comercialização de peças para máquinas industriais, oferecendo qualidade, atendimento especializado e sendo revenda autorizada da Fischertec.
             </p>
             <HeroSearch />
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', margin: '26px 0 0' }}>
+            <div className="hero-cta" style={{ display: 'flex', gap: 14, flexWrap: 'wrap', margin: '26px 0 0' }}>
               <Link href="/catalogo" className="btn btn-navy ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>Ver catálogo <i className="ph ph-arrow-right" /></Link>
               <a href={site.waHref} target="_blank" rel="noopener" className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>Solicitar orçamento</a>
             </div>
-            <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', margin: '30px 0 0' }}>
+            <div className="hero-stats" style={{ display: 'flex', gap: 26, flexWrap: 'wrap', margin: '30px 0 0' }}>
               {[[roundedItemCountLabel(products.length), 'itens em catálogo'], [String(categories.length), 'categorias'], ['100%', 'peças originais']].map(([n, l], i) => (
                 <div key={i} style={{ display: 'flex', gap: 26 }}>
-                  {i > 0 && <div style={{ width: 1, background: 'var(--border)', marginLeft: -26 }} />}
+                  {i > 0 && <div className="stat-sep" style={{ width: 1, background: 'var(--border)', marginLeft: -26 }} />}
                   <div>
                     <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--navy)' }}>{n}</div>
                     <div className="mono" style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>{l}</div>
@@ -52,7 +52,7 @@ export default async function HomePage() {
             <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3.4', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 40px 80px -40px rgba(5,40,87,.4)' }}>
               <ImageSlot placeholder="Foto: indústria / manutenção de máquinas" src="/assets/hero-industria-manutencao.png" />
             </div>
-            <div style={{ position: 'absolute', left: -14, bottom: 26, background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: '0 20px 40px -20px rgba(5,40,87,.35)' }}>
+            <div className="hero-selo" style={{ position: 'absolute', left: -14, bottom: 26, background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: '0 20px 40px -20px rgba(5,40,87,.35)' }}>
               <span style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><i className="ph-fill ph-seal-check" /></span>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--navy)' }}>Revenda autorizada</div>

@@ -203,6 +203,26 @@ body[data-menu-open] .wa-float { display: none !important; }
   .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
   .product-grid .pcard-img i { font-size: 46px !important; }
 
+  /* HERO DA HOME
+     A busca do hero ficava colada na busca do cabeçalho — duas caixas de
+     busca iguais, uma embaixo da outra. No celular fica só a do topo. */
+  .hero-search { display: none !important; }
+
+  /* Os dois botões tinham larguras diferentes e ficavam desalinhados;
+     agora ocupam a linha inteira, um sob o outro. */
+  .hero-cta { flex-direction: column; gap: 10px !important; margin-top: 22px !important; }
+  .hero-cta > * { width: 100%; justify-content: center; padding: 14px 20px !important; }
+
+  /* Os números quebravam em duas linhas e sobrava um risco divisor solto
+     no começo da segunda. Viram três colunas fixas, sem divisores. */
+  .hero-stats { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 10px !important; margin-top: 24px !important; }
+  .hero-stats > div { display: block !important; }
+  .stat-sep { display: none; }
+  .hero-stats .mono { font-size: 10px !important; letter-spacing: .04em !important; }
+
+  /* O selo "Revenda autorizada" saía para fora da foto pela esquerda. */
+  .hero-selo { left: 12px !important; right: 12px !important; bottom: 12px !important; }
+
   /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
      No celular viram uma fileira que desliza na horizontal, com encaixe
      em cada card. As margens negativas sangram até a borda da tela, para
