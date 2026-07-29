@@ -64,6 +64,11 @@ npm start          # servir a build
 
 ## Deploy na Vercel
 
+**Site em produção:** https://site-ezermec.vercel.app
+
+Publica a partir da branch `main` no GitHub — o que não foi enviado com `git push`
+não está no ar. `http://localhost:3000` é só o servidor de desenvolvimento local.
+
 A Vercel detecta o Next.js automaticamente — sem configuração manual de build.
 
 1. Importe o repositório em [vercel.com/new](https://vercel.com/new).
