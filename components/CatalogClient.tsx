@@ -31,6 +31,8 @@ export function CatalogClient({
   // Folha de filtros do celular. No desktop a barra e a folha ficam
   // escondidas por CSS e o painel lateral continua sendo o único controle.
   const [sheetOpen, setSheetOpen] = useState(false);
+  // Grupo selecionado na coluna da esquerda da folha de filtros.
+  const [sheetGroup, setSheetGroup] = useState<'cat' | 'brand' | 'stock'>('cat');
 
   // Sincroniza a busca/categoria com a URL. Sem isso, uma nova busca pela barra
   // do topo (navegação client-side) muda a URL mas não o estado, e os resultados
@@ -220,40 +222,47 @@ export function CatalogClient({
               <button type="button" onClick={() => setSheetOpen(false)} aria-label="Fechar filtros"><i className="ph ph-x" /></button>
             </div>
 
-            <div className="sheet-body">
-              <div className="sheet-group">
-                <div className="sheet-label mono">Categorias</div>
-                <div className="sheet-list">
-                  {catKeys.map((k) => (
-                    <button key={k} type="button" onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
-                      <span>{k === 'all' ? 'Todas as categorias' : k}</span>
-                      <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.catCounts[k] || 0)}</span>
-                    </button>
-                  ))}
-                </div>
+            {/* Duas colunas: os grupos à esquerda, as opções do grupo
+                selecionado à direita. */}
+            <div className="sheet-panes">
+              <div className="sheet-tabs">
+                {([
+                  ['cat', 'Categoria', activeCategory === 'all' ? null : activeCategory],
+                  ['brand', 'Marca', activeBrand === 'all' ? null : activeBrand],
+                  ['stock', 'Disponibilidade', activeStock === 'all' ? null : stockKeys.find(([k]) => k === activeStock)?.[1] ?? null],
+                ] as Array<['cat' | 'brand' | 'stock', string, string | null]>).map(([key, label, selecionado]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSheetGroup(key)}
+                    className={`sheet-tab${sheetGroup === key ? ' active' : ''}`}
+                  >
+                    <span>{label}</span>
+                    {selecionado && <em>{selecionado}</em>}
+                  </button>
+                ))}
               </div>
 
-              <div className="sheet-group">
-                <div className="sheet-label mono">Marcas</div>
-                <div className="sheet-list">
-                  {brandKeys.map((k) => (
-                    <button key={k} type="button" onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
-                      <span>{k === 'all' ? 'Todas as marcas' : k}</span>
-                      <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.brandCounts[k] || 0)}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <div className="sheet-options">
+                {sheetGroup === 'cat' && catKeys.map((k) => (
+                  <button key={k} type="button" onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
+                    <span>{k === 'all' ? 'Todas as categorias' : k}</span>
+                    <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.catCounts[k] || 0)}</span>
+                  </button>
+                ))}
 
-              <div className="sheet-group">
-                <div className="sheet-label mono">Disponibilidade</div>
-                <div className="sheet-list">
-                  {stockKeys.map(([k, label]) => (
-                    <button key={k} type="button" onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
-                      <span>{label}</span>
-                    </button>
-                  ))}
-                </div>
+                {sheetGroup === 'brand' && brandKeys.map((k) => (
+                  <button key={k} type="button" onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
+                    <span>{k === 'all' ? 'Todas as marcas' : k}</span>
+                    <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.brandCounts[k] || 0)}</span>
+                  </button>
+                ))}
+
+                {sheetGroup === 'stock' && stockKeys.map(([k, label]) => (
+                  <button key={k} type="button" onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
+                    <span>{label}</span>
+                  </button>
+                ))}
               </div>
             </div>
 
