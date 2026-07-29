@@ -123,9 +123,17 @@ body[data-menu-open] .wa-float { display: none !important; }
   /* HEADER — era o maior problema: fixo e com 336px de altura (41% da
      tela do celular), porque o menu quebrava em 3 linhas. Agora o menu
      é uma única linha que rola na horizontal. */
-  .header-top { gap: 12px; padding-top: 10px; padding-bottom: 10px; }
+  .header-top { position: relative; gap: 12px; padding-top: 10px; padding-bottom: 10px; }
+  /* Logo centralizado na barra: sai do fluxo e fica no meio, com o
+     hambúrguer à esquerda e o WhatsApp à direita. A altura fixa de 42px
+     é a mesma do botão, para os três ficarem alinhados. */
+  .logo-btn { position: absolute; left: 50%; transform: translateX(-50%); top: 10px; height: 42px; }
   .logo-btn img { height: 34px !important; width: auto !important; }
   .header-contact { gap: 8px !important; margin-left: auto; }
+  /* O telefone sai da barra no celular — sem ele o logo cabe centralizado
+     sem encostar no botão do WhatsApp. Continua no rodapé do menu.
+     (!important porque o elemento define `display` no próprio style.) */
+  .header-phone { display: none !important; }
   .wa-pill { padding: 9px 13px; font-size: 13.5px; }
   /* A busca vai para uma linha só dela, abaixo do logo e do contato. */
   .search-box { order: 3; min-width: 100%; }
@@ -196,9 +204,5 @@ body[data-menu-open] .wa-float { display: none !important; }
   .header-top { gap: 8px; }
   .logo-btn img { height: 30px !important; }
   .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
-  /* O telefone sai da barra para tudo caber em uma linha só — ele continua
-     acessível no rodapé do menu suspenso. (!important porque o elemento
-     define `display` no próprio style.) */
-  .header-phone { display: none !important; }
   .container { padding-left: 16px; padding-right: 16px; }
 }
