@@ -9,11 +9,12 @@ export const metadata: Metadata = {
   description: cad.tagline,
 };
 
+// O instalador é enviado pela equipe — não existe download direto no site.
 const waCad =
   'https://wa.me/' +
   site.whatsappNumber +
   '?text=' +
-  encodeURIComponent('Olá! Gostaria de saber mais sobre o Ezermec CAD.');
+  encodeURIComponent('Olá! Gostaria de receber o Ezermec CAD.');
 
 function icon(name: string) {
   return name.startsWith('ph-fill') ? name : `ph ${name}`;
@@ -43,23 +44,17 @@ export default function EzermecCadPage() {
 
           {/* `hero-cta` já traz a regra de celular: botões em coluna, largura cheia. */}
           <div className="hero-cta" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 24 }}>
-            {cad.downloadUrl ? (
-              <a href={cad.downloadUrl} target="_blank" rel="noopener" className="btn btn-navy ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-                <i className="ph ph-download-simple" style={{ fontSize: 20 }} />Baixar
-              </a>
-            ) : (
-              <span className="btn btn-navy" style={{ padding: '15px 26px', fontSize: 16, opacity: .55, cursor: 'default' }}>
-                <i className="ph ph-clock-countdown" style={{ fontSize: 20 }} />Disponível em breve
-              </span>
-            )}
-            <a href={waCad} target="_blank" rel="noopener" className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-              <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />Falar com a equipe
+            <a href={waCad} target="_blank" rel="noopener" className="btn btn-navy ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
+              <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20 }} />Solicitar pelo WhatsApp
+            </a>
+            <a href={site.mailGeneral} className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
+              <i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />Enviar e-mail
             </a>
           </div>
 
           <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--muted)', marginTop: 14 }}>
             <i className="ph ph-windows-logo" style={{ fontSize: 15 }} />
-            Windows (.exe){cad.version && ` · versão ${cad.version}`}
+            Windows (.exe){cad.version && ` · versão ${cad.version}`} · enviado pela equipe
           </div>
         </div>
 
@@ -146,7 +141,7 @@ export default function EzermecCadPage() {
       {/* CTA */}
       <section className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <div style={{ background: 'linear-gradient(120deg,#f5660c,#ff7a1a)', borderRadius: 24, padding: 38, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap', boxShadow: '0 30px 60px -30px rgba(245,102,12,.5)' }}>
-          <h2 style={{ color: '#fff', fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, margin: 0, letterSpacing: '-.02em' }}>Quer ver funcionando?</h2>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, margin: 0, letterSpacing: '-.02em' }}>Quer usar o {cad.name}?</h2>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <a href={waCad} target="_blank" rel="noopener" className="btn ez-lift" style={{ background: '#fff', color: 'var(--navy)', padding: '15px 26px', fontSize: 16 }}><i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />WhatsApp</a>
             <a href={site.mailGeneral} className="btn ez-lift" style={{ background: 'rgba(5,40,87,.9)', color: '#fff', padding: '15px 26px', fontSize: 16 }}><i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />E-mail</a>

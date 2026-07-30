@@ -13,11 +13,10 @@ export const cad = {
   description:
     'Desenhe o traçado na tela, defina a ordem da costura e salve o arquivo pronto para a máquina.',
 
-  // PLACEHOLDER: trocar pelo link real do instalador (.exe para Windows).
-  // Deixe em null enquanto o app ainda não estiver disponível — a página passa a
-  // exibir "em breve" e direciona o contato para o WhatsApp.
-  downloadUrl: null as string | null,
-  // PLACEHOLDER: confirmar qual build é a atual (a cópia em Downloads é a v8.2).
+  // O aplicativo não é baixado direto do site: o cliente pede pelo WhatsApp e
+  // a Ezermec envia o instalador. Por isso a página não tem link de download.
+  //
+  // PLACEHOLDER: confirmar a versão atual (o print mostra v8.1 · 14 jul).
   version: null as string | null,
 
   // Três garantias de bater o olho, logo abaixo do hero.
@@ -37,7 +36,7 @@ export const cad = {
   ],
 
   steps: [
-    ['Instale', 'Baixe e abra no computador.'],
+    ['Peça', 'Fale no WhatsApp e receba o instalador.'],
     ['Desenhe', 'Trace a costura em escala real.'],
     ['Simule', 'Confira antes de enviar.'],
     ['Envie', 'Salve o NGC e leve para a máquina.'],
