@@ -78,6 +78,22 @@ input::placeholder { color: var(--muted); }
 .cad-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 
+/* Planos do Ezermec CAD */
+.cad-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 900px; margin: 0 auto; align-items: start; }
+.cad-plan {
+  position: relative; display: flex; flex-direction: column;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 18px;
+  padding: 26px 24px 24px;
+}
+/* O selo fica montado na borda de cima do card, como nas tabelas de preço
+   das hospedagens. */
+.cad-plan-selo {
+  position: absolute; top: 0; left: 24px; transform: translateY(-50%);
+  background: var(--orange); color: #fff;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 100px; white-space: nowrap;
+}
+
 /* Barra e folha de filtros do celular — no desktop o painel lateral
    continua sendo o único controle, então ficam escondidas. */
 .mfilter-bar { display: none; }
@@ -337,6 +353,8 @@ body[data-menu-open] .wa-float { display: none !important; }
   .cad-highlights { grid-template-columns: 1fr; gap: 10px; }
   .cad-features { grid-template-columns: 1fr 1fr; gap: 12px; }
   .cad-steps { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* Planos empilhados: em três colunas o preço grande não caberia. */
+  .cad-plans { grid-template-columns: 1fr; gap: 22px; }
 
   /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
      No celular viram uma fileira que desliza na horizontal, com encaixe

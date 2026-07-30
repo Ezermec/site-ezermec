@@ -25,6 +25,19 @@ function icon(name: string) {
 const capa = cad.screenshots[0];
 const galeria = cad.screenshots.slice(1).filter((s) => s.src);
 
+const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+// O desconto de cada plano é medido contra o de menor período (6 meses).
+const precoBase = Math.max(...cad.plans.map((p) => p.mensal));
+
+function waPlano(meses: number) {
+  return (
+    'https://wa.me/' +
+    site.whatsappNumber +
+    '?text=' +
+    encodeURIComponent(`Olá! Tenho interesse no Ezermec CAD, no plano de ${meses} meses.`)
+  );
+}
+
 export default function EzermecCadPage() {
   return (
     <main className="ez-fade">
@@ -105,6 +118,74 @@ export default function EzermecCadPage() {
               <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 4 }}>{desc}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* PLANOS */}
+      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 52 }}>
+        <div className="container" style={{ paddingTop: 52, paddingBottom: 52 }}>
+          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 8px', textAlign: 'center' }}>Planos</h2>
+          <p style={{ textAlign: 'center', fontSize: 15.5, color: 'var(--text)', margin: '0 0 30px' }}>
+            Quanto maior o período, menor a mensalidade.
+          </p>
+
+          <div className="cad-plans">
+            {cad.plans.map((p) => {
+              const total = p.mensal * p.meses;
+              const desconto = Math.round((1 - p.mensal / precoBase) * 100);
+              return (
+                <div
+                  key={p.meses}
+                  className="cad-plan"
+                  style={p.destaque ? { borderColor: 'var(--orange)', borderWidth: 2, boxShadow: '0 24px 50px -30px rgba(245,102,12,.55)' } : undefined}
+                >
+                  {p.selo && (
+                    <span className="cad-plan-selo" style={p.destaque ? undefined : { background: 'var(--navy)' }}>
+                      {p.selo}
+                    </span>
+                  )}
+
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>
+                    {p.meses} meses
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 10 }}>
+                    <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--navy)' }}>R$</span>
+                    <span style={{ fontSize: 40, fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', lineHeight: 1 }}>
+                      {p.mensal.toFixed(2).replace('.', ',')}
+                    </span>
+                    <span style={{ fontSize: 15, color: 'var(--muted)', fontWeight: 600 }}>/mês</span>
+                  </div>
+
+                  {desconto > 0 ? (
+                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: 12, background: '#fdede1', color: 'var(--orange)', fontWeight: 700, fontSize: 13, padding: '5px 11px', borderRadius: 100 }}>
+                      Economize {desconto}%
+                    </span>
+                  ) : (
+                    <span style={{ marginTop: 12, fontSize: 13, color: 'var(--muted)' }}>Plano de entrada</span>
+                  )}
+
+                  <div style={{ fontSize: 13.5, color: 'var(--text)', marginTop: 14, lineHeight: 1.5 }}>
+                    {brl.format(total)} pelos {p.meses} meses
+                  </div>
+
+                  <a
+                    href={waPlano(p.meses)}
+                    target="_blank"
+                    rel="noopener"
+                    className={`btn ez-lift ${p.destaque ? 'btn-orange' : 'btn-white'}`}
+                    style={{ justifyContent: 'center', padding: '14px 20px', fontSize: 15.5, marginTop: 18 }}
+                  >
+                    Contratar
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+
+          <p style={{ textAlign: 'center', fontSize: 13.5, color: 'var(--muted)', margin: '24px 0 0' }}>
+            Todos os planos incluem o aplicativo completo e o suporte da Ezermec.
+          </p>
         </div>
       </section>
 
