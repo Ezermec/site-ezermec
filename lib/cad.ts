@@ -7,6 +7,20 @@
 // Os textos são curtos de propósito: a página é para bater o olho e entender.
 // Os campos marcados como PLACEHOLDER precisam dos dados reais do aplicativo.
 
+/**
+ * Um plano da tabela de preços. Assinaturas usam `meses` + `mensal` (com `de`
+ * como preço cheio riscado); o vitalício usa `unico` e não tem mensalidade.
+ */
+export interface CadPlan {
+  titulo: string;
+  meses: number | null;
+  de: number | null;
+  mensal: number | null;
+  unico: number | null;
+  selo: string | null;
+  destaque: boolean;
+}
+
 export const cad = {
   name: 'Ezermec CAD',
   tagline: 'Desenhos de costura para máquinas Fischertec, prontos em minutos.',
@@ -35,13 +49,12 @@ export const cad = {
     { icon: 'ph-file-arrow-down', title: 'Exportação', desc: 'NGC, DXF e SVG.' },
   ],
 
-  // Planos de assinatura. `de` é o preço cheio (riscado na página) e `mensal`
-  // é o promocional; o percentual de desconto sai da comparação entre os dois.
   plans: [
-    { meses: 6, de: 89.9, mensal: 49.9, selo: null as string | null, destaque: false },
-    { meses: 12, de: 69.9, mensal: 39.9, selo: 'Mais popular' as string | null, destaque: false },
-    { meses: 24, de: 49.9, mensal: 29.9, selo: 'Melhor preço' as string | null, destaque: true },
-  ],
+    { titulo: '6 meses', meses: 6, de: 89.9, mensal: 49.9, unico: null, selo: null, destaque: false },
+    { titulo: '12 meses', meses: 12, de: 69.9, mensal: 39.9, unico: null, selo: 'Mais popular', destaque: false },
+    { titulo: '24 meses', meses: 24, de: 49.9, mensal: 29.9, unico: null, selo: 'Melhor mensalidade', destaque: false },
+    { titulo: 'Vitalício', meses: null, de: null, mensal: null, unico: 900, selo: 'Pague uma vez', destaque: true },
+  ] satisfies CadPlan[],
 
   steps: [
     ['Peça', 'Fale no WhatsApp e receba o instalador.'],

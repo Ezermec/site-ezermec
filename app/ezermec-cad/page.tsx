@@ -27,12 +27,12 @@ const galeria = cad.screenshots.slice(1).filter((s) => s.src);
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-function waPlano(meses: number) {
+function waPlano(titulo: string) {
   return (
     'https://wa.me/' +
     site.whatsappNumber +
     '?text=' +
-    encodeURIComponent(`Olá! Tenho interesse no Ezermec CAD, no plano de ${meses} meses.`)
+    encodeURIComponent(`Olá! Tenho interesse no Ezermec CAD, no plano ${titulo}.`)
   );
 }
 
@@ -99,11 +99,18 @@ export default function EzermecCadPage() {
 
           <div className="cad-plans">
             {cad.plans.map((p) => {
-              const total = p.mensal * p.meses;
-              const desconto = Math.round((1 - p.mensal / p.de) * 100);
+              // O vitalício é pagamento único: mostra o valor cheio e não tem
+              // preço riscado, percentual nem total de período.
+              const valor = p.unico ?? p.mensal ?? 0;
+              const desconto = p.de && p.mensal ? Math.round((1 - p.mensal / p.de) * 100) : 0;
+              const rodape =
+                p.unico !== null
+                  ? 'Pagamento único, sem mensalidade'
+                  : `${brl.format((p.mensal ?? 0) * (p.meses ?? 0))} pelos ${p.meses} meses`;
+
               return (
                 <div
-                  key={p.meses}
+                  key={p.titulo}
                   className="cad-plan"
                   style={p.destaque ? { borderColor: 'var(--orange)', borderWidth: 2, boxShadow: '0 24px 50px -30px rgba(245,102,12,.55)' } : undefined}
                 >
@@ -114,34 +121,38 @@ export default function EzermecCadPage() {
                   )}
 
                   <div className="mono" style={{ fontSize: 12, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>
-                    {p.meses} meses
+                    {p.titulo}
                   </div>
 
                   {/* Preço cheio riscado, acima do promocional. */}
                   <div style={{ fontSize: 14.5, color: 'var(--muted)', marginTop: 10 }}>
-                    de <s>{brl.format(p.de)}</s>/mês por
+                    {p.de ? <>de <s>{brl.format(p.de)}</s>/mês por</> : 'valor único'}
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 4 }}>
                     <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--navy)' }}>R$</span>
                     <span style={{ fontSize: 40, fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', lineHeight: 1 }}>
-                      {p.mensal.toFixed(2).replace('.', ',')}
+                      {valor.toFixed(2).replace('.', ',')}
                     </span>
-                    <span style={{ fontSize: 15, color: 'var(--muted)', fontWeight: 600 }}>/mês</span>
+                    {p.unico === null && <span style={{ fontSize: 15, color: 'var(--muted)', fontWeight: 600 }}>/mês</span>}
                   </div>
 
-                  {desconto > 0 && (
+                  {desconto > 0 ? (
                     <span style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: 12, background: '#fdede1', color: 'var(--orange)', fontWeight: 700, fontSize: 13, padding: '5px 11px', borderRadius: 100 }}>
                       Economize {desconto}%
+                    </span>
+                  ) : (
+                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: 12, background: '#fdede1', color: 'var(--orange)', fontWeight: 700, fontSize: 13, padding: '5px 11px', borderRadius: 100 }}>
+                      Acesso para sempre
                     </span>
                   )}
 
                   <div style={{ fontSize: 13.5, color: 'var(--text)', marginTop: 14, lineHeight: 1.5 }}>
-                    {brl.format(total)} pelos {p.meses} meses
+                    {rodape}
                   </div>
 
                   <a
-                    href={waPlano(p.meses)}
+                    href={waPlano(p.titulo)}
                     target="_blank"
                     rel="noopener"
                     className={`btn ez-lift ${p.destaque ? 'btn-orange' : 'btn-white'}`}

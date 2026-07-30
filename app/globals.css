@@ -79,7 +79,9 @@ input::placeholder { color: var(--muted); }
 .cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 
 /* Planos do Ezermec CAD */
-.cad-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 900px; margin: 0 auto; align-items: start; }
+.cad-plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1120px; margin: 0 auto; align-items: start; }
+/* Em telas médias os quatro cards ficariam estreitos demais para o preço. */
+@media (max-width: 1060px) { .cad-plans { grid-template-columns: 1fr 1fr; gap: 20px; max-width: 620px; } }
 .cad-plan {
   position: relative; display: flex; flex-direction: column;
   background: var(--bg); border: 1px solid var(--border); border-radius: 18px;
