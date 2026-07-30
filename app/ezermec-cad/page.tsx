@@ -15,6 +15,10 @@ const waCad =
   '?text=' +
   encodeURIComponent('Olá! Gostaria de saber mais sobre o Ezermec CAD.');
 
+function icon(name: string) {
+  return name.startsWith('ph-fill') ? name : `ph ${name}`;
+}
+
 export default function EzermecCadPage() {
   return (
     <main className="ez-fade">
@@ -25,25 +29,22 @@ export default function EzermecCadPage() {
         </div>
       </div>
 
-      {/* HERO */}
-      <section className="container" style={{ paddingTop: 6, paddingBottom: 56, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 48, alignItems: 'center' }}>
+      {/* HERO — logo, uma chamada, uma linha e os botões. */}
+      <section className="container" style={{ paddingTop: 6, paddingBottom: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 44, alignItems: 'center' }}>
         <div>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono), monospace', fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', fontWeight: 600, background: '#fdede1', padding: '7px 13px', borderRadius: 100 }}>
-            <i className="ph-fill ph-seal-check" />Desenvolvido para máquinas Fischertec
-          </span>
           {/* O logo do app só existe em branco (é o do topo escuro do aplicativo),
-              por isso vai sobre uma placa navy. O nome continua em <h1> de texto. */}
-          <div style={{ display: 'inline-flex', background: 'var(--navy)', borderRadius: 16, padding: '16px 22px', margin: '22px 0 0', boxShadow: '0 20px 40px -24px rgba(5,40,87,.5)' }}>
+              por isso vai sobre uma placa navy. O nome fica no <h1> como texto. */}
+          <div style={{ display: 'inline-flex', background: 'var(--navy)', borderRadius: 16, padding: '16px 22px', boxShadow: '0 20px 40px -24px rgba(5,40,87,.5)' }}>
             <img src="/assets/logo-ezermec-cad-white.png" alt="Ezermec CAD" width={280} height={76} style={{ display: 'block', height: 52, width: 'auto' }} />
           </div>
-          {/* O nome do app já está no logo acima, então o h1 carrega a proposta. */}
-          <h1 style={{ fontSize: 'clamp(26px,3.2vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.15, color: 'var(--navy)', maxWidth: 560 }}>{cad.tagline}</h1>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--text)', margin: '16px 0 0', maxWidth: 560 }}>{cad.description}</p>
+          <h1 style={{ fontSize: 'clamp(26px,3.2vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.15, color: 'var(--navy)', maxWidth: 520 }}>{cad.tagline}</h1>
+          <p style={{ fontSize: 16.5, lineHeight: 1.6, color: 'var(--text)', margin: '14px 0 0', maxWidth: 500 }}>{cad.description}</p>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 26 }}>
+          {/* `hero-cta` já traz a regra de celular: botões em coluna, largura cheia. */}
+          <div className="hero-cta" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 24 }}>
             {cad.downloadUrl ? (
               <a href={cad.downloadUrl} target="_blank" rel="noopener" className="btn btn-navy ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-                <i className="ph ph-download-simple" style={{ fontSize: 20 }} />Baixar {cad.name}
+                <i className="ph ph-download-simple" style={{ fontSize: 20 }} />Baixar
               </a>
             ) : (
               <span className="btn btn-navy" style={{ padding: '15px 26px', fontSize: 16, opacity: .55, cursor: 'default' }}>
@@ -51,13 +52,13 @@ export default function EzermecCadPage() {
               </span>
             )}
             <a href={waCad} target="_blank" rel="noopener" className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-              <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />Falar sobre o {cad.name}
+              <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />Falar com a equipe
             </a>
           </div>
 
           <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--muted)', marginTop: 14 }}>
             <i className="ph ph-windows-logo" style={{ fontSize: 15 }} />
-            Programa para Windows (.exe){cad.version && ` · versão ${cad.version}`}
+            Windows (.exe){cad.version && ` · versão ${cad.version}`}
           </div>
         </div>
 
@@ -66,77 +67,52 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
-      {/* FISCHERTEC */}
+      {/* GARANTIAS — três itens de bater o olho, sem parágrafo. */}
       <section className="container" style={{ paddingBottom: 8 }}>
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 20, padding: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 26, alignItems: 'center' }}>
-          <div>
-            <span className="eyebrow">Compatibilidade</span>
-            <h2 style={{ fontSize: 'clamp(21px,2.3vw,27px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0', color: 'var(--navy)' }}>Desenvolvido para máquinas Fischertec</h2>
-            <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--text)', margin: '10px 0 0' }}>
-              A Ezermec é revenda autorizada Fischertec, e foi dessa convivência diária com as máquinas que nasceu o {cad.name}. O desenho sai do aplicativo em NGC, já com o preâmbulo e os presets da máquina — sem adaptar um CAD genérico e sem retrabalho na hora de costurar.
-            </p>
-            <Link href="/catalogo" className="btn btn-white ez-lift" style={{ padding: '13px 22px', fontSize: 15, marginTop: 20 }}>
-              Ver peças Fischertec <i className="ph ph-arrow-right" />
-            </Link>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
-            {[
-              ['ph-fill ph-seal-check', 'Revenda autorizada Fischertec'],
-              ['ph-file-code', 'Saída em NGC com o preâmbulo Fischertec'],
-              ['ph-headset', 'Suporte técnico da própria Ezermec'],
-            ].map(([ic, label]) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
-                <i className={ic.startsWith('ph-fill') ? ic : `ph ${ic}`} style={{ fontSize: 22, color: 'var(--orange)' }} />
-                <span style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--navy)' }}>{label}</span>
-              </div>
-            ))}
-          </div>
+        <div className="cad-highlights">
+          {cad.highlights.map(([ic, label]) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
+              <i className={icon(ic)} style={{ fontSize: 22, color: 'var(--orange)' }} />
+              <span style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--navy)' }}>{label}</span>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* RECURSOS */}
-      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div className="container" style={{ paddingTop: 64, paddingBottom: 64 }}>
-          <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 36px' }}>
-            <span className="eyebrow">Recursos</span>
-            <h2 style={{ fontSize: 'clamp(24px,2.8vw,32px)', fontWeight: 800, letterSpacing: '-.02em', margin: '12px 0 0' }}>O que o {cad.name} faz</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 18 }}>
+      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 40 }}>
+        <div className="container" style={{ paddingTop: 52, paddingBottom: 52 }}>
+          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 28px', textAlign: 'center' }}>O que ele faz</h2>
+          <div className="cad-features">
             {cad.features.map((f) => (
-              <div key={f.title} className="ez-card-h" style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 24 }}>
-                <span style={{ width: 52, height: 52, borderRadius: 14, background: '#fff', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, marginBottom: 16 }}><i className={f.icon.startsWith('ph-fill') ? f.icon : `ph ${f.icon}`} /></span>
-                <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)' }}>{f.title}</div>
-                <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.5, marginTop: 6 }}>{f.desc}</div>
+              <div key={f.title} className="ez-card-h" style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
+                <span style={{ width: 46, height: 46, borderRadius: 13, background: '#fff', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 13 }}><i className={icon(f.icon)} /></span>
+                <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{f.title}</div>
+                <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 5 }}>{f.desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* COMO USAR */}
-      <section className="container" style={{ paddingTop: 64, paddingBottom: 20 }}>
-        <div style={{ marginBottom: 30 }}>
-          <span className="eyebrow">Passo a passo</span>
-          <h2 style={{ fontSize: 'clamp(24px,2.8vw,32px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0' }}>Como funciona</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 18 }}>
+      {/* PASSO A PASSO — quatro etapas curtas, numeradas. */}
+      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
+        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 26px', textAlign: 'center' }}>Como funciona</h2>
+        <div className="cad-steps">
           {cad.steps.map(([title, desc], i) => (
-            <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 24 }}>
-              <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 34, height: 34, borderRadius: 10, background: 'var(--navy)', color: '#fff', fontWeight: 600, fontSize: 14 }}>{String(i + 1).padStart(2, '0')}</span>
-              <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)', marginTop: 14 }}>{title}</div>
-              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.5, marginTop: 6 }}>{desc}</div>
+            <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
+              <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 9, background: 'var(--navy)', color: '#fff', fontWeight: 600, fontSize: 13 }}>{i + 1}</span>
+              <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)', marginTop: 12 }}>{title}</div>
+              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 4 }}>{desc}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* TELAS */}
-      <section className="container" style={{ paddingTop: 56, paddingBottom: 20 }}>
-        <div style={{ marginBottom: 26 }}>
-          <span className="eyebrow">Por dentro do app</span>
-          <h2 style={{ fontSize: 'clamp(24px,2.8vw,32px)', fontWeight: 800, letterSpacing: '-.02em', margin: '10px 0 0' }}>Telas do {cad.name}</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
+      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
+        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px', textAlign: 'center' }}>Telas do aplicativo</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
           {cad.screenshots.map((shot) => (
             <div key={shot.alt} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
               <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
@@ -146,18 +122,16 @@ export default function EzermecCadPage() {
       </section>
 
       {/* REQUISITOS */}
-      <section style={{ background: 'var(--navy)', marginTop: 64 }}>
-        <div className="container" style={{ paddingTop: 60, paddingBottom: 60 }}>
-          <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 34px' }}>
-            <span className="eyebrow" style={{ color: 'var(--orange2)' }}>Antes de instalar</span>
-            <h2 style={{ color: '#fff', fontSize: 'clamp(24px,2.8vw,32px)', fontWeight: 800, letterSpacing: '-.02em', margin: '12px 0 0' }}>Requisitos</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 18 }}>
+      <section style={{ background: 'var(--navy)', marginTop: 52 }}>
+        <div className="container" style={{ paddingTop: 46, paddingBottom: 46 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(190px,1fr))', gap: 16 }}>
             {cad.requirements.map(([ic, label, value]) => (
-              <div key={label} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.14)', borderRadius: 16, padding: 24 }}>
-                <i className={`ph ${ic}`} style={{ fontSize: 26, color: 'var(--orange2)' }} />
-                <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8fa6c4', marginTop: 12 }}>{label}</div>
-                <div style={{ fontWeight: 700, fontSize: 16, color: '#fff', marginTop: 5 }}>{value}</div>
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
+                <i className={icon(ic)} style={{ fontSize: 24, color: 'var(--orange2)', flex: 'none' }} />
+                <div>
+                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8fa6c4' }}>{label}</div>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: '#fff', marginTop: 2 }}>{value}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -165,15 +139,12 @@ export default function EzermecCadPage() {
       </section>
 
       {/* CTA */}
-      <section className="container" style={{ paddingTop: 56, paddingBottom: 56 }}>
-        <div style={{ background: 'linear-gradient(120deg,#f5660c,#ff7a1a)', borderRadius: 24, padding: 44, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 28, flexWrap: 'wrap', boxShadow: '0 30px 60px -30px rgba(245,102,12,.5)' }}>
-          <div>
-            <h2 style={{ color: '#fff', fontSize: 'clamp(24px,2.6vw,32px)', fontWeight: 800, margin: 0, letterSpacing: '-.02em' }}>Quer conhecer o {cad.name}?</h2>
-            <p style={{ color: 'rgba(255,255,255,.92)', fontSize: 16, margin: '8px 0 0' }}>Fale com a nossa equipe e receba a demonstração e o acesso ao aplicativo.</p>
-          </div>
+      <section className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
+        <div style={{ background: 'linear-gradient(120deg,#f5660c,#ff7a1a)', borderRadius: 24, padding: 38, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap', boxShadow: '0 30px 60px -30px rgba(245,102,12,.5)' }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, margin: 0, letterSpacing: '-.02em' }}>Quer ver funcionando?</h2>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href={waCad} target="_blank" rel="noopener" className="btn ez-lift" style={{ background: '#fff', color: 'var(--navy)', padding: '15px 26px', fontSize: 16 }}><i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />Chamar no WhatsApp</a>
-            <a href={site.mailGeneral} className="btn ez-lift" style={{ background: 'rgba(5,40,87,.9)', color: '#fff', padding: '15px 26px', fontSize: 16 }}><i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />Enviar e-mail</a>
+            <a href={waCad} target="_blank" rel="noopener" className="btn ez-lift" style={{ background: '#fff', color: 'var(--navy)', padding: '15px 26px', fontSize: 16 }}><i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />WhatsApp</a>
+            <a href={site.mailGeneral} className="btn ez-lift" style={{ background: 'rgba(5,40,87,.9)', color: '#fff', padding: '15px 26px', fontSize: 16 }}><i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />E-mail</a>
           </div>
         </div>
       </section>

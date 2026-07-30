@@ -72,6 +72,12 @@ input::placeholder { color: var(--muted); }
 /* Versão curta do texto do hero — só aparece no celular. */
 .lead-short { display: none; }
 
+/* Ezermec CAD: garantias e passo a passo */
+.cad-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+/* 6 recursos em 3 colunas: duas fileiras cheias, sem card órfão. */
+.cad-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
 /* Barra e folha de filtros do celular — no desktop o painel lateral
    continua sendo o único controle, então ficam escondidas. */
 .mfilter-bar { display: none; }
@@ -325,6 +331,12 @@ body[data-menu-open] .wa-float { display: none !important; }
 
   /* O selo "Revenda autorizada" saía para fora da foto pela esquerda. */
   .hero-selo { left: 12px !important; right: 12px !important; bottom: 12px !important; }
+
+  /* Ezermec CAD: no celular as garantias empilham e o passo a passo
+     vira duas colunas, em vez de quatro apertadas. */
+  .cad-highlights { grid-template-columns: 1fr; gap: 10px; }
+  .cad-features { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cad-steps { grid-template-columns: 1fr 1fr; gap: 12px; }
 
   /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
      No celular viram uma fileira que desliza na horizontal, com encaixe
