@@ -44,10 +44,18 @@ export const cad = {
 
   // PLACEHOLDER: salvar os prints em /public/assets e preencher `src`.
   // Enquanto `src` for null, a página mostra o espaço reservado com o texto.
+  //
+  // `w` e `h` são as dimensões reais do arquivo: a moldura da página adota
+  // essa proporção, então o print aparece inteiro e sem faixas nas bordas.
   screenshots: [
-    { src: '/assets/cad-tela-principal.png' as string | null, alt: 'Tela principal do Ezermec CAD com as ferramentas, camadas e a ordem da costura' },
-    { src: null as string | null, alt: 'Painel de ordem da costura, interligação e retrocesso' },
-    { src: null as string | null, alt: 'Simulação da costura antes de exportar o NGC' },
+    {
+      src: '/assets/cad-tela-principal.png' as string | null,
+      w: 1917,
+      h: 978,
+      alt: 'Tela principal do Ezermec CAD com as ferramentas, camadas e a ordem da costura',
+    },
+    { src: null as string | null, w: 16, h: 10, alt: 'Painel de ordem da costura, interligação e retrocesso' },
+    { src: null as string | null, w: 16, h: 10, alt: 'Simulação da costura antes de exportar o NGC' },
   ],
 
   // PLACEHOLDER: confirmar requisitos reais.

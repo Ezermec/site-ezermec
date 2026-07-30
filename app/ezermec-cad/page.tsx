@@ -20,8 +20,9 @@ function icon(name: string) {
   return name.startsWith('ph-fill') ? name : `ph ${name}`;
 }
 
-// A primeira tela já aparece grande no hero. A galeria mostra as demais, e
-// só existe quando há print de verdade — nada de caixas vazias na página.
+// A primeira tela é a capa do hero. A galeria mostra as demais, e só existe
+// quando há print de verdade — nada de caixas vazias na página.
+const capa = cad.screenshots[0];
 const galeria = cad.screenshots.slice(1).filter((s) => s.src);
 
 export default function EzermecCadPage() {
@@ -58,10 +59,10 @@ export default function EzermecCadPage() {
           </div>
         </div>
 
-        {/* O fundo é o mesmo cinza-escuro da área de desenho do app, para as
-            faixas do enquadramento sumirem contra o print. */}
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
-          <ImageSlot placeholder={cad.screenshots[0].alt} src={cad.screenshots[0].src ?? undefined} fit="contain" />
+        {/* A moldura usa a proporção real do arquivo, então o print entra
+            inteiro e sem faixas sobrando em cima e embaixo. */}
+        <div style={{ position: 'relative', width: '100%', aspectRatio: `${capa.w}/${capa.h}`, borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
+          <ImageSlot placeholder={capa.alt} src={capa.src ?? undefined} fit="contain" />
         </div>
       </section>
 
@@ -113,7 +114,7 @@ export default function EzermecCadPage() {
           <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px', textAlign: 'center' }}>Telas do aplicativo</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
             {galeria.map((shot) => (
-              <div key={shot.alt} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
+              <div key={shot.alt} style={{ position: 'relative', aspectRatio: `${shot.w}/${shot.h}`, borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418' }}>
                 <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
               </div>
             ))}
