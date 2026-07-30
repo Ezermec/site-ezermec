@@ -89,38 +89,8 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
-      {/* RECURSOS */}
-      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 40 }}>
-        <div className="container" style={{ paddingTop: 52, paddingBottom: 52 }}>
-          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 28px', textAlign: 'center' }}>O que ele faz</h2>
-          <div className="cad-features">
-            {cad.features.map((f) => (
-              <div key={f.title} className="ez-card-h" style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
-                <span style={{ width: 46, height: 46, borderRadius: 13, background: '#fff', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 13 }}><i className={icon(f.icon)} /></span>
-                <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{f.title}</div>
-                <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 5 }}>{f.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PASSO A PASSO — quatro etapas curtas, numeradas. */}
-      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
-        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 26px', textAlign: 'center' }}>Como funciona</h2>
-        <div className="cad-steps">
-          {cad.steps.map(([title, desc], i) => (
-            <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
-              <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 9, background: 'var(--navy)', color: '#fff', fontWeight: 600, fontSize: 13 }}>{i + 1}</span>
-              <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)', marginTop: 12 }}>{title}</div>
-              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 4 }}>{desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* PLANOS */}
-      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 52 }}>
+      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 40 }}>
         <div className="container" style={{ paddingTop: 52, paddingBottom: 52 }}>
           <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 8px', textAlign: 'center' }}>Planos</h2>
           <p style={{ textAlign: 'center', fontSize: 15.5, color: 'var(--text)', margin: '0 0 30px' }}>
@@ -189,6 +159,36 @@ export default function EzermecCadPage() {
           </p>
         </div>
       </section>
+
+      {/* RECURSOS — sem faixa branca, porque a seção de planos logo acima já
+          usa esse fundo; duas faixas coladas viravam um bloco só. */}
+      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
+        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 28px', textAlign: 'center' }}>O que ele faz</h2>
+        <div className="cad-features">
+          {cad.features.map((f) => (
+            <div key={f.title} className="ez-card-h" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
+              <span style={{ width: 46, height: 46, borderRadius: 13, background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 13 }}><i className={icon(f.icon)} /></span>
+              <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{f.title}</div>
+              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 5 }}>{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PASSO A PASSO — quatro etapas curtas, numeradas. */}
+      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
+        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 26px', textAlign: 'center' }}>Como funciona</h2>
+        <div className="cad-steps">
+          {cad.steps.map(([title, desc], i) => (
+            <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
+              <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 9, background: 'var(--navy)', color: '#fff', fontWeight: 600, fontSize: 13 }}>{i + 1}</span>
+              <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)', marginTop: 12 }}>{title}</div>
+              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 4 }}>{desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
 
       {/* TELAS */}
       {galeria.length > 0 && (
