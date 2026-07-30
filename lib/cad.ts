@@ -35,12 +35,12 @@ export const cad = {
     { icon: 'ph-file-arrow-down', title: 'Exportação', desc: 'NGC, DXF e SVG.' },
   ],
 
-  // Planos de assinatura. O preço por mês cai conforme o período contratado;
-  // o desconto exibido é calculado em cima do plano de 6 meses.
+  // Planos de assinatura. `de` é o preço cheio (riscado na página) e `mensal`
+  // é o promocional; o percentual de desconto sai da comparação entre os dois.
   plans: [
-    { meses: 6, mensal: 49.9, selo: null as string | null, destaque: false },
-    { meses: 12, mensal: 39.9, selo: 'Mais popular' as string | null, destaque: false },
-    { meses: 24, mensal: 29.9, selo: 'Melhor preço' as string | null, destaque: true },
+    { meses: 6, de: 89.9, mensal: 49.9, selo: null as string | null, destaque: false },
+    { meses: 12, de: 69.9, mensal: 39.9, selo: 'Mais popular' as string | null, destaque: false },
+    { meses: 24, de: 49.9, mensal: 29.9, selo: 'Melhor preço' as string | null, destaque: true },
   ],
 
   steps: [
