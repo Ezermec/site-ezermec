@@ -57,12 +57,17 @@ export const cad = {
   // essa proporção, então o print aparece inteiro e sem faixas nas bordas.
   screenshots: [
     {
+      src: '/assets/cad-desenho-e-costura.jpg' as string | null,
+      w: 1600,
+      h: 900,
+      alt: 'Desenho de costura matelassê no Ezermec CAD ao lado do tecido já costurado com o mesmo padrão',
+    },
+    {
       src: '/assets/cad-tela-principal.png' as string | null,
       w: 1917,
       h: 978,
       alt: 'Tela principal do Ezermec CAD com as ferramentas, camadas e a ordem da costura',
     },
-    { src: null as string | null, w: 16, h: 10, alt: 'Painel de ordem da costura, interligação e retrocesso' },
     { src: null as string | null, w: 16, h: 10, alt: 'Simulação da costura antes de exportar o NGC' },
   ],
 
