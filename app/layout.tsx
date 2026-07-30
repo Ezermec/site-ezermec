@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { Archivo, JetBrains_Mono } from 'next/font/google';
+// Ícones servidos pelo próprio site. Antes vinham do unpkg.com a cada visita —
+// se aquele CDN caísse, todos os ícones do site sumiam.
+import '@phosphor-icons/web/regular';
+import '@phosphor-icons/web/fill';
 import './globals.css';
+import { siteUrl } from '@/lib/config';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
@@ -9,6 +14,8 @@ const archivo = Archivo({ subsets: ['latin'], weight: ['400', '500', '600', '700
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
+  // Base para as URLs absolutas dos metadados (compartilhamento, canônicas).
+  metadataBase: new URL(siteUrl),
   title: 'Ezermec — Peças e soluções para manutenção industrial',
   description:
     'Ezermec — peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Catálogo profissional de peças para máquinas industriais.',
@@ -18,10 +25,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${archivo.variable} ${mono.variable}`}>
-      <head>
-        <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-        <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
-      </head>
       <body>
         <Header />
         <div style={{ minHeight: '100vh', paddingTop: 'var(--header-h, 112px)' }}>

@@ -1,3 +1,10 @@
+/**
+ * Endereço público do site, usado no robots.txt, no sitemap e nas URLs
+ * absolutas dos metadados. Se um dia o domínio mudar, basta definir
+ * NEXT_PUBLIC_SITE_URL no ambiente — sem mexer no código.
+ */
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ezermec.com.br').replace(/\/$/, '');
+
 // Dados de contato
 const whatsappNumber = '5547996524168';
 const phoneDisplay = '(47) 99652-4168';

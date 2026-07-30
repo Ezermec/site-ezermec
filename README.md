@@ -64,10 +64,14 @@ npm start          # servir a build
 
 ## Deploy na Vercel
 
-**Site em produção:** https://site-ezermec.vercel.app
+**Site em produção:** https://ezermec.com.br
 
 Publica a partir da branch `main` no GitHub — o que não foi enviado com `git push`
 não está no ar. `http://localhost:3000` é só o servidor de desenvolvimento local.
+
+O endereço público também alimenta o `robots.txt`, o `sitemap.xml` e as URLs
+absolutas dos metadados (`lib/config.ts` → `siteUrl`). Se o domínio mudar,
+defina `NEXT_PUBLIC_SITE_URL` nas variáveis de ambiente da Vercel.
 
 A Vercel detecta o Next.js automaticamente — sem configuração manual de build.
 
