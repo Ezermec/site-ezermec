@@ -19,6 +19,10 @@ function icon(name: string) {
   return name.startsWith('ph-fill') ? name : `ph ${name}`;
 }
 
+// A primeira tela já aparece grande no hero. A galeria mostra as demais, e
+// só existe quando há print de verdade — nada de caixas vazias na página.
+const galeria = cad.screenshots.slice(1).filter((s) => s.src);
+
 export default function EzermecCadPage() {
   return (
     <main className="ez-fade">
@@ -32,11 +36,8 @@ export default function EzermecCadPage() {
       {/* HERO — logo, uma chamada, uma linha e os botões. */}
       <section className="container" style={{ paddingTop: 6, paddingBottom: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 44, alignItems: 'center' }}>
         <div>
-          {/* O logo do app só existe em branco (é o do topo escuro do aplicativo),
-              por isso vai sobre uma placa navy. O nome fica no <h1> como texto. */}
-          <div style={{ display: 'inline-flex', background: 'var(--navy)', borderRadius: 16, padding: '16px 22px', boxShadow: '0 20px 40px -24px rgba(5,40,87,.5)' }}>
-            <img src="/assets/logo-ezermec-cad-white.png" alt="Ezermec CAD" width={280} height={76} style={{ display: 'block', height: 52, width: 'auto' }} />
-          </div>
+          {/* Logo colorido do app, com fundo transparente. O nome fica no <h1>. */}
+          <img src="/assets/logo-ezermec-cad.png" alt="Ezermec CAD" width={760} height={207} style={{ display: 'block', height: 58, width: 'auto' }} />
           <h1 style={{ fontSize: 'clamp(26px,3.2vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.15, color: 'var(--navy)', maxWidth: 520 }}>{cad.tagline}</h1>
           <p style={{ fontSize: 16.5, lineHeight: 1.6, color: 'var(--text)', margin: '14px 0 0', maxWidth: 500 }}>{cad.description}</p>
 
@@ -62,7 +63,9 @@ export default function EzermecCadPage() {
           </div>
         </div>
 
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#0d1117', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
+        {/* O fundo é o mesmo cinza-escuro da área de desenho do app, para as
+            faixas do enquadramento sumirem contra o print. */}
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
           <ImageSlot placeholder={cad.screenshots[0].alt} src={cad.screenshots[0].src ?? undefined} fit="contain" />
         </div>
       </section>
@@ -110,16 +113,18 @@ export default function EzermecCadPage() {
       </section>
 
       {/* TELAS */}
-      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
-        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px', textAlign: 'center' }}>Telas do aplicativo</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
-          {cad.screenshots.map((shot) => (
-            <div key={shot.alt} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
-              <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
-            </div>
-          ))}
-        </div>
-      </section>
+      {galeria.length > 0 && (
+        <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
+          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px', textAlign: 'center' }}>Telas do aplicativo</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
+            {galeria.map((shot) => (
+              <div key={shot.alt} style={{ position: 'relative', aspectRatio: '16/10', borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
+                <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* REQUISITOS */}
       <section style={{ background: 'var(--navy)', marginTop: 52 }}>

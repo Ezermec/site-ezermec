@@ -46,7 +46,7 @@ export const cad = {
   // PLACEHOLDER: salvar os prints em /public/assets e preencher `src`.
   // Enquanto `src` for null, a página mostra o espaço reservado com o texto.
   screenshots: [
-    { src: null as string | null, alt: 'Tela principal do Ezermec CAD com o desenho e a ordem da costura' },
+    { src: '/assets/cad-tela-principal.png' as string | null, alt: 'Tela principal do Ezermec CAD com as ferramentas, camadas e a ordem da costura' },
     { src: null as string | null, alt: 'Painel de ordem da costura, interligação e retrocesso' },
     { src: null as string | null, alt: 'Simulação da costura antes de exportar o NGC' },
   ],
