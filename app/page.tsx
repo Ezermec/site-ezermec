@@ -70,6 +70,36 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* EZERMEC CAD — chamada para o aplicativo próprio. Os textos e a foto
+          vêm de lib/cad.ts, os mesmos da página do app, para não divergirem. */}
+      <section className="container" style={{ paddingTop: 56, paddingBottom: 8 }}>
+        <div className="home-cad">
+          <div className="home-cad-foto" style={{ aspectRatio: `${cadCapa.w}/${cadCapa.h}` }}>
+            <ImageSlot placeholder={cadCapa.alt} src={cadCapa.src ?? undefined} fit="contain" />
+          </div>
+
+          <div className="home-cad-texto">
+            <span className="eyebrow">Aplicativo da Ezermec</span>
+            <img
+              src="/assets/logo-ezermec-cad.png"
+              alt="Ezermec CAD"
+              width={760}
+              height={207}
+              style={{ display: 'block', height: 42, width: 'auto', margin: '14px 0 0' }}
+            />
+            <h2 style={{ fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, letterSpacing: '-.02em', margin: '16px 0 0', lineHeight: 1.2 }}>
+              {cad.tagline}
+            </h2>
+            <p style={{ fontSize: 15.5, lineHeight: 1.6, color: 'var(--text)', margin: '12px 0 0' }}>
+              {cad.description}
+            </p>
+            <Link href="/ezermec-cad" className="btn btn-navy ez-lift" style={{ padding: '14px 24px', fontSize: 15.5, marginTop: 22 }}>
+              Conhecer o {cad.name} <i className="ph ph-arrow-right" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* DIFERENCIAIS */}
       <section className="container" style={{ paddingTop: 64, paddingBottom: 20 }}>
         <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 40px' }}>
@@ -121,35 +151,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* EZERMEC CAD — chamada para o aplicativo próprio. Os textos e a foto
-          vêm de lib/cad.ts, os mesmos da página do app, para não divergirem. */}
-      <section className="container" style={{ paddingTop: 56, paddingBottom: 8 }}>
-        <div className="home-cad">
-          <div className="home-cad-foto" style={{ aspectRatio: `${cadCapa.w}/${cadCapa.h}` }}>
-            <ImageSlot placeholder={cadCapa.alt} src={cadCapa.src ?? undefined} fit="contain" />
-          </div>
-
-          <div className="home-cad-texto">
-            <span className="eyebrow">Aplicativo da Ezermec</span>
-            <img
-              src="/assets/logo-ezermec-cad.png"
-              alt="Ezermec CAD"
-              width={760}
-              height={207}
-              style={{ display: 'block', height: 42, width: 'auto', margin: '14px 0 0' }}
-            />
-            <h2 style={{ fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, letterSpacing: '-.02em', margin: '16px 0 0', lineHeight: 1.2 }}>
-              {cad.tagline}
-            </h2>
-            <p style={{ fontSize: 15.5, lineHeight: 1.6, color: 'var(--text)', margin: '12px 0 0' }}>
-              {cad.description}
-            </p>
-            <Link href="/ezermec-cad" className="btn btn-navy ez-lift" style={{ padding: '14px 24px', fontSize: 15.5, marginTop: 22 }}>
-              Conhecer o {cad.name} <i className="ph ph-arrow-right" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* SOBRE */}
       <section id="sobre" style={{ scrollMarginTop: 120, marginTop: 64, background: 'var(--navy)', color: '#fff' }}>
