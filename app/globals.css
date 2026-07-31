@@ -78,6 +78,34 @@ input::placeholder { color: var(--muted); }
 .cad-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 
+/* Chamada do Ezermec CAD na home: foto à esquerda, texto à direita. */
+.home-cad {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 40px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 30px;
+}
+.home-cad-foto {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #101418;
+}
+/* Notebook e tablet deitado: a foto encolhe demais em duas colunas largas. */
+@media (max-width: 1080px) {
+  .home-cad { grid-template-columns: 1fr 1fr; gap: 28px; padding: 24px; }
+}
+/* Tablet em pé e telas estreitas: empilha, com a foto primeiro. */
+@media (max-width: 880px) {
+  .home-cad { grid-template-columns: 1fr; gap: 24px; padding: 22px; }
+}
+
 /* Planos do Ezermec CAD */
 .cad-plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1120px; margin: 0 auto; align-items: start; }
 /* Em telas médias os quatro cards ficariam estreitos demais para o preço. */
@@ -349,6 +377,11 @@ body[data-menu-open] .wa-float { display: none !important; }
 
   /* O selo "Revenda autorizada" saía para fora da foto pela esquerda. */
   .hero-selo { left: 12px !important; right: 12px !important; bottom: 12px !important; }
+
+  /* Chamada do CAD na home: cartão mais justo e botão de largura cheia,
+     para acompanhar o resto da página no celular. */
+  .home-cad { padding: 16px; border-radius: 18px; gap: 18px; }
+  .home-cad-texto .btn { width: 100%; justify-content: center; }
 
   /* Ezermec CAD: no celular as garantias empilham e o passo a passo
      vira duas colunas, em vez de quatro apertadas. */
