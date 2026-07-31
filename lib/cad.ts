@@ -50,10 +50,10 @@ export const cad = {
   ],
 
   plans: [
-    { titulo: '6 meses', meses: 6, de: 89.9, mensal: 49.7, unico: null, selo: null, destaque: false },
-    { titulo: '12 meses', meses: 12, de: 69.9, mensal: 38.8, unico: null, selo: 'Mais popular', destaque: false },
-    { titulo: '24 meses', meses: 24, de: 49.9, mensal: 29.9, unico: null, selo: 'Melhor mensalidade', destaque: false },
-    { titulo: 'Vitalício', meses: null, de: null, mensal: null, unico: 897, selo: 'Pague uma vez', destaque: true },
+    { titulo: '6 meses', meses: 6, de: 89.7, mensal: 49.7, unico: null, selo: null, destaque: false },
+    { titulo: '12 meses', meses: 12, de: 78.8, mensal: 38.8, unico: null, selo: 'Mais popular', destaque: false },
+    { titulo: '24 meses', meses: 24, de: 69.9, mensal: 29.9, unico: null, selo: 'Melhor mensalidade', destaque: false },
+    { titulo: 'Vitalício', meses: null, de: 958, mensal: null, unico: 897, selo: 'Pague uma vez', destaque: true },
   ] satisfies CadPlan[],
 
   steps: [

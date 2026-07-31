@@ -124,9 +124,14 @@ export default function EzermecCadPage() {
                     {p.titulo}
                   </div>
 
-                  {/* Preço cheio riscado, acima do promocional. */}
+                  {/* Preço cheio riscado, acima do promocional. O "/mês" só
+                      vale para as assinaturas — o vitalício é valor fechado. */}
                   <div style={{ fontSize: 14.5, color: 'var(--muted)', marginTop: 10 }}>
-                    {p.de ? <>de <s>{brl.format(p.de)}</s>/mês por</> : 'valor único'}
+                    {p.de ? (
+                      <>de <s>{brl.format(p.de)}</s>{p.unico === null && '/mês'} por</>
+                    ) : (
+                      'valor único'
+                    )}
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 4 }}>
