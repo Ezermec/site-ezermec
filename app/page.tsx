@@ -76,7 +76,7 @@ export default async function HomePage() {
           <span className="eyebrow">Por que a Ezermec</span>
           <h2 style={{ fontSize: 'clamp(26px,3vw,36px)', fontWeight: 800, letterSpacing: '-.02em', margin: '12px 0 0' }}>Confiança, estoque e suporte técnico</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(230px,1fr))', gap: 18 }}>
+        <div className="dif-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(230px,1fr))', gap: 18 }}>
           {DIFERENCIAIS.map((d) => (
             <div key={d.title} className="ez-card-h" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 24 }}>
               <span style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, marginBottom: 16 }}><i className={`ph ${d.icon}`} /></span>

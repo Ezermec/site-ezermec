@@ -411,6 +411,23 @@ body[data-menu-open] .wa-float { display: none !important; }
   .cat-grid::-webkit-scrollbar { display: none; }
   .cat-grid > a { flex: 0 0 152px; scroll-snap-align: start; }
 
+  /* DIFERENCIAIS — mesmo tratamento: são 8 cards, que empilhados davam uma
+     rolagem longa. Ficam mais largos que as categorias porque têm descrição. */
+  .dif-grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 12px !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-left: -24px; margin-right: -24px;
+    padding-left: 24px; padding-right: 24px;
+    scroll-padding-left: 24px;
+  }
+  .dif-grid::-webkit-scrollbar { display: none; }
+  .dif-grid > div { flex: 0 0 224px; scroll-snap-align: start; }
+
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }
 }
@@ -422,6 +439,6 @@ body[data-menu-open] .wa-float { display: none !important; }
   .logo-btn img { height: 30px !important; }
   .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
   .container { padding-left: 16px; padding-right: 16px; }
-  /* A sangria da fileira de categorias acompanha o recuo menor do container. */
-  .cat-grid { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; scroll-padding-left: 16px; }
+  /* A sangria das fileiras acompanha o recuo menor do container. */
+  .cat-grid, .dif-grid { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; scroll-padding-left: 16px; }
 }
