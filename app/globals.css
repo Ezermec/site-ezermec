@@ -77,6 +77,8 @@ input::placeholder { color: var(--muted); }
 /* 6 recursos em 3 colunas: duas fileiras cheias, sem card órfão. */
 .cad-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+/* Vantagens: duas colunas, com espaço para a frase de cada uma respirar. */
+.cad-vantagens { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 34px; max-width: 920px; margin: 0 auto; }
 
 /* Chamada do Ezermec CAD na home: foto à esquerda, texto à direita. */
 .home-cad {
@@ -388,6 +390,8 @@ body[data-menu-open] .wa-float { display: none !important; }
   .cad-highlights { grid-template-columns: 1fr; gap: 10px; }
   .cad-features { grid-template-columns: 1fr 1fr; gap: 12px; }
   .cad-steps { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* Vantagens empilham: em duas colunas a frase quebraria demais. */
+  .cad-vantagens { grid-template-columns: 1fr; gap: 20px; }
   /* Planos empilhados: em três colunas o preço grande não caberia. */
   .cad-plans { grid-template-columns: 1fr; gap: 22px; }
 

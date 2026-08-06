@@ -40,6 +40,31 @@ export const cad = {
     ['ph-headset', 'Suporte da Ezermec'],
   ] as Array<[string, string]>,
 
+  // Vantagens em relação ao jeito antigo de trabalhar. A primeira veio da
+  // Ezermec; as outras saíram dos recursos do próprio aplicativo.
+  advantages: [
+    {
+      icon: 'ph-arrow-line-right',
+      title: 'Sem conversor NGC',
+      desc: 'O arquivo sai do desenho direto para a máquina, sem passar por outro programa.',
+    },
+    {
+      icon: 'ph-file-dashed',
+      title: 'Aproveita seus DXF',
+      desc: 'Abre desenhos que você já tem e transforma em costura.',
+    },
+    {
+      icon: 'ph-eye',
+      title: 'Erro aparece na tela',
+      desc: 'A simulação mostra a costura antes de gastar tecido e tempo de máquina.',
+    },
+    {
+      icon: 'ph-fill ph-seal-check',
+      title: 'Feito por quem conhece a máquina',
+      desc: 'Desenvolvido pela Ezermec, revenda autorizada Fischertec.',
+    },
+  ],
+
   features: [
     { icon: 'ph-pencil-simple-line', title: 'Desenho da costura', desc: 'Retas, curvas e contornos na tela.' },
     { icon: 'ph-ruler', title: 'Escala real', desc: 'O que você vê é o que a máquina costura.' },

@@ -191,6 +191,27 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
+      {/* VANTAGENS — o que muda em relação ao jeito antigo de trabalhar.
+          Diferente de "O que ele faz", que lista recursos. */}
+      <section style={{ background: 'var(--navy)', marginTop: 52 }}>
+        <div className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 30px', textAlign: 'center' }}>
+            Por que compensa
+          </h2>
+          <div className="cad-vantagens">
+            {cad.advantages.map((v) => (
+              <div key={v.title} style={{ display: 'flex', gap: 15 }}>
+                <i className={icon(v.icon)} style={{ fontSize: 26, color: 'var(--orange2)', flex: 'none', marginTop: 2 }} />
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 16.5, color: '#fff' }}>{v.title}</div>
+                  <div style={{ fontSize: 14, color: '#dce7f4', lineHeight: 1.55, marginTop: 4 }}>{v.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PASSO A PASSO — quatro etapas curtas, numeradas. */}
       <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
         <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 26px', textAlign: 'center' }}>Como funciona</h2>
