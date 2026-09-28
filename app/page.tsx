@@ -9,7 +9,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { ImageSlot } from '@/components/ImageSlot';
 
 // Foto de capa do Ezermec CAD, a mesma usada no topo da página do aplicativo.
-const cadCapa = cad.screenshots[0];
+const cadCapa = cad.capa;
 
 export default async function HomePage() {
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
@@ -75,7 +75,7 @@ export default async function HomePage() {
       <section className="container" style={{ paddingTop: 56, paddingBottom: 8 }}>
         <div className="home-cad">
           <div className="home-cad-foto" style={{ aspectRatio: `${cadCapa.w}/${cadCapa.h}` }}>
-            <ImageSlot placeholder={cadCapa.alt} src={cadCapa.src ?? undefined} fit="contain" />
+            <ImageSlot placeholder={cadCapa.alt} src={cadCapa.src} fit="contain" />
           </div>
 
           <div className="home-cad-texto">

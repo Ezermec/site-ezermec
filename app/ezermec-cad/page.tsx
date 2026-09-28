@@ -1,12 +1,22 @@
+import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { site } from '@/lib/config';
-import { cad } from '@/lib/cad';
-import { ImageSlot } from '@/components/ImageSlot';
+import { cad, type CadVisual } from '@/lib/cad';
+import { IlustracaoArquivo, IlustracaoDesenho, IlustracaoOrdem, IlustracaoSimulacao } from './Ilustracoes';
+import css from './cad.module.css';
 
 export const metadata: Metadata = {
-  title: `${cad.name} — aplicativo CAD da Ezermec`,
-  description: cad.tagline,
+  title: `${cad.name} — desenhos de costura para máquinas Fischertec`,
+  description: cad.description,
+  // A foto do desenho ao lado do tecido vira a prévia quando o link é
+  // compartilhado no WhatsApp — que é por onde o programa é vendido.
+  openGraph: {
+    title: `${cad.name} — ${cad.tagline}`,
+    description: cad.description,
+    images: [{ url: cad.capa.src, width: cad.capa.w, height: cad.capa.h, alt: cad.capa.alt }],
+  },
 };
 
 // O instalador é enviado pela equipe — não existe download direto no site.
@@ -15,17 +25,6 @@ const waCad =
   site.whatsappNumber +
   '?text=' +
   encodeURIComponent('Olá! Gostaria de receber o Ezermec CAD.');
-
-function icon(name: string) {
-  return name.startsWith('ph-fill') ? name : `ph ${name}`;
-}
-
-// A primeira tela é a capa do hero. A galeria mostra as demais, e só existe
-// quando há print de verdade — nada de caixas vazias na página.
-const capa = cad.screenshots[0];
-const galeria = cad.screenshots.slice(1).filter((s) => s.src);
-
-const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
 function waPlano(titulo: string) {
   return (
@@ -36,71 +35,187 @@ function waPlano(titulo: string) {
   );
 }
 
+function icon(name: string) {
+  return name.startsWith('ph-fill') ? name : `ph ${name}`;
+}
+
+const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+const VISUAIS: Record<CadVisual, () => React.JSX.Element> = {
+  desenho: IlustracaoDesenho,
+  ordem: IlustracaoOrdem,
+  simulacao: IlustracaoSimulacao,
+  arquivo: IlustracaoArquivo,
+};
+
 export default function EzermecCadPage() {
+  const { antes, agora, etapaExtra } = cad.comparacao;
+
   return (
-    <main className="ez-fade">
-      <div className="container" style={{ paddingTop: 26 }}>
-        <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
-          <Link href="/" style={{ color: 'var(--muted)' }}>Início</Link>
-          <i className="ph ph-caret-right" style={{ fontSize: 12 }} /><span style={{ color: 'var(--navy)' }}>{cad.name}</span>
-        </div>
-      </div>
+    <main className={`ez-fade ${css.page}`}>
+      {/* TOPO — o que é, em uma frase, e a foto que mostra o resultado. */}
+      <section className={css.hero}>
+        <div className={`${css.heroFundo} ${css.grade}`} aria-hidden="true" />
+        <div className={`container ${css.heroConteudo}`}>
+          <nav className={css.trilha} aria-label="Você está em">
+            <Link href="/">Início</Link>
+            <i className="ph ph-caret-right" aria-hidden="true" />
+            <span>{cad.name}</span>
+          </nav>
 
-      {/* HERO — logo, uma chamada, uma linha e os botões. */}
-      <section className="container" style={{ paddingTop: 6, paddingBottom: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 44, alignItems: 'center' }}>
-        <div>
-          {/* Logo colorido do app, com fundo transparente. O nome fica no <h1>. */}
-          <img src="/assets/logo-ezermec-cad.png" alt="Ezermec CAD" width={760} height={207} style={{ display: 'block', height: 58, width: 'auto' }} />
-          <h1 style={{ fontSize: 'clamp(26px,3.2vw,38px)', fontWeight: 800, letterSpacing: '-.02em', margin: '20px 0 0', lineHeight: 1.15, color: 'var(--navy)', maxWidth: 520 }}>{cad.tagline}</h1>
-          <p style={{ fontSize: 16.5, lineHeight: 1.6, color: 'var(--text)', margin: '14px 0 0', maxWidth: 500 }}>{cad.description}</p>
-
-          {/* `hero-cta` já traz a regra de celular: botões em coluna, largura cheia. */}
-          <div className="hero-cta" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 24 }}>
-            <a href={waCad} target="_blank" rel="noopener" className="btn btn-navy ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-              <i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20 }} />Solicitar pelo WhatsApp
-            </a>
-            <a href={site.mailGeneral} className="btn btn-white ez-lift" style={{ padding: '15px 26px', fontSize: 16 }}>
-              <i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />Enviar e-mail
-            </a>
+          <div className={css.heroTexto}>
+            <img
+              src="/assets/logo-ezermec-cad-escuro.png"
+              alt={cad.name}
+              width={760}
+              height={207}
+              className={css.heroLogo}
+            />
+            <h1 className={css.heroTitulo}>
+              {cad.headline[0]} <span>{cad.headline[1]}</span>
+            </h1>
+            <p className={css.heroLead}>{cad.description}</p>
+            <div className={css.heroBotoes}>
+              <a href={waCad} target="_blank" rel="noopener" className={`btn btn-orange ez-lift ${css.btnGrande}`}>
+                <i className="ph-fill ph-whatsapp-logo" />Solicitar pelo WhatsApp
+              </a>
+              <a href="#planos" className={`btn ez-lift ${css.btnGrande} ${css.btnVazado}`}>
+                Ver planos <i className="ph ph-arrow-down" />
+              </a>
+            </div>
+            <ul className={css.heroChecks}>
+              {cad.heroChecks.map((c) => (
+                <li key={c}><i className="ph-fill ph-check-circle" />{c}</li>
+              ))}
+            </ul>
           </div>
 
-          <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--muted)', marginTop: 14 }}>
-            <i className="ph ph-windows-logo" style={{ fontSize: 15 }} />
-            Windows (.exe){cad.version && ` · versão ${cad.version}`} · enviado pela equipe
-          </div>
-        </div>
-
-        {/* A moldura usa a proporção real do arquivo, então o print entra
-            inteiro e sem faixas sobrando em cima e embaixo. */}
-        <div style={{ position: 'relative', width: '100%', aspectRatio: `${capa.w}/${capa.h}`, borderRadius: 22, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418', boxShadow: '0 30px 60px -34px rgba(5,40,87,.35)' }}>
-          <ImageSlot placeholder={capa.alt} src={capa.src ?? undefined} fit="contain" />
+          <figure className={css.heroFoto}>
+            <Image
+              src={cad.capa.src}
+              alt={cad.capa.alt}
+              width={cad.capa.w}
+              height={cad.capa.h}
+              sizes="(max-width: 1180px) 100vw, 1120px"
+              priority
+            />
+            <figcaption className={css.fotoEtiquetas}>
+              <span className={`${css.etiqueta} ${css.etiquetaCad}`}>
+                <b>1</b>
+                <span className={css.longo}>Você desenha no {cad.name}</span>
+                <span className={css.curto}>Você desenha</span>
+              </span>
+              <span className={css.divisa} aria-hidden="true"><i className="ph ph-arrow-right" /></span>
+              <span className={`${css.etiqueta} ${css.etiquetaTecido}`}>
+                <b>2</b>A máquina costura
+              </span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* GARANTIAS — três itens de bater o olho, sem parágrafo. */}
-      <section className="container" style={{ paddingBottom: 8 }}>
-        <div className="cad-highlights">
-          {cad.highlights.map(([ic, label]) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid var(--border)', borderRadius: 14, padding: '15px 18px' }}>
-              <i className={icon(ic)} style={{ fontSize: 22, color: 'var(--orange)' }} />
-              <span style={{ fontWeight: 600, fontSize: 14.5, color: 'var(--navy)' }}>{label}</span>
+      {/* POR QUE COMPENSA — a grande vantagem, contada como comparação. */}
+      <section className={css.section} id="vantagens">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Por que compensa</span>
+            <h2>Sem conversor NGC.</h2>
+            <p>O arquivo já sai pronto, direto do desenho para a máquina.</p>
+          </header>
+
+          <div className={css.comparacao}>
+            <div className={css.lado}>
+              <div className={css.ladoTopo}>
+                <span className={css.ladoNome}>Sem o {cad.name}</span>
+                <span className={css.ladoConta}>{antes.length} etapas</span>
+              </div>
+              <ol className={css.fluxo}>
+                {antes.map((etapa, i) => (
+                  <li key={etapa} className={i === etapaExtra ? css.fluxoExtra : undefined}>
+                    <span className={css.fluxoN}>{i + 1}</span>
+                    <span className={css.fluxoTexto}>{etapa}</span>
+                    {i === etapaExtra && <em>etapa a mais</em>}
+                  </li>
+                ))}
+              </ol>
             </div>
-          ))}
+
+            <div className={`${css.lado} ${css.ladoNovo}`}>
+              <div className={css.ladoTopo}>
+                <span className={css.ladoNome}>Com o {cad.name}</span>
+                <span className={css.ladoConta}>{agora.length} etapas</span>
+              </div>
+              <ol className={css.fluxo}>
+                {agora.map((etapa, i) => (
+                  <li key={etapa}>
+                    <span className={css.fluxoN}>{i + 1}</span>
+                    <span className={css.fluxoTexto}>{etapa}</span>
+                  </li>
+                ))}
+              </ol>
+              <p className={css.ganho}>
+                <i className="ph-fill ph-check-circle" />
+                O NGC já sai com a configuração da sua máquina.
+              </p>
+            </div>
+          </div>
+
+          <ul className={css.vantagens}>
+            {cad.advantages.map((v) => (
+              <li key={v.title}>
+                <i className={icon(v.icon)} />
+                <div>
+                  <strong>{v.title}</strong>
+                  <span>{v.desc}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* COMPATIBILIDADE — a primeira dúvida de quem vai comprar. */}
+      <section className={`${css.compat} ${css.faixa}`}>
+        <div className="container">
+          <div className={css.compatGrade}>
+            <div>
+              <span className="eyebrow">Compatibilidade</span>
+              <h2>Pronto para a sua Fischertec</h2>
+              <p>Tamanho do ponto, velocidade, bastidor e retirada do quadro já vão configurados no arquivo.</p>
+            </div>
+            <div>
+              <div className={css.grupoChips}>
+                <div className={css.chipsRotulo}>Máquinas</div>
+                <ul className={css.chips}>
+                  {cad.compat.maquinas.map((m) => (
+                    <li key={m}><i className="ph-fill ph-check-circle" />{m}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className={css.grupoChips}>
+                <div className={css.chipsRotulo}>Para quem faz</div>
+                <ul className={css.chips}>
+                  {cad.compat.usos.map((u) => <li key={u}>{u}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* PLANOS */}
-      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', marginTop: 40 }}>
-        <div className="container" style={{ paddingTop: 52, paddingBottom: 52 }}>
-          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 8px', textAlign: 'center' }}>Planos</h2>
-          <p style={{ textAlign: 'center', fontSize: 15.5, color: 'var(--text)', margin: '0 0 30px' }}>
-            Quanto maior o período, menor a mensalidade.
-          </p>
+      <section className={css.section} id="planos">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Planos</span>
+            <h2>Escolha o período</h2>
+            <p>Todos incluem o aplicativo completo e o suporte da Ezermec.</p>
+          </header>
 
-          <div className="cad-plans">
+          <div className={css.planos}>
             {cad.plans.map((p) => {
-              // O vitalício é pagamento único: mostra o valor cheio e não tem
-              // preço riscado, percentual nem total de período.
+              // O vitalício é pagamento único: não tem "/mês", percentual nem
+              // total de período.
               const valor = p.unico ?? p.mensal ?? 0;
               const desconto = p.de && p.mensal ? Math.round((1 - p.mensal / p.de) * 100) : 0;
               const rodape =
@@ -109,59 +224,24 @@ export default function EzermecCadPage() {
                   : `${brl.format((p.mensal ?? 0) * (p.meses ?? 0))} pelos ${p.meses} meses`;
 
               return (
-                <div
-                  key={p.titulo}
-                  className="cad-plan"
-                  style={p.destaque ? { borderColor: 'var(--orange)', borderWidth: 2, boxShadow: '0 24px 50px -30px rgba(245,102,12,.55)' } : undefined}
-                >
-                  {p.selo && (
-                    <span className="cad-plan-selo" style={p.destaque ? undefined : { background: 'var(--navy)' }}>
-                      {p.selo}
-                    </span>
-                  )}
-
-                  <div className="mono" style={{ fontSize: 12, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>
-                    {p.titulo}
+                <div key={p.titulo} className={`${css.plano} ${p.destaque ? css.planoDestaque : ''}`}>
+                  {p.selo && <span className={css.planoSelo}>{p.selo}</span>}
+                  <div className={css.planoPeriodo}>{p.titulo}</div>
+                  <div className={css.planoDe}>
+                    {p.de ? <>de <s>{brl.format(p.de)}</s>{p.unico === null && '/mês'} por</> : 'valor único'}
                   </div>
-
-                  {/* Preço cheio riscado, acima do promocional. O "/mês" só
-                      vale para as assinaturas — o vitalício é valor fechado. */}
-                  <div style={{ fontSize: 14.5, color: 'var(--muted)', marginTop: 10 }}>
-                    {p.de ? (
-                      <>de <s>{brl.format(p.de)}</s>{p.unico === null && '/mês'} por</>
-                    ) : (
-                      'valor único'
-                    )}
+                  <div className={css.planoPreco}>
+                    <small>R$</small>
+                    <strong>{valor.toFixed(2).replace('.', ',')}</strong>
+                    {p.unico === null && <span>/mês</span>}
                   </div>
-
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 4 }}>
-                    <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--navy)' }}>R$</span>
-                    <span style={{ fontSize: 40, fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', lineHeight: 1 }}>
-                      {valor.toFixed(2).replace('.', ',')}
-                    </span>
-                    {p.unico === null && <span style={{ fontSize: 15, color: 'var(--muted)', fontWeight: 600 }}>/mês</span>}
-                  </div>
-
-                  {desconto > 0 ? (
-                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: 12, background: '#fdede1', color: 'var(--orange)', fontWeight: 700, fontSize: 13, padding: '5px 11px', borderRadius: 100 }}>
-                      Economize {desconto}%
-                    </span>
-                  ) : (
-                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: 12, background: '#fdede1', color: 'var(--orange)', fontWeight: 700, fontSize: 13, padding: '5px 11px', borderRadius: 100 }}>
-                      Acesso para sempre
-                    </span>
-                  )}
-
-                  <div style={{ fontSize: 13.5, color: 'var(--text)', marginTop: 14, lineHeight: 1.5 }}>
-                    {rodape}
-                  </div>
-
+                  <span className={css.planoTag}>{desconto > 0 ? `Economize ${desconto}%` : 'Acesso para sempre'}</span>
+                  <div className={css.planoTotal}>{rodape}</div>
                   <a
                     href={waPlano(p.titulo)}
                     target="_blank"
                     rel="noopener"
-                    className={`btn ez-lift ${p.destaque ? 'btn-orange' : 'btn-white'}`}
-                    style={{ justifyContent: 'center', padding: '14px 20px', fontSize: 15.5, marginTop: 18 }}
+                    className={`btn ez-lift ${p.destaque ? 'btn-orange' : 'btn-white'} ${css.planoBotao}`}
                   >
                     Contratar
                   </a>
@@ -169,102 +249,128 @@ export default function EzermecCadPage() {
               );
             })}
           </div>
-
-          <p style={{ textAlign: 'center', fontSize: 13.5, color: 'var(--muted)', margin: '24px 0 0' }}>
-            Todos os planos incluem o aplicativo completo e o suporte da Ezermec.
-          </p>
         </div>
       </section>
 
-      {/* RECURSOS — sem faixa branca, porque a seção de planos logo acima já
-          usa esse fundo; duas faixas coladas viravam um bloco só. */}
-      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
-        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 28px', textAlign: 'center' }}>O que ele faz</h2>
-        <div className="cad-features">
-          {cad.features.map((f) => (
-            <div key={f.title} className="ez-card-h" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
-              <span style={{ width: 46, height: 46, borderRadius: 13, background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 13 }}><i className={icon(f.icon)} /></span>
-              <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--navy)' }}>{f.title}</div>
-              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 5 }}>{f.desc}</div>
+      {/* COMO FUNCIONA — os quatro passos, cada um com a sua ilustração. */}
+      <section className={`${css.section} ${css.faixa}`} id="como-funciona">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Como funciona</span>
+            <h2>Do desenho à máquina em 4 passos</h2>
+          </header>
+
+          <ol className={css.passos}>
+            {cad.steps.map((p, i) => {
+              const Visual = VISUAIS[p.visual];
+              return (
+                <li key={p.titulo} className={css.passo}>
+                  <div className={css.passoArte}><Visual /></div>
+                  <div className={css.passoTexto}>
+                    <span className={css.passoN}>Passo {i + 1}</span>
+                    <h3>{p.titulo}</h3>
+                    <p>{p.texto}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+
+      {/* CONHEÇA A TELA — o print real, com marcadores numerados. */}
+      <section className={`${css.section} ${css.tela} ${css.grade}`} id="tela">
+        <div className="container">
+          <header className={`${css.head} ${css.headEscuro}`}>
+            <span className="eyebrow">Por dentro do programa</span>
+            <h2>Conheça a tela</h2>
+            <p>Tudo numa tela só, organizado como num CAD.</p>
+          </header>
+
+          <div className={css.janela}>
+            <div className={css.janelaTitulo}>
+              <img src="/assets/cad-icone-escuro.png" alt="" width={131} height={40} />
+              {cad.name}
+              <span className={css.janelaBotoes} aria-hidden="true">
+                <i className="ph ph-minus" />
+                <i className="ph ph-square" />
+                <i className="ph ph-x" />
+              </span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* VANTAGENS — o que muda em relação ao jeito antigo de trabalhar.
-          Diferente de "O que ele faz", que lista recursos. */}
-      <section style={{ background: 'var(--navy)', marginTop: 52 }}>
-        <div className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
-          <h2 style={{ color: '#fff', fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 30px', textAlign: 'center' }}>
-            Por que compensa
-          </h2>
-          <div className="cad-vantagens">
-            {cad.advantages.map((v) => (
-              <div key={v.title} style={{ display: 'flex', gap: 15 }}>
-                <i className={icon(v.icon)} style={{ fontSize: 26, color: 'var(--orange2)', flex: 'none', marginTop: 2 }} />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 16.5, color: '#fff' }}>{v.title}</div>
-                  <div style={{ fontSize: 14, color: '#dce7f4', lineHeight: 1.55, marginTop: 4 }}>{v.desc}</div>
-                </div>
+            <div className={css.janelaTela}>
+              <div className={css.janelaPrint}>
+                <Image
+                  src={cad.tela.src}
+                  alt={cad.tela.alt}
+                  width={cad.tela.w}
+                  height={cad.tela.h}
+                  sizes="(max-width: 1180px) 100vw, 1120px"
+                />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PASSO A PASSO — quatro etapas curtas, numeradas. */}
-      <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
-        <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 26px', textAlign: 'center' }}>Como funciona</h2>
-        <div className="cad-steps">
-          {cad.steps.map(([title, desc], i) => (
-            <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 20 }}>
-              <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 9, background: 'var(--navy)', color: '#fff', fontWeight: 600, fontSize: 13 }}>{i + 1}</span>
-              <div style={{ fontWeight: 700, fontSize: 16.5, color: 'var(--navy)', marginTop: 12 }}>{title}</div>
-              <div style={{ fontSize: 13.5, color: 'var(--text)', lineHeight: 1.45, marginTop: 4 }}>{desc}</div>
+              <ol className={css.marcas} aria-hidden="true">
+                {cad.tour.map((t, i) => (
+                  <li key={t.titulo} style={{ left: `${t.x}%`, top: `${t.y}%` }}>{i + 1}</li>
+                ))}
+              </ol>
             </div>
-          ))}
-        </div>
-      </section>
-
-
-      {/* TELAS */}
-      {galeria.length > 0 && (
-        <section className="container" style={{ paddingTop: 52, paddingBottom: 8 }}>
-          <h2 style={{ fontSize: 'clamp(23px,2.6vw,30px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px', textAlign: 'center' }}>Telas do aplicativo</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16 }}>
-            {galeria.map((shot) => (
-              <div key={shot.alt} style={{ position: 'relative', aspectRatio: `${shot.w}/${shot.h}`, borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)', background: '#101418' }}>
-                <ImageSlot placeholder={shot.alt} src={shot.src ?? undefined} fit="contain" />
-              </div>
-            ))}
           </div>
-        </section>
-      )}
 
-      {/* REQUISITOS */}
-      <section style={{ background: 'var(--navy)', marginTop: 52 }}>
-        <div className="container" style={{ paddingTop: 46, paddingBottom: 46 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(190px,1fr))', gap: 16 }}>
-            {cad.requirements.map(([ic, label, value]) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
-                <i className={icon(ic)} style={{ fontSize: 24, color: 'var(--orange2)', flex: 'none' }} />
+          <ol className={css.legenda}>
+            {cad.tour.map((t, i) => (
+              <li key={t.titulo}>
+                <span className={css.legendaN}>{i + 1}</span>
                 <div>
-                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: '.1em', textTransform: 'uppercase', color: '#8fa6c4' }}>{label}</div>
-                  <div style={{ fontWeight: 700, fontSize: 15, color: '#fff', marginTop: 2 }}>{value}</div>
+                  <strong>{t.titulo}</strong>
+                  <p>{t.texto}</p>
+                  {t.grupos && (
+                    <ul className={css.grupos}>
+                      {cad.toolGroups.map((g) => (
+                        <li key={g.nome} style={{ '--gc': g.cor } as CSSProperties}>{g.nome}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-              </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* PERGUNTAS — a primeira já vem aberta, porque é a dúvida mais comum. */}
+      <section className={css.section} id="perguntas">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Dúvidas</span>
+            <h2>Perguntas frequentes</h2>
+          </header>
+          <div className={css.perguntas}>
+            {cad.faq.map((f, i) => (
+              <details key={f.q} className={css.pergunta} open={i === 0}>
+                <summary>
+                  {f.q}
+                  <i className="ph ph-plus" aria-hidden="true" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <div style={{ background: 'linear-gradient(120deg,#f5660c,#ff7a1a)', borderRadius: 24, padding: 38, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap', boxShadow: '0 30px 60px -30px rgba(245,102,12,.5)' }}>
-          <h2 style={{ color: '#fff', fontSize: 'clamp(22px,2.4vw,29px)', fontWeight: 800, margin: 0, letterSpacing: '-.02em' }}>Quer usar o {cad.name}?</h2>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href={waCad} target="_blank" rel="noopener" className="btn ez-lift" style={{ background: '#fff', color: 'var(--navy)', padding: '15px 26px', fontSize: 16 }}><i className="ph-fill ph-whatsapp-logo" style={{ fontSize: 20, color: 'var(--green)' }} />WhatsApp</a>
-            <a href={site.mailGeneral} className="btn ez-lift" style={{ background: 'rgba(5,40,87,.9)', color: '#fff', padding: '15px 26px', fontSize: 16 }}><i className="ph ph-envelope-simple" style={{ fontSize: 20 }} />E-mail</a>
+      {/* CHAMADA FINAL */}
+      <section className="container" style={{ paddingBottom: 56 }}>
+        <div className={css.chamada}>
+          <div>
+            <h2>Quer usar o {cad.name}?</h2>
+            <p>Escolha o plano e chame a gente — o instalador vai pelo WhatsApp.</p>
+          </div>
+          <div className={css.chamadaBotoes}>
+            <a href={waCad} target="_blank" rel="noopener" className={`btn ez-lift ${css.btnBranco}`}>
+              <i className="ph-fill ph-whatsapp-logo" />WhatsApp
+            </a>
+            <a href={site.mailGeneral} className={`btn ez-lift ${css.btnMarinho}`}>
+              <i className="ph ph-envelope-simple" />E-mail
+            </a>
           </div>
         </div>
       </section>

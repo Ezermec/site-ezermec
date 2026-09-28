@@ -72,14 +72,6 @@ input::placeholder { color: var(--muted); }
 /* Versão curta do texto do hero — só aparece no celular. */
 .lead-short { display: none; }
 
-/* Ezermec CAD: garantias e passo a passo */
-.cad-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-/* 6 recursos em 3 colunas: duas fileiras cheias, sem card órfão. */
-.cad-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.cad-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-/* Vantagens: duas colunas, com espaço para a frase de cada uma respirar. */
-.cad-vantagens { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 34px; max-width: 920px; margin: 0 auto; }
-
 /* Chamada do Ezermec CAD na home: foto à esquerda, texto à direita. */
 .home-cad {
   display: grid;
@@ -106,24 +98,6 @@ input::placeholder { color: var(--muted); }
 /* Tablet em pé e telas estreitas: empilha, com a foto primeiro. */
 @media (max-width: 880px) {
   .home-cad { grid-template-columns: 1fr; gap: 24px; padding: 22px; }
-}
-
-/* Planos do Ezermec CAD */
-.cad-plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1120px; margin: 0 auto; align-items: start; }
-/* Em telas médias os quatro cards ficariam estreitos demais para o preço. */
-@media (max-width: 1060px) { .cad-plans { grid-template-columns: 1fr 1fr; gap: 20px; max-width: 620px; } }
-.cad-plan {
-  position: relative; display: flex; flex-direction: column;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 18px;
-  padding: 26px 24px 24px;
-}
-/* O selo fica montado na borda de cima do card, como nas tabelas de preço
-   das hospedagens. */
-.cad-plan-selo {
-  position: absolute; top: 0; left: 24px; transform: translateY(-50%);
-  background: var(--orange); color: #fff;
-  font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
-  padding: 5px 12px; border-radius: 100px; white-space: nowrap;
 }
 
 /* Barra e folha de filtros do celular — no desktop o painel lateral
@@ -384,16 +358,6 @@ body[data-menu-open] .wa-float { display: none !important; }
      para acompanhar o resto da página no celular. */
   .home-cad { padding: 16px; border-radius: 18px; gap: 18px; }
   .home-cad-texto .btn { width: 100%; justify-content: center; }
-
-  /* Ezermec CAD: no celular as garantias empilham e o passo a passo
-     vira duas colunas, em vez de quatro apertadas. */
-  .cad-highlights { grid-template-columns: 1fr; gap: 10px; }
-  .cad-features { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .cad-steps { grid-template-columns: 1fr 1fr; gap: 12px; }
-  /* Vantagens empilham: em duas colunas a frase quebraria demais. */
-  .cad-vantagens { grid-template-columns: 1fr; gap: 20px; }
-  /* Planos empilhados: em três colunas o preço grande não caberia. */
-  .cad-plans { grid-template-columns: 1fr; gap: 22px; }
 
   /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
      No celular viram uma fileira que desliza na horizontal, com encaixe

@@ -1,0 +1,1155 @@
+/* ==================================================================
+   Página do Ezermec CAD
+   Estilos só desta página. As cores "cad" são as do próprio aplicativo,
+   para as ilustrações e o print conversarem com o resto da página.
+   ================================================================== */
+
+.page {
+  --cad-fundo: #101418;
+  --cad-painel: #161b21;
+  --cad-borda: #2a343e;
+  --cad-linha: #dce3ea;
+  --cad-verde: #46c46b;
+  --texto-claro: #c9d6e8;
+  /* quanto da foto do topo invade a seção de baixo */
+  --sobra-foto: 200px;
+}
+
+/* Fundo de folha de CAD: grade fina, grade grossa a cada 5 casas e um
+   brilho no alto. Usado no topo e na seção da tela do programa. */
+.grade {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(22, 88, 170, 0.55), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px) 0 0 / 140px 140px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px) 0 0 / 140px 140px,
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 28px 28px,
+    var(--navy);
+}
+
+/* ---------- Seções e cabeçalhos ---------- */
+
+.section {
+  padding: 88px 0;
+}
+.faixa {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.head {
+  max-width: 660px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+.head h2 {
+  margin: 12px 0 0;
+  text-wrap: balance;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.head p {
+  max-width: 560px;
+  text-wrap: balance;
+  margin: 12px auto 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.headEscuro h2 {
+  color: #fff;
+}
+.headEscuro p {
+  color: var(--texto-claro);
+}
+.headEscuro :global(.eyebrow) {
+  color: var(--orange2);
+}
+
+/* ---------- Topo ---------- */
+
+.hero {
+  position: relative;
+  padding-top: 22px;
+}
+.heroFundo {
+  position: absolute;
+  inset: 0 0 var(--sobra-foto) 0;
+}
+.heroConteudo {
+  position: relative;
+}
+
+.trilha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  color: #8fa6c4;
+}
+.trilha a {
+  color: #8fa6c4;
+}
+.trilha a:hover {
+  color: #fff;
+}
+.trilha i {
+  font-size: 12px;
+}
+.trilha span {
+  color: #dce7f4;
+}
+
+.heroTexto {
+  max-width: 860px;
+  margin: 30px auto 0;
+  text-align: center;
+}
+.heroLogo {
+  display: block;
+  width: auto;
+  height: 46px;
+  margin: 0 auto;
+}
+.heroTitulo {
+  margin: 26px 0 0;
+  text-wrap: balance;
+  font-size: clamp(36px, 5.2vw, 62px);
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.028em;
+  color: #fff;
+}
+.heroTitulo span {
+  display: block;
+  color: var(--orange2);
+}
+.heroLead {
+  max-width: 660px;
+  text-wrap: balance;
+  margin: 20px auto 0;
+  font-size: clamp(16px, 1.45vw, 18.5px);
+  line-height: 1.6;
+  color: var(--texto-claro);
+}
+.heroBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+.btnGrande {
+  justify-content: center;
+  padding: 16px 28px;
+  font-size: 16.5px;
+}
+.btnGrande i {
+  font-size: 20px;
+}
+.btnVazado {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+.btnVazado:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+.heroChecks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--texto-claro);
+}
+.heroChecks li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.heroChecks i {
+  font-size: 18px;
+  color: var(--cad-verde);
+}
+
+/* A foto do topo: desenho no CAD à esquerda, tecido costurado à direita. */
+.heroFoto {
+  position: relative;
+  max-width: 1120px;
+  margin: 52px auto 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 44px 90px -38px rgba(5, 40, 87, 0.5);
+}
+.heroFoto img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.fotoEtiquetas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.etiqueta {
+  position: absolute;
+  top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.etiqueta b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12.5px;
+  color: #fff;
+  background: var(--orange);
+}
+.etiquetaCad {
+  left: 16px;
+  color: #fff;
+  background: rgba(11, 15, 19, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.etiquetaTecido {
+  right: 16px;
+  color: var(--navy);
+  background: rgba(255, 255, 255, 0.92);
+}
+.curto {
+  display: none;
+}
+/* Seta na divisa exata entre as duas metades da foto. */
+.divisa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  font-size: 26px;
+  color: #fff;
+  background: var(--orange);
+  box-shadow:
+    0 0 0 7px rgba(245, 102, 12, 0.28),
+    0 14px 30px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- Por que compensa ---------- */
+
+.comparacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.lado {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 26px 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.ladoNovo {
+  color: #fff;
+  background: var(--navy);
+  border-color: var(--navy);
+  box-shadow: 0 30px 60px -32px rgba(5, 40, 87, 0.6);
+}
+.ladoTopo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ladoNome {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--navy);
+}
+.ladoNovo .ladoNome {
+  color: #fff;
+}
+.ladoConta {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.ladoNovo .ladoConta {
+  color: var(--orange2);
+}
+
+.fluxo {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fluxo li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+/* traço que liga uma etapa à outra */
+.fluxo li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 37px;
+  bottom: -9px;
+  left: 13px;
+  width: 2px;
+  background: var(--border2);
+}
+.ladoNovo .fluxo li {
+  color: #fff;
+}
+.ladoNovo .fluxo li:not(:last-child)::after {
+  background: rgba(255, 255, 255, 0.28);
+}
+.fluxoN {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1.5px solid var(--border2);
+}
+.ladoNovo .fluxoN {
+  color: #fff;
+  background: var(--orange);
+  border-color: var(--orange);
+}
+/* a etapa que o Ezermec CAD elimina */
+.fluxoExtra .fluxoN {
+  color: #d63d42;
+  border: 1.5px dashed #e5484d;
+  background: #fdf0f0;
+}
+/* círculo de 28px e texto de ~20px: 4px de recuo centralizam os dois */
+.fluxoTexto {
+  padding-top: 4px;
+  line-height: 1.35;
+}
+.fluxoExtra em {
+  margin-top: 3px;
+  margin-left: auto;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #c0392b;
+  background: #fbe9e7;
+}
+.ganho {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: auto 0 0;
+  padding-top: 18px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #dce7f4;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.ganho i {
+  flex: none;
+  font-size: 20px;
+  color: var(--cad-verde);
+}
+
+.vantagens {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 920px;
+  margin: 28px auto 0;
+  padding: 0;
+  list-style: none;
+}
+.vantagens li {
+  display: flex;
+  gap: 13px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.vantagens i {
+  flex: none;
+  margin-top: 1px;
+  font-size: 24px;
+  color: var(--orange);
+}
+.vantagens strong {
+  display: block;
+  text-wrap: balance;
+  font-size: 15.5px;
+  color: var(--navy);
+}
+.vantagens span {
+  display: block;
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* ---------- Compatibilidade ---------- */
+
+.compat {
+  padding: 60px 0;
+}
+.compatGrade {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 44px;
+  align-items: center;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.compat h2 {
+  margin: 10px 0 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.compat p {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.grupoChips + .grupoChips {
+  margin-top: 20px;
+}
+.chipsRotulo {
+  margin-bottom: 10px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border-radius: 100px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.chips i {
+  font-size: 16px;
+  color: var(--orange);
+}
+
+/* ---------- Planos ---------- */
+
+.planos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.plano {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.planoDestaque {
+  border: 2px solid var(--orange);
+  box-shadow: 0 24px 50px -30px rgba(245, 102, 12, 0.55);
+}
+/* o selo fica montado na borda de cima do card, como nas hospedagens */
+.planoSelo {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+  background: var(--navy);
+  transform: translateY(-50%);
+}
+.planoDestaque .planoSelo {
+  background: var(--orange);
+}
+.planoPeriodo {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.planoDe {
+  margin-top: 10px;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.planoPreco {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+  color: var(--navy);
+}
+.planoPreco small {
+  font-size: 17px;
+  font-weight: 700;
+}
+.planoPreco strong {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.planoPreco span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.planoTag {
+  align-self: flex-start;
+  margin-top: 12px;
+  padding: 5px 11px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  background: #fdede1;
+}
+.planoTotal {
+  margin: 14px 0 18px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.planoBotao {
+  justify-content: center;
+  margin-top: auto;
+  padding: 14px 20px;
+  font-size: 15.5px;
+}
+
+/* ---------- Como funciona ---------- */
+
+.passos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.passo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.passoArte {
+  border-bottom: 1px solid var(--border);
+  background: var(--cad-fundo);
+}
+.art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.art text {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+}
+.passoTexto {
+  padding: 18px 20px 22px;
+}
+.passoN {
+  font-family: var(--font-mono), monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.passoTexto h3 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+.passoTexto p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* ---------- Conheça a tela ---------- */
+
+.tela {
+  overflow: hidden;
+}
+.janela {
+  max-width: 1120px;
+  margin: 0 auto;
+  border-radius: 14px;
+  background: #1c232a;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 60px 110px -40px rgba(0, 0, 0, 0.75);
+}
+/* barra de título de janela do Windows, para ler como programa instalado */
+.janelaTitulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding-left: 14px;
+  font-size: 12.5px;
+  color: var(--cad-linha);
+}
+.janelaTitulo img {
+  width: auto;
+  height: 14px;
+}
+.janelaBotoes {
+  display: flex;
+  align-self: stretch;
+  margin-left: auto;
+}
+.janelaBotoes i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  font-size: 13px;
+  color: #8b98a5;
+}
+.janelaTela {
+  position: relative;
+}
+.janelaPrint {
+  overflow: hidden;
+  border-radius: 0 0 14px 14px;
+}
+.janelaPrint img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* marcadores numerados em cima do print */
+.marcas {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.marcas li {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--orange);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+}
+.marcas li::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--orange2);
+  animation: pulso 2.4s ease-out infinite;
+}
+@keyframes pulso {
+  0% { transform: scale(1); opacity: 0.9; }
+  75%, 100% { transform: scale(1.9); opacity: 0; }
+}
+
+.legenda {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px 32px;
+  max-width: 1120px;
+  margin: 40px auto 0;
+  padding: 0;
+  list-style: none;
+}
+.legenda > li {
+  display: flex;
+  gap: 14px;
+}
+.legendaN {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--orange);
+}
+.legenda strong {
+  font-size: 16px;
+  color: #fff;
+}
+.legenda p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--texto-claro);
+}
+.grupos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.grupos li {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gc);
+  border: 1px solid color-mix(in srgb, var(--gc) 45%, transparent);
+  background: color-mix(in srgb, var(--gc) 10%, transparent);
+}
+
+/* ---------- Perguntas ---------- */
+
+.perguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.pergunta {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.pergunta summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  list-style: none;
+  cursor: pointer;
+}
+.pergunta summary::-webkit-details-marker {
+  display: none;
+}
+.pergunta summary i {
+  flex: none;
+  font-size: 18px;
+  color: var(--orange);
+  transition: transform 0.2s;
+}
+.pergunta[open] summary i {
+  transform: rotate(45deg);
+}
+.pergunta p {
+  margin: 0;
+  padding: 0 22px 20px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* ---------- Chamada final ---------- */
+
+.chamada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 40px 44px;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #f5660c, #ff7a1a);
+  box-shadow: 0 30px 60px -30px rgba(245, 102, 12, 0.5);
+}
+.chamada h2 {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.chamada p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.92);
+}
+.chamadaBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chamadaBotoes a {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+.btnBranco {
+  color: var(--navy);
+  background: #fff;
+}
+.btnBranco:hover {
+  color: var(--navy);
+}
+.btnBranco i {
+  font-size: 20px;
+  color: var(--green);
+}
+.btnMarinho {
+  color: #fff;
+  background: rgba(5, 40, 87, 0.92);
+}
+.btnMarinho:hover {
+  color: #fff;
+}
+.btnMarinho i {
+  font-size: 20px;
+}
+
+/* ==================================================================
+   Telas menores
+   ================================================================== */
+
+/* Notebook */
+@media (max-width: 1080px) {
+  .page {
+    --sobra-foto: 150px;
+  }
+  .planos {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 20px;
+    max-width: 640px;
+  }
+  .passos {
+    grid-template-columns: 1fr 1fr;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .legenda {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tablet */
+@media (max-width: 880px) {
+  .page {
+    --sobra-foto: 110px;
+  }
+  .vantagens {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+  }
+  .compatGrade {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* Celular */
+@media (max-width: 760px) {
+  .section {
+    padding: 56px 0;
+  }
+  .head {
+    margin-bottom: 30px;
+  }
+
+  /* No celular a foto vem logo depois da chamada: é ela que explica o
+     programa. `display: contents` solta os itens do bloco de texto para
+     poderem ser reordenados junto com a foto. */
+  .page {
+    --sobra-foto: 0px;
+  }
+  .hero {
+    padding: 16px 0 44px;
+  }
+  .heroConteudo {
+    display: flex;
+    flex-direction: column;
+  }
+  .heroTexto {
+    display: contents;
+  }
+  .trilha { order: 1; }
+  /* align-self: sem isto o flex estica o logo na largura toda */
+  .heroLogo { order: 2; align-self: center; height: 34px; margin-top: 24px; }
+  .heroTitulo { order: 3; }
+  .heroFoto { order: 4; }
+  .heroLead { order: 5; }
+  .heroBotoes { order: 6; }
+  .heroChecks { order: 7; }
+
+  .heroTitulo {
+    margin-top: 18px;
+    font-size: 34px;
+    text-align: center;
+  }
+  .heroFoto {
+    margin: 24px 0 0;
+    border-radius: 14px;
+  }
+  .heroLead {
+    margin-top: 22px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .heroBotoes {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .heroBotoes a {
+    width: 100%;
+  }
+  .heroChecks {
+    gap: 6px 16px;
+    font-size: 13px;
+  }
+
+  .etiqueta {
+    top: 8px;
+    gap: 5px;
+    padding: 4px 9px 4px 4px;
+    font-size: 11px;
+  }
+  .etiqueta b {
+    width: 18px;
+    height: 18px;
+    font-size: 10.5px;
+  }
+  .etiquetaCad {
+    left: 8px;
+  }
+  .etiquetaTecido {
+    right: 8px;
+  }
+  .longo {
+    display: none;
+  }
+  .curto {
+    display: inline;
+  }
+  .divisa {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    box-shadow:
+      0 0 0 4px rgba(245, 102, 12, 0.28),
+      0 8px 18px rgba(0, 0, 0, 0.45);
+  }
+
+  .comparacao {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .lado {
+    padding: 22px 20px 20px;
+  }
+  .fluxo li {
+    font-size: 14.5px;
+  }
+
+  .compat {
+    padding: 48px 0;
+  }
+
+  .planos {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* Os passos viram uma fileira que desliza, como as outras do site. */
+  .passos {
+    display: flex;
+    gap: 12px;
+    max-width: none;
+    margin: 0 -24px;
+    padding: 0 24px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+  }
+  .passos::-webkit-scrollbar {
+    display: none;
+  }
+  .passo {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+  }
+
+  .janela {
+    border-radius: 10px;
+  }
+  .janelaTitulo {
+    height: 26px;
+    gap: 7px;
+    padding-left: 10px;
+    font-size: 10.5px;
+  }
+  .janelaTitulo img {
+    height: 10px;
+  }
+  .janelaBotoes i {
+    width: 28px;
+    font-size: 10px;
+  }
+  .janelaPrint {
+    border-radius: 0 0 10px 10px;
+  }
+  .marcas li {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+  .legenda {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .pergunta summary {
+    padding: 16px 18px;
+    font-size: 15px;
+  }
+  .pergunta p {
+    padding: 0 18px 18px;
+    font-size: 14.5px;
+  }
+
+  .chamada {
+    padding: 28px 22px;
+  }
+  .chamadaBotoes,
+  .chamadaBotoes a {
+    width: 100%;
+  }
+  .chamadaBotoes a {
+    justify-content: center;
+  }
+}
+
+/* Celulares estreitos: o recuo do container cai para 16px. */
+@media (max-width: 400px) {
+  .heroTitulo {
+    font-size: 31px;
+  }
+  .passos {
+    margin: 0 -16px;
+    padding: 0 16px 6px;
+    scroll-padding-left: 16px;
+  }
+}
+
+/* Quem prefere menos movimento vê a simulação já concluída, sem animação. */
+@media (prefers-reduced-motion: reduce) {
+  .simTrilha {
+    stroke-dashoffset: 0 !important;
+  }
+  .simAgulha,
+  .simBarra {
+    display: none;
+  }
+  .marcas li::before {
+    animation: none;
+    display: none;
+  }
+}
