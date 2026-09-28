@@ -1,9 +1,10 @@
-// Ilustrações dos quatro passos do Ezermec CAD.
+// Ilustrações da página do Ezermec CAD.
 //
 // São desenhadas em SVG com o visual do próprio aplicativo: as cores vêm do
-// tema do app (--graphite, --cyan, verde da ordem, vermelho dos saltos, agulha
-// laranja da simulação) e o arquivo mostra o G-code que ele realmente gera.
-// Não são prints — são esquemas, para explicar cada passo num relance.
+// tema do app (--graphite, --cyan, verde da costura, vermelho dos saltos,
+// agulha laranja da simulação, reforço laranja e pausa roxa) e o arquivo mostra
+// o G-code que ele realmente gera. Não são prints — são esquemas, para explicar
+// cada coisa num relance.
 
 import css from './cad.module.css';
 
@@ -21,6 +22,7 @@ const APP = {
   verdeClaro: '#8BE3A6',
   vermelho: '#FF5A5F',
   laranja: '#F26A21',
+  roxo: '#B98CFF',
   eixoX: '#E5484D',
   eixoY: '#57A94B',
 };
@@ -47,6 +49,20 @@ function Tela({ rotulo, children }: { rotulo: string; children: React.ReactNode 
 }
 
 /**
+ * Etiqueta no canto de cima, como os títulos de painel do app. A largura sai
+ * do texto: na fonte mono cada letra ocupa 5,1 mais 0,6 de espaçamento.
+ */
+function Etiqueta({ texto, cor }: { texto: string; cor: string }) {
+  const largura = Math.round(texto.length * 5.7 + 19);
+  return (
+    <>
+      <rect x="10" y="10" width={largura} height="20" rx="5" fill={APP.painel} stroke={APP.borda} />
+      <text x="20" y="23.5" fill={cor} fontSize="8.5" fontWeight="600" letterSpacing=".6">{texto}</text>
+    </>
+  );
+}
+
+/**
  * Onda de matelassê entre dois x, na altura y, feita de meias-ondas de
  * Bézier quadrática. `de` > `ate` desenha da direita para a esquerda.
  */
@@ -58,8 +74,57 @@ function onda(de: number, ate: number, y: number, meia: number, amp: number, con
   return d;
 }
 
+/**
+ * Costura animada: o desenho apagado por baixo, o trecho já costurado em verde,
+ * os furos da agulha e a agulha andando. A animação anda de 0 a 85% do tempo e
+ * segura o desenho pronto até o fim. `id` precisa ser único na página.
+ */
+function CosturaAnimada({ id, d, dur }: { id: string; d: string; dur: string }) {
+  const tempos = '0;0.85;1';
+  return (
+    <>
+      <defs>
+        <path id={id} d={d} />
+        {/* máscara que revela os furos só por onde a agulha já passou */}
+        <mask id={`${id}-costurado`}>
+          <path
+            d={d} pathLength="1" fill="none" stroke="#fff" strokeWidth="10"
+            strokeDasharray="1" strokeDashoffset="1" className={css.simTrilha}
+          >
+            <animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes={tempos} dur={dur} repeatCount="indefinite" />
+          </path>
+        </mask>
+      </defs>
+
+      {/* desenho ainda não costurado, apagado como no app */}
+      <use href={`#${id}`} fill="none" stroke="rgba(220,227,234,.2)" strokeWidth="2" />
+
+      {/* trecho já costurado */}
+      <path
+        d={d} pathLength="1" fill="none" stroke={APP.verde} strokeWidth="2.4" strokeLinejoin="round"
+        strokeDasharray="1" strokeDashoffset="1" className={css.simTrilha}
+      >
+        <animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes={tempos} dur={dur} repeatCount="indefinite" />
+      </path>
+
+      {/* furos da agulha a cada ponto */}
+      <path
+        d={d} fill="none" stroke={APP.verdeClaro} strokeWidth="2.6" strokeLinecap="round"
+        strokeDasharray="0 7" mask={`url(#${id}-costurado)`}
+      />
+
+      {/* a agulha */}
+      <circle r="5" fill={APP.laranja} stroke="#fff" strokeWidth="1.6" className={css.simAgulha}>
+        <animateMotion dur={dur} repeatCount="indefinite" keyPoints="0;1;1" keyTimes={tempos} calcMode="linear">
+          <mpath href={`#${id}`} />
+        </animateMotion>
+      </circle>
+    </>
+  );
+}
+
 /* ------------------------------------------------------------------ */
-/* 1. Desenhe — treliça sendo desenhada, com a ferramenta Linha ativa  */
+/* Desenhe — treliça sendo desenhada, com a ferramenta Linha ativa     */
 /* ------------------------------------------------------------------ */
 
 // Ícones das ferramentas, iguais aos do app (caixa de 20x20).
@@ -80,7 +145,7 @@ export function IlustracaoDesenho() {
   const fim = { x: atual + 72, y: y1 - 72 };
 
   return (
-    <Tela rotulo="Desenho de uma treliça de costura com a ferramenta Linha">
+    <Tela rotulo="Desenho de uma treliça de costura com a ferramenta Linha, com a medida da linha na tela">
       {/* eixos da origem, como no app */}
       <path d={`M0 ${y1}H${W}`} stroke={APP.eixoX} strokeOpacity=".45" />
       <path d={`M${x0} 0V${H}`} stroke={APP.eixoY} strokeOpacity=".45" />
@@ -94,14 +159,14 @@ export function IlustracaoDesenho() {
       </g>
       <rect x={x0} y={y0} width={x1 - x0} height={alt} fill="none" stroke={APP.linha} strokeWidth="1.5" />
 
-      {/* a linha que está sendo desenhada agora */}
+      {/* a linha que está sendo desenhada agora, com a medida ao lado */}
       <path d={`M${atual} ${y1}L${fim.x} ${fim.y}`} stroke={APP.ciano} strokeWidth="1.8" />
       <circle cx={atual} cy={y1} r="2.4" fill={APP.ciano} />
       <path d={`M${fim.x - 9} ${fim.y}h18M${fim.x} ${fim.y - 9}v18`} stroke={APP.ciano} strokeWidth="1.2" />
-      <rect x={fim.x + 8} y={fim.y - 30} width="68" height="18" rx="4" fill="#0B0F13" stroke={APP.borda} />
-      <text x={fim.x + 42} y={fim.y - 18} textAnchor="middle" fill={APP.ciano} fontSize="9.5">101,8 &lt; 45°</text>
+      <rect x={fim.x + 8} y={fim.y - 30} width="62" height="18" rx="4" fill="#0B0F13" stroke={APP.borda} />
+      <text x={fim.x + 39} y={fim.y - 18} textAnchor="middle" fill={APP.ciano} fontSize="9.5">1000 mm</text>
 
-      {/* pedaço da barra de ferramentas, grupo Esboço */}
+      {/* pedaço da barra de ferramentas, grupo Desenho */}
       <rect x="10" y="10" width="92" height="34" rx="6" fill={APP.painel} stroke={APP.borda} />
       {(['linha', 'arco', 'circulo'] as const).map((nome, i) => {
         const bx = 15 + i * 28;
@@ -128,114 +193,93 @@ export function IlustracaoDesenho() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 2. Ordene — percursos numerados e saltos no menor caminho           */
+/* Dê acabamento — trava nas pontas, reforço e pausa na costura        */
 /* ------------------------------------------------------------------ */
 
-export function IlustracaoOrdem() {
-  const xa = 62, xb = 262;
-  const linhas = [52, 88, 124, 160];
+export function IlustracaoAcabamento() {
+  const y = 106;
+  const ini = 34, fim = 286;
+  const reforco = 128;
+  const pausa = 204;
+
+  // Trava (retrocesso): a agulha vai e volta sobre a ponta da costura.
+  const trava = (x0: number, x1: number) => (
+    <path
+      d={`M${x0} ${y - 2.5}H${x1}M${x1} ${y}H${x0}M${x0} ${y + 2.5}H${x1}`}
+      stroke={APP.eixoX} strokeWidth="1.6" strokeLinecap="round"
+    />
+  );
 
   return (
-    <Tela rotulo="Ordem da costura: quatro percursos numerados, com saltos curtos entre eles">
-      {linhas.map((y, i) => {
-        const vai = i % 2 === 0;
-        const ini = vai ? xa : xb;
-        const fimX = vai ? xb : xa;
-        const proximo = linhas[i + 1];
-        const rot = vai ? xa - 22 : xb + 22;
-        return (
-          <g key={y}>
-            <path d={onda(ini, fimX, y, 20, 5)} fill="none" stroke={APP.linha} strokeWidth="1.8" />
-            {/* salto até o próximo percurso: curto, porque a ordem alterna o sentido */}
-            {proximo !== undefined && (
-              <path
-                d={`M${fimX} ${y}V${proximo}`}
-                stroke={APP.vermelho} strokeOpacity=".75" strokeWidth="1.3" strokeDasharray="2 4"
-              />
-            )}
-            <circle cx={ini} cy={y} r="3" fill="none" stroke={APP.verde} strokeWidth="1.5" />
-            <circle cx={rot} cy={y} r="10" fill="#0B0F13" stroke={APP.verde} strokeWidth="1.5" />
-            <text x={rot} y={y + 3.8} textAnchor="middle" fill={APP.verde} fontSize="11" fontWeight="600">{i + 1}</text>
-          </g>
-        );
-      })}
+    <Tela rotulo="Acabamento no arquivo: trava nas duas pontas da costura, reforço no meio e uma pausa marcada">
+      <Etiqueta texto="ACABAMENTO NO ARQUIVO" cor={APP.verde} />
 
-      <rect x="10" y="10" width="170" height="20" rx="5" fill={APP.painel} stroke={APP.borda} />
-      <text x="20" y="23.5" fill={APP.verde} fontSize="8.5" fontWeight="600" letterSpacing=".6">ORDEM AUTOMÁTICA · MENOR CAMINHO</text>
+      {/* a costura */}
+      <path d={`M${ini} ${y}H${fim}`} stroke={APP.linha} strokeWidth="1.8" />
+      {trava(ini, ini + 24)}
+      {trava(fim - 24, fim)}
+
+      {/* reforço no meio da linha: duas setas encontrando-se no ponto, como no app */}
+      <g stroke={APP.laranja} fill={APP.laranja} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path
+          d={`M${reforco - 12} ${y}H${reforco - 3}M${reforco - 7} ${y - 4}L${reforco - 3} ${y}L${reforco - 7} ${y + 4}` +
+             `M${reforco + 12} ${y}H${reforco + 3}M${reforco + 7} ${y - 4}L${reforco + 3} ${y}L${reforco + 7} ${y + 4}`}
+          fill="none"
+        />
+        <circle cx={reforco} cy={y} r="2.8" stroke="none" />
+      </g>
+
+      {/* pausa: a máquina para neste ponto por alguns segundos */}
+      <circle cx={pausa} cy={y} r="10" fill={APP.fundo} stroke={APP.roxo} strokeWidth="1.9" />
+      <path d={`M${pausa - 3} ${y - 4.5}v9M${pausa + 3} ${y - 4.5}v9`} stroke={APP.roxo} strokeWidth="1.9" strokeLinecap="round" />
+      <text x={pausa + 14} y={y - 10} fill={APP.roxo} fontSize="9.5" fontWeight="600">5s</text>
+
+      {/* nomes */}
+      <text x={ini + 12} y={y + 30} textAnchor="middle" fill={APP.eixoX} fontSize="9.5" fontWeight="600">trava</text>
+      <text x={reforco} y={y + 30} textAnchor="middle" fill={APP.laranja} fontSize="9.5" fontWeight="600">reforço</text>
+      <text x={pausa} y={y + 30} textAnchor="middle" fill={APP.roxo} fontSize="9.5" fontWeight="600">pausa</text>
+      <text x={fim - 12} y={y + 30} textAnchor="middle" fill={APP.eixoX} fontSize="9.5" fontWeight="600">trava</text>
     </Tela>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Simule — a agulha percorre a costura e marca os pontos           */
+/* Confira — a agulha percorre a costura dentro do quadro da máquina   */
 /* ------------------------------------------------------------------ */
 
 // Percurso contínuo em serpentina: três ondas ligadas por curvas de retorno.
 const SERPENTINA =
-  onda(56, 264, 54, 13, 4.5) +
-  'A24 24 0 0 1 264 102' +
+  onda(56, 264, 56, 13, 4.5) +
+  'A23 23 0 0 1 264 102' +
   onda(264, 56, 102, 13, 4.5, true) +
-  'A24 24 0 0 0 56 150' +
-  onda(56, 264, 150, 13, 4.5, true);
-
-// A animação anda de 0 a 82% do tempo e segura o desenho pronto até o fim.
-const DUR = '7s';
-const TEMPOS = '0;0.82;1';
+  'A23 23 0 0 0 56 148' +
+  onda(56, 264, 148, 13, 4.5, true);
 
 export function IlustracaoSimulacao() {
   return (
-    <Tela rotulo="Simulação: a agulha percorre o desenho e marca cada ponto da costura">
-      <defs>
-        <path id="cadil-serpentina" d={SERPENTINA} />
-        {/* máscara que revela os furos só por onde a agulha já passou */}
-        <mask id="cadil-costurado">
-          <path
-            d={SERPENTINA} pathLength="1" fill="none" stroke="#fff" strokeWidth="10"
-            strokeDasharray="1" strokeDashoffset="1" className={css.simTrilha}
-          >
-            <animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes={TEMPOS} dur={DUR} repeatCount="indefinite" />
-          </path>
-        </mask>
-      </defs>
+    <Tela rotulo="Simulação dentro do quadro da máquina: a agulha percorre o desenho e a tela confirma que a peça cabe">
+      {/* o quadro da máquina, tracejado como no app */}
+      <rect x="18" y="24" width="284" height="140" rx="2" fill="none" stroke={APP.ambar} strokeOpacity=".6" strokeDasharray="6 4" />
+      <text x="24" y="17" fill={APP.ambar} fillOpacity=".85" fontSize="7.5" fontWeight="600" letterSpacing=".6">QUADRO DA MÁQUINA</text>
 
-      {/* desenho ainda não costurado, apagado como no app */}
-      <use href="#cadil-serpentina" fill="none" stroke="rgba(220,227,234,.2)" strokeWidth="2" />
+      <CosturaAnimada id="cadil-serpentina" d={SERPENTINA} dur="7s" />
 
-      {/* trecho já costurado */}
-      <path
-        d={SERPENTINA} pathLength="1" fill="none" stroke={APP.verde} strokeWidth="2.4"
-        strokeDasharray="1" strokeDashoffset="1" className={css.simTrilha}
-      >
-        <animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes={TEMPOS} dur={DUR} repeatCount="indefinite" />
-      </path>
-
-      {/* furos da agulha a cada ponto */}
-      <path
-        d={SERPENTINA} fill="none" stroke={APP.verdeClaro} strokeWidth="2.6" strokeLinecap="round"
-        strokeDasharray="0 7" mask="url(#cadil-costurado)"
-      />
-
-      {/* a agulha */}
-      <circle r="5" fill={APP.laranja} stroke="#fff" strokeWidth="1.6" className={css.simAgulha}>
-        <animateMotion dur={DUR} repeatCount="indefinite" keyPoints="0;1;1" keyTimes={TEMPOS} calcMode="linear">
-          <mpath href="#cadil-serpentina" />
-        </animateMotion>
-      </circle>
-
-      {/* painel da simulação, com a barra de progresso */}
-      <rect x="10" y="172" width="134" height="20" rx="5" fill="#0B0F13" stroke={APP.borda} />
+      {/* painel da simulação: progresso e conferência do quadro */}
+      <rect x="10" y="172" width="300" height="20" rx="5" fill="#0B0F13" stroke={APP.borda} />
       <path d="M18 177l7 5-7 5z" fill={APP.verde} />
       <text x="30" y="185.5" fill={APP.linha} fontSize="8.5" fontWeight="600">Simulação</text>
-      <rect x="84" y="180.5" width="52" height="3" rx="1.5" fill={APP.borda} />
-      <rect x="84" y="180.5" width="52" height="3" rx="1.5" fill={APP.verde} className={css.simBarra}>
-        <animate attributeName="width" values="0;52;52" keyTimes={TEMPOS} dur={DUR} repeatCount="indefinite" />
+      <rect x="84" y="180.5" width="56" height="3" rx="1.5" fill={APP.borda} />
+      <rect x="84" y="180.5" width="56" height="3" rx="1.5" fill={APP.verde} className={css.simBarra}>
+        <animate attributeName="width" values="0;56;56" keyTimes="0;0.85;1" dur="7s" repeatCount="indefinite" />
       </rect>
+      <path d="M220 182l3 3 6-6" fill="none" stroke={APP.verde} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="302" y="185.5" textAnchor="end" fill={APP.verde} fontSize="8.5" fontWeight="600">Cabe no quadro</text>
     </Tela>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. Envie — o desenho.ngc sai pronto e vai direto para a máquina     */
+/* Envie — o desenho.ngc sai pronto e vai direto para a máquina        */
 /* ------------------------------------------------------------------ */
 
 // Trecho real do NGC que o app gera (formato de coordenadas e comentários).
@@ -275,6 +319,80 @@ export function IlustracaoArquivo() {
       <path d="M265 75c18-6 23 20 9 30" fill="none" stroke={APP.laranja} strokeWidth="1.3" strokeLinecap="round" />
       <path d="M230 150H298" stroke={APP.verde} strokeWidth="2" strokeDasharray="6 4" strokeLinecap="round" />
       <text x="264" y="172" textAnchor="middle" fill={APP.apagado} fontSize="8.5" fontWeight="600">Máquina Fischertec</text>
+    </Tela>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Interligar — o mesmo desenho antes (cheio de saltos) e depois       */
+/* ------------------------------------------------------------------ */
+
+// Seis quadros de colchão, em duas fileiras, cada um com um losango.
+const LOSANGO = { a: 28, b: 26 };
+const QUADROS = [
+  [88, 78], [160, 78], [232, 78],
+  [88, 144], [160, 144], [232, 144],
+] as const;
+
+const esq = ([cx, cy]: readonly [number, number]) => `${cx - LOSANGO.a} ${cy}`;
+const topo = ([cx, cy]: readonly [number, number]) => `${cx} ${cy - LOSANGO.b}`;
+const dir = ([cx, cy]: readonly [number, number]) => `${cx + LOSANGO.a} ${cy}`;
+const base = ([cx, cy]: readonly [number, number]) => `${cx} ${cy + LOSANGO.b}`;
+
+/**
+ * O caminho único que o Interligar monta: em cada fileira a agulha vai pelas
+ * metades de cima dos losangos e volta pelas de baixo, e desce para a fileira
+ * seguinte pela lateral — sem levantar a agulha nenhuma vez.
+ */
+const CORRENTE = (() => {
+  const fileira = (q: ReadonlyArray<readonly [number, number]>) =>
+    q.map((p) => `L${esq(p)}L${topo(p)}L${dir(p)}`).join('') +
+    [...q].reverse().map((p) => `L${dir(p)}L${base(p)}L${esq(p)}`).join('');
+  return `M${esq(QUADROS[0])}` + fileira(QUADROS.slice(0, 3)) + fileira(QUADROS.slice(3));
+})();
+
+/** Número da costura, no ponto em que ela começa. */
+function Inicio({ q, n }: { q: readonly [number, number]; n: number }) {
+  const [cx, cy] = q;
+  return (
+    <>
+      <circle cx={cx - LOSANGO.a} cy={cy} r="8.5" fill="#0B0F13" stroke={APP.verde} strokeWidth="1.4" />
+      <text x={cx - LOSANGO.a} y={cy + 3.3} textAnchor="middle" fill={APP.verde} fontSize="9.5" fontWeight="600">{n}</text>
+    </>
+  );
+}
+
+export function InterligarAntes() {
+  return (
+    <Tela rotulo="Sem interligar: seis costuras separadas, com saltos e cortes de linha entre elas">
+      <Etiqueta texto="6 COSTURAS SEPARADAS" cor={APP.vermelho} />
+
+      {/* saltos entre as costuras: a agulha levanta e a linha é cortada */}
+      {QUADROS.slice(0, -1).map((q, i) => (
+        <path
+          key={`salto${i}`}
+          d={`M${esq(q)}L${esq(QUADROS[i + 1])}`}
+          stroke={APP.vermelho} strokeOpacity=".85" strokeWidth="1.3" strokeDasharray="2 4"
+        />
+      ))}
+      {QUADROS.map((q) => (
+        <path
+          key={`q${q[0]}-${q[1]}`}
+          d={`M${esq(q)}L${topo(q)}L${dir(q)}L${base(q)}Z`}
+          fill="none" stroke={APP.linha} strokeWidth="1.8" strokeLinejoin="round"
+        />
+      ))}
+      {QUADROS.map((q, i) => <Inicio key={`n${i}`} q={q} n={i + 1} />)}
+    </Tela>
+  );
+}
+
+export function InterligarDepois() {
+  return (
+    <Tela rotulo="Com Interligar: o mesmo desenho vira uma costura só, e a agulha percorre tudo sem parar">
+      <Etiqueta texto="1 COSTURA SÓ" cor={APP.verde} />
+      <CosturaAnimada id="cadil-corrente" d={CORRENTE} dur="8s" />
+      <Inicio q={QUADROS[0]} n={1} />
     </Tela>
   );
 }

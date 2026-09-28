@@ -4,7 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { site } from '@/lib/config';
 import { cad, type CadVisual } from '@/lib/cad';
-import { IlustracaoArquivo, IlustracaoDesenho, IlustracaoOrdem, IlustracaoSimulacao } from './Ilustracoes';
+import {
+  IlustracaoAcabamento,
+  IlustracaoArquivo,
+  IlustracaoDesenho,
+  IlustracaoSimulacao,
+  InterligarAntes,
+  InterligarDepois,
+} from './Ilustracoes';
 import css from './cad.module.css';
 
 export const metadata: Metadata = {
@@ -43,13 +50,14 @@ const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' 
 
 const VISUAIS: Record<CadVisual, () => React.JSX.Element> = {
   desenho: IlustracaoDesenho,
-  ordem: IlustracaoOrdem,
+  acabamento: IlustracaoAcabamento,
   simulacao: IlustracaoSimulacao,
   arquivo: IlustracaoArquivo,
 };
 
 export default function EzermecCadPage() {
   const { antes, agora, etapaExtra } = cad.comparacao;
+  const { origem, interligar, rapido } = cad;
 
   return (
     <main className={`ez-fade ${css.page}`}>
@@ -160,6 +168,30 @@ export default function EzermecCadPage() {
             </div>
           </div>
 
+          {/* Começar do desenho que a empresa já tem: arquivo, foto ou traço automático. */}
+          <div className={css.origem}>
+            <div className={css.origemTexto}>
+              <span className="eyebrow">Do arquivo ou da foto para a máquina</span>
+              <h3>{origem.titulo}</h3>
+              <p>{origem.texto}</p>
+            </div>
+            <ul className={css.origemItens}>
+              {origem.itens.map((it) => (
+                <li key={it.titulo}>
+                  <span className={css.origemIcone}><i className={icon(it.icon)} /></span>
+                  <div>
+                    <strong>{it.titulo}</strong>
+                    <span>{it.texto}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className={css.origemGanho}>
+              <i className="ph-fill ph-check-circle" />
+              {origem.ganho}
+            </p>
+          </div>
+
           <ul className={css.vantagens}>
             {cad.advantages.map((v) => (
               <li key={v.title}>
@@ -174,14 +206,90 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
+      {/* INTERLIGAR — o mesmo desenho antes e depois do botão. */}
+      <section className={`${css.section} ${css.faixa}`} id="interligar">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Interligar</span>
+            <h2>{interligar.titulo}</h2>
+            <p>{interligar.texto}</p>
+          </header>
+
+          <div className={css.antesDepois}>
+            <figure className={`${css.quadro} ${css.quadroAntes}`}>
+              <InterligarAntes />
+              <figcaption>
+                <strong>{interligar.antes.rotulo}</strong>
+                <span>{interligar.antes.conta}</span>
+              </figcaption>
+            </figure>
+
+            <div className={css.clique} aria-hidden="true">
+              <span className={css.cliqueSeta}><i className="ph ph-arrow-right" /></span>
+              <span className={css.cliqueTexto}>1 clique</span>
+            </div>
+
+            <figure className={`${css.quadro} ${css.quadroDepois}`}>
+              <InterligarDepois />
+              <figcaption>
+                <strong>{interligar.depois.rotulo}</strong>
+                <span>{interligar.depois.conta}</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className={css.interDetalhe}>
+            <ul className={css.interItens}>
+              {interligar.itens.map((t) => (
+                <li key={t}><i className="ph-fill ph-check-circle" />{t}</li>
+              ))}
+            </ul>
+            <div className={css.interGanho}>
+              <span className="eyebrow">O ganho</span>
+              <strong>{interligar.ganho.titulo}</strong>
+              <p>{interligar.ganho.texto}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DESENHE MAIS RÁPIDO — cada cartão traz o botão do programa que faz aquilo. */}
+      <section className={css.section} id="desenhe-mais-rapido">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">{rapido.olho}</span>
+            <h2>{rapido.titulo}</h2>
+            <p>{rapido.texto}</p>
+          </header>
+
+          <ul className={css.rapido}>
+            {rapido.itens.map((it) => (
+              <li key={it.titulo}>
+                <span className={css.ferramenta} style={{ '--gc': it.icone.cor } as CSSProperties}>
+                  <svg viewBox="0 0 20 20" aria-hidden="true" dangerouslySetInnerHTML={{ __html: it.icone.svg }} />
+                </span>
+                <div>
+                  <strong>{it.titulo}</strong>
+                  <span>{it.texto}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* COMPATIBILIDADE — a primeira dúvida de quem vai comprar. */}
       <section className={`${css.compat} ${css.faixa}`}>
         <div className="container">
           <div className={css.compatGrade}>
             <div>
-              <span className="eyebrow">Compatibilidade</span>
+              <span className="eyebrow">Chega configurado</span>
               <h2>Pronto para a sua Fischertec</h2>
-              <p>Tamanho do ponto, velocidade, bastidor e retirada do quadro já vão configurados no arquivo.</p>
+              <p>{cad.compat.texto}</p>
+              <p className={css.compatFrase}>
+                <i className="ph-fill ph-check-circle" />
+                {cad.compat.frase}
+              </p>
             </div>
             <div>
               <div className={css.grupoChips}>
@@ -284,7 +392,7 @@ export default function EzermecCadPage() {
           <header className={`${css.head} ${css.headEscuro}`}>
             <span className="eyebrow">Por dentro do programa</span>
             <h2>Conheça a tela</h2>
-            <p>Tudo numa tela só, organizado como num CAD.</p>
+            <p>Tudo numa tela só, com os botões organizados por cor.</p>
           </header>
 
           <div className={css.janela}>
