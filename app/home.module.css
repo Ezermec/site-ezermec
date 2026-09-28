@@ -1,0 +1,1024 @@
+/* ==================================================================
+   Página inicial
+   Estilos só da home. As cores "cad" são as do Ezermec CAD, para a
+   vitrine do programa conversar com a página dele.
+   ================================================================== */
+
+.page {
+  --cad-fundo: #101418;
+  --cad-painel: #161b21;
+  --cad-borda: #2a343e;
+  --cad-verde: #46c46b;
+  --texto-claro: #c9d6e8;
+}
+
+/* ---------- Topo ---------- */
+
+.topo {
+  padding: 48px 0 44px;
+  background:
+    radial-gradient(ellipse 55% 65% at 88% 8%, rgba(245, 102, 12, 0.07), transparent 62%),
+    linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.topoGrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  gap: 56px;
+  align-items: center;
+}
+
+/* Aviso do Ezermec CAD acima do título, como nos lançamentos de produto. */
+.novidade {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 5px 14px 5px 5px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--border2);
+  box-shadow: 0 8px 20px -14px rgba(5, 40, 87, 0.35);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.novidade:hover {
+  color: var(--navy);
+  border-color: var(--orange);
+  transform: translateY(-1px);
+}
+.novidadeTag {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--orange);
+}
+.novidade i {
+  flex: none;
+  font-size: 15px;
+  color: var(--orange);
+  transition: transform 0.15s;
+}
+.novidadeCurto {
+  display: none;
+}
+.novidade:hover i {
+  transform: translateX(3px);
+}
+
+.titulo {
+  margin: 22px 0 0;
+  text-wrap: balance;
+  font-size: clamp(36px, 3.9vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+}
+.lead {
+  max-width: 540px;
+  margin: 18px 0 0;
+  text-wrap: pretty;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* Atalhos para as primeiras categorias, logo abaixo da busca. */
+.atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 14px;
+}
+.atalhos > span {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.atalhos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.atalhos a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, color 0.15s;
+}
+.atalhos a:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+.atalhos i {
+  font-size: 15px;
+  color: var(--orange);
+}
+
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+.botoes a {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+.botoes i {
+  font-size: 19px;
+}
+.btnWhats i {
+  color: var(--green);
+}
+
+/* A foto, com o selo da revenda montado na borda. */
+.topoFoto {
+  min-width: 0;
+}
+.fotoCaixa {
+  position: relative;
+  max-width: 540px;
+  margin-left: auto;
+}
+.foto {
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  background: #1b1d21;
+  box-shadow: 0 40px 80px -40px rgba(5, 40, 87, 0.5);
+}
+.foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.selo {
+  position: absolute;
+  left: -20px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 12px 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -20px rgba(5, 40, 87, 0.35);
+}
+.seloIcone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 24px;
+  color: #fff;
+  background: var(--navy);
+}
+.selo strong {
+  display: block;
+  font-size: 14px;
+  color: var(--navy);
+}
+.selo div span {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: var(--orange);
+}
+
+/* Faixa com os quatro motivos para comprar aqui. */
+.confianca {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px -30px rgba(5, 40, 87, 0.3);
+}
+.confianca li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px;
+}
+.confianca li + li {
+  border-left: 1px solid var(--border);
+}
+.confiancaIcone {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 23px;
+  color: var(--orange);
+  background: #fdede1;
+}
+.confianca strong {
+  display: block;
+  font-size: 15.5px;
+  color: var(--navy);
+}
+.confianca li div span {
+  display: block;
+  margin-top: 2px;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+/* ---------- Vitrine do Ezermec CAD ---------- */
+
+.cadSecao {
+  padding-top: 72px;
+}
+/* Texto à esquerda e a janela do programa à direita. No celular a janela
+   fica entre o título e a lista, por isso as três áreas. */
+.cad {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-areas:
+    'topo visual'
+    'resto visual';
+  column-gap: 56px;
+  padding: 52px;
+  overflow: hidden;
+  border-radius: 28px;
+  color: #fff;
+  background:
+    radial-gradient(ellipse 60% 70% at 100% 0%, rgba(22, 88, 170, 0.6), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--navy);
+  box-shadow: 0 40px 80px -40px rgba(5, 40, 87, 0.6);
+}
+.cadTopo {
+  grid-area: topo;
+  align-self: end;
+}
+.cadVisual {
+  grid-area: visual;
+  align-self: center;
+}
+.cadResto {
+  grid-area: resto;
+  align-self: start;
+}
+
+.cadOlho {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9fb4cf;
+}
+.cadOlho b {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--orange);
+}
+.cadLogo {
+  display: block;
+  width: auto;
+  height: 40px;
+  margin-top: 20px;
+}
+.cadTitulo {
+  margin: 18px 0 0;
+  text-wrap: balance;
+  font-size: clamp(28px, 3.1vw, 40px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+.cadTitulo span {
+  color: var(--orange2);
+}
+.cadTopo p {
+  max-width: 470px;
+  margin: 14px 0 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--texto-claro);
+}
+
+.cadLista {
+  display: grid;
+  gap: 12px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cadLista li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.cadLista i {
+  flex: none;
+  font-size: 21px;
+  color: var(--cad-verde);
+}
+.cadPreco {
+  margin: 26px 0 0;
+  font-size: 15px;
+  color: var(--texto-claro);
+}
+.cadPreco strong {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.cadBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.cadBotoes a {
+  padding: 15px 24px;
+  font-size: 16px;
+}
+.btnVazado {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+.btnVazado:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* A janela do programa com a corrida do Interligar: sem ele a máquina para
+   e corta a linha entre as costuras; com ele costura tudo de uma vez. */
+.janela {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #1c232a;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 50px 100px -40px rgba(0, 0, 0, 0.75);
+}
+.janelaBarra {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 34px;
+  padding-left: 14px;
+  font-size: 12.5px;
+  color: #dce3ea;
+}
+.janelaBarra img {
+  width: auto;
+  height: 13px;
+}
+.janelaBotoes {
+  display: flex;
+  align-self: stretch;
+  margin-left: auto;
+}
+.janelaBotoes i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  font-size: 12px;
+  color: #8b98a5;
+}
+.corrida {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 10px 10px;
+}
+.corrida figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--cad-fundo);
+  box-shadow: 0 0 0 1px var(--cad-borda);
+}
+.corrida .corridaBoa {
+  box-shadow: 0 0 0 1.5px var(--cad-verde);
+}
+.corrida figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--cad-painel);
+  border-top: 1px solid var(--cad-borda);
+}
+.corrida figcaption strong {
+  font-size: 13.5px;
+  color: #fff;
+}
+.corrida figcaption span {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  color: #ff8a8d;
+}
+.corridaBoa figcaption span {
+  color: #8be3a6;
+}
+
+/* ---------- Seções de loja: categorias e destaques ---------- */
+
+.secao {
+  padding-top: 72px;
+}
+.secaoTopo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.secaoTopo h2 {
+  margin: 10px 0 0;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.verTudo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.verTudo:hover {
+  color: var(--orange);
+}
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+.categoria {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.categoriaIcone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  font-size: 24px;
+  color: var(--navy);
+  background: #eef3fa;
+  transition: background 0.18s, color 0.18s;
+}
+.categoria:hover .categoriaIcone {
+  color: #fff;
+  background: var(--navy);
+}
+.categoriaNome {
+  margin-top: 14px;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--navy);
+}
+.categoriaConta {
+  margin-top: 4px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* ---------- Sobre ---------- */
+
+.sobre {
+  margin-top: 80px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.sobreGrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+.sobre h2 {
+  margin: 12px 0 0;
+  text-wrap: balance;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.sobreGrade > div > p {
+  max-width: 520px;
+  margin: 16px 0 26px;
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--text);
+}
+.sobreGrade :global(.btn) {
+  padding: 14px 24px;
+  font-size: 15.5px;
+}
+.mvv {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mvv li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.mvvIcone {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  font-size: 23px;
+  color: #fff;
+  background: var(--navy);
+}
+.mvv strong {
+  font-size: 16.5px;
+  color: var(--navy);
+}
+.mvv li p {
+  margin: 3px 0 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* ---------- Contato ---------- */
+
+.contato {
+  padding-top: 72px;
+  padding-bottom: 64px;
+}
+.chamada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 44px;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #f5660c, #ff7a1a);
+  box-shadow: 0 30px 60px -30px rgba(245, 102, 12, 0.5);
+}
+.chamada h2 {
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.chamada p {
+  max-width: 520px;
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+.chamadaBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chamadaBotoes a {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+.btnBranco {
+  color: var(--navy);
+  background: #fff;
+}
+.btnBranco:hover {
+  color: var(--navy);
+}
+.btnBranco i {
+  font-size: 20px;
+  color: var(--green);
+}
+.btnMarinho {
+  color: #fff;
+  background: rgba(5, 40, 87, 0.9);
+}
+.btnMarinho:hover {
+  color: #fff;
+}
+.btnMarinho i {
+  font-size: 20px;
+}
+
+/* ==================================================================
+   Telas menores
+   ================================================================== */
+
+/* Notebook */
+@media (max-width: 1080px) {
+  .topoGrade {
+    gap: 36px;
+  }
+  /* os quatro motivos em duas fileiras de dois */
+  .confianca {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .confianca li + li {
+    border-left: 0;
+  }
+  .confianca li:nth-child(even) {
+    border-left: 1px solid var(--border);
+  }
+  .confianca li:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+  .cad {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 36px;
+    padding: 40px;
+  }
+  .categorias {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .sobreGrade {
+    gap: 36px;
+  }
+}
+
+/* Tablet: o topo e a vitrine viram uma coluna só. */
+@media (max-width: 880px) {
+  .topoGrade {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .fotoCaixa {
+    max-width: none;
+    margin: 0;
+  }
+  /* a peça fica no meio da foto, então dá para cortar em cima e embaixo */
+  .foto {
+    aspect-ratio: 16 / 10;
+  }
+  .selo {
+    left: 16px;
+    bottom: 16px;
+  }
+  .cad {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'topo'
+      'visual'
+      'resto';
+    row-gap: 28px;
+    padding: 36px 28px;
+  }
+  .cadTopo p {
+    max-width: none;
+  }
+  .categorias {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .sobreGrade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Celular */
+@media (max-width: 760px) {
+  /* A foto vem logo depois do título: `display: contents` solta os itens do
+     bloco de texto para poderem ser reordenados junto com ela. */
+  .topo {
+    padding: 22px 0 28px;
+  }
+  /* stretch: com o `center` do computador os itens encolheriam à largura
+     do conteúdo, e os botões ficariam estreitos no meio da tela */
+  .topoGrade {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .topoTexto {
+    display: contents;
+  }
+  .novidade { order: 1; align-self: flex-start; }
+  .titulo { order: 2; }
+  .lead { order: 3; }
+  .topoFoto { order: 4; margin-top: 20px; }
+  .atalhos { order: 5; }
+  .botoes { order: 6; }
+
+  .novidade {
+    gap: 8px;
+    padding-right: 12px;
+    font-size: 13.5px;
+  }
+  .novidadeTag {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+  /* no celular o aviso cabe numa linha só com o texto curto */
+  .novidadeLongo {
+    display: none;
+  }
+  .novidadeCurto {
+    display: inline;
+  }
+  .titulo {
+    margin-top: 16px;
+    font-size: 31px;
+  }
+  .lead {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+  .foto {
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+  }
+  /* no alto da foto, onde o fundo está vazio, para não cobrir a peça */
+  .selo {
+    top: 12px;
+    right: auto;
+    bottom: auto;
+    left: 12px;
+    padding: 9px 14px 9px 9px;
+  }
+  .seloIcone {
+    width: 38px;
+    height: 38px;
+    font-size: 21px;
+  }
+  /* os atalhos viram uma fileira só, que desliza */
+  .atalhos {
+    margin: 18px -24px 0;
+  }
+  .atalhos > span {
+    display: none;
+  }
+  .atalhos ul {
+    flex-wrap: nowrap;
+    width: 100%;
+    padding: 0 24px 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .atalhos ul::-webkit-scrollbar {
+    display: none;
+  }
+  .atalhos a {
+    white-space: nowrap;
+  }
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .botoes a {
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  /* Os quatro motivos viram uma fileira que desliza, como antes. */
+  .confianca {
+    display: flex;
+    gap: 10px;
+    margin: 26px -24px 0;
+    padding: 0 24px 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .confianca::-webkit-scrollbar {
+    display: none;
+  }
+  .confianca li,
+  .confianca li + li,
+  .confianca li:nth-child(even),
+  .confianca li:nth-child(n + 3) {
+    flex: 0 0 232px;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    scroll-snap-align: start;
+  }
+
+  .cadSecao {
+    padding-top: 48px;
+  }
+  .cad {
+    row-gap: 24px;
+    padding: 28px 20px 24px;
+    border-radius: 22px;
+  }
+  .cadLogo {
+    height: 32px;
+    margin-top: 16px;
+  }
+  .cadTitulo {
+    font-size: 27px;
+  }
+  .cadTopo p {
+    font-size: 15.5px;
+  }
+  .janelaBarra {
+    gap: 7px;
+    height: 30px;
+    padding-left: 10px;
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .janelaBarra img {
+    height: 11px;
+  }
+  .janelaBotoes i {
+    width: 28px;
+    font-size: 10px;
+  }
+  /* as duas costuras uma embaixo da outra, para não ficarem miúdas */
+  .corrida {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cadLista {
+    margin-top: 0;
+  }
+  .cadLista li {
+    font-size: 15px;
+  }
+  .cadPreco {
+    margin-top: 20px;
+  }
+  .cadBotoes {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cadBotoes a {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .secao {
+    padding-top: 52px;
+  }
+  .secaoTopo {
+    margin-bottom: 20px;
+  }
+  /* As categorias deslizam na horizontal, com encaixe em cada cartão. */
+  .categorias {
+    display: flex;
+    gap: 12px;
+    margin: 0 -24px;
+    padding: 0 24px 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+  }
+  .categorias::-webkit-scrollbar {
+    display: none;
+  }
+  .categoria {
+    flex: 0 0 150px;
+    scroll-snap-align: start;
+  }
+
+  .sobre {
+    margin-top: 56px;
+  }
+  .sobreGrade {
+    gap: 28px;
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+  .sobreGrade :global(.btn) {
+    justify-content: center;
+    width: 100%;
+  }
+  .mvv li {
+    padding: 16px;
+  }
+
+  .contato {
+    padding-top: 52px;
+    padding-bottom: 48px;
+  }
+  .chamada {
+    padding: 28px 22px;
+  }
+  .chamadaBotoes,
+  .chamadaBotoes a {
+    width: 100%;
+  }
+  .chamadaBotoes a {
+    justify-content: center;
+  }
+}
+
+/* Celulares estreitos: o recuo do container cai para 16px. */
+@media (max-width: 400px) {
+  .titulo {
+    font-size: 29px;
+  }
+  .atalhos {
+    margin-right: -16px;
+    margin-left: -16px;
+  }
+  .atalhos ul {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  .confianca,
+  .categorias {
+    margin-right: -16px;
+    margin-left: -16px;
+    padding-right: 16px;
+    padding-left: 16px;
+    scroll-padding-left: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .novidade,
+  .novidade i {
+    transition: none;
+  }
+}

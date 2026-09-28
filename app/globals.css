@@ -69,35 +69,12 @@ input::placeholder { color: var(--muted); }
 /* Menu suspenso do celular — escondido por padrão, ou seja, no desktop. */
 .nav-toggle { display: none; }
 .mobile-drawer { display: none; }
-/* Versão curta do texto do hero — só aparece no celular. */
-.lead-short { display: none; }
-
-/* Chamada do Ezermec CAD na home: foto à esquerda, texto à direita. */
-.home-cad {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 40px;
-  align-items: center;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 30px;
-}
-.home-cad-foto {
-  position: relative;
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: #101418;
-}
-/* Notebook e tablet deitado: a foto encolhe demais em duas colunas largas. */
-@media (max-width: 1080px) {
-  .home-cad { grid-template-columns: 1fr 1fr; gap: 28px; padding: 24px; }
-}
-/* Tablet em pé e telas estreitas: empilha, com a foto primeiro. */
-@media (max-width: 880px) {
-  .home-cad { grid-template-columns: 1fr; gap: 24px; padding: 22px; }
+/* Etiqueta "Novo" ao lado de um item do menu (hoje, o Ezermec CAD). */
+.nav-novo {
+  display: inline-block; margin-left: 7px; padding: 2px 7px; border-radius: 100px;
+  font-family: var(--font-mono), monospace; font-size: 9.5px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; line-height: 1.4; vertical-align: 2px;
+  color: #fff; background: var(--orange);
 }
 
 /* Barra e folha de filtros do celular — no desktop o painel lateral
@@ -135,9 +112,6 @@ body[data-menu-open] .wa-float { display: none !important; }
 .page-btn { min-width: 42px; height: 42px; padding: 0 12px; border-radius: 11px; font: 700 14px var(--font-archivo), system-ui, sans-serif; cursor: pointer; transition: .15s; background: #fff; color: var(--navy); border: 1px solid var(--border); }
 .page-btn.active { background: var(--orange); color: #fff; border: 1px solid var(--orange); box-shadow: 0 8px 18px -8px rgba(245,102,12,.6); }
 
-/* Missão/visão/valores da home */
-.mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-
 @media (max-width: 860px) {
   .catalog-grid { grid-template-columns: 1fr; }
   .catalog-grid aside { position: static !important; top: auto !important; }
@@ -149,14 +123,6 @@ body[data-menu-open] .wa-float { display: none !important; }
    computador não é tocado por nenhuma destas regras.
    ================================================================ */
 @media (max-width: 760px) {
-  /* A quebra de linha fixa do título da home deixava a palavra "para"
-     sozinha numa linha; no celular o texto flui naturalmente. */
-  .hero-br { display: none; }
-
-  /* Empilha os cards de missão/visão/valores — em 3 colunas eles ficavam
-     com ~100px cada e estouravam a largura da tela. */
-  .mvv-grid { grid-template-columns: 1fr; }
-
   /* HEADER — era o maior problema: fixo e com 336px de altura (41% da
      tela do celular), porque o menu quebrava em 3 linhas. Agora o menu
      é uma única linha que rola na horizontal. */
@@ -314,87 +280,9 @@ body[data-menu-open] .wa-float { display: none !important; }
   .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
   .product-grid .pcard-img i { font-size: 46px !important; }
 
-  /* HERO DA HOME
-     A busca do hero ficava colada na busca do cabeçalho — duas caixas de
-     busca iguais, uma embaixo da outra. No celular fica só a do topo. */
+  /* A busca do topo da home ficaria colada na busca do cabeçalho — duas
+     caixas de busca iguais, uma embaixo da outra. No celular fica só a do cabeçalho. */
   .hero-search { display: none !important; }
-
-  /* Menos texto: a versão longa dá lugar à curta. */
-  .lead-full { display: none; }
-  .lead-short { display: inline; }
-  .hero-lead { font-size: 16px !important; margin-top: 14px !important; }
-
-  /* Mais imagem: `display: contents` dissolve a coluna de texto, e assim a
-     foto pode ser reordenada para logo abaixo da chamada, em vez de ficar
-     no fim do hero depois dos botões e dos números. */
-  /* O `align-items: center` do desktop faria os itens encolherem à largura
-     do conteúdo em coluna, e a foto (largura 100%) colapsaria para zero. */
-  .hero-grid { display: flex !important; flex-direction: column; align-items: stretch !important; gap: 0 !important; padding-top: 26px !important; padding-bottom: 34px !important; }
-  .hero-text { display: contents; }
-  .hero-badge { order: 1; }
-  .hero-title { order: 2; font-size: 31px !important; margin-top: 16px !important; }
-  .hero-lead { order: 3; }
-  .hero-photo { order: 4; margin-top: 22px; }
-  .hero-cta { order: 5; }
-  .hero-stats { order: 6; }
-  .hero-photo-box { aspect-ratio: 4/3.1 !important; }
-
-  /* Os dois botões tinham larguras diferentes e ficavam desalinhados;
-     agora ocupam a linha inteira, um sob o outro. */
-  .hero-cta { flex-direction: column; gap: 10px !important; margin-top: 22px !important; }
-  .hero-cta > * { width: 100%; justify-content: center; padding: 14px 20px !important; }
-
-  /* Os números quebravam em duas linhas e sobrava um risco divisor solto
-     no começo da segunda. Viram três colunas fixas, sem divisores. */
-  .hero-stats { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 10px !important; margin-top: 24px !important; }
-  .hero-stats > div { display: block !important; }
-  .stat-sep { display: none; }
-  .hero-stats .mono { font-size: 10px !important; letter-spacing: .04em !important; }
-
-  /* O selo "Revenda autorizada" saía para fora da foto pela esquerda. */
-  .hero-selo { left: 12px !important; right: 12px !important; bottom: 12px !important; }
-
-  /* Chamada do CAD na home: cartão mais justo e botão de largura cheia,
-     para acompanhar o resto da página no celular. */
-  .home-cad { padding: 16px; border-radius: 18px; gap: 18px; }
-  .home-cad-texto .btn { width: 100%; justify-content: center; }
-
-  /* CATEGORIAS DA HOME — são 12; empilhadas viravam uma rolagem enorme.
-     No celular viram uma fileira que desliza na horizontal, com encaixe
-     em cada card. As margens negativas sangram até a borda da tela, para
-     o card seguinte aparecer cortado e indicar que dá para arrastar. */
-  .cat-grid {
-    display: flex !important;
-    grid-template-columns: none !important;
-    gap: 12px !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-    margin-left: -24px; margin-right: -24px;
-    padding-left: 24px; padding-right: 24px;
-    /* Sem isto o encaixe ignora o recuo e cola o primeiro card na borda. */
-    scroll-padding-left: 24px;
-  }
-  .cat-grid::-webkit-scrollbar { display: none; }
-  .cat-grid > a { flex: 0 0 152px; scroll-snap-align: start; }
-
-  /* DIFERENCIAIS — mesmo tratamento: são 8 cards, que empilhados davam uma
-     rolagem longa. Ficam mais largos que as categorias porque têm descrição. */
-  .dif-grid {
-    display: flex !important;
-    grid-template-columns: none !important;
-    gap: 12px !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-    margin-left: -24px; margin-right: -24px;
-    padding-left: 24px; padding-right: 24px;
-    scroll-padding-left: 24px;
-  }
-  .dif-grid::-webkit-scrollbar { display: none; }
-  .dif-grid > div { flex: 0 0 224px; scroll-snap-align: start; }
 
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }
@@ -407,6 +295,4 @@ body[data-menu-open] .wa-float { display: none !important; }
   .logo-btn img { height: 30px !important; }
   .wa-pill { padding: 8px 10px; font-size: 12.5px; gap: 6px; }
   .container { padding-left: 16px; padding-right: 16px; }
-  /* A sangria das fileiras acompanha o recuo menor do container. */
-  .cat-grid, .dif-grid { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; scroll-padding-left: 16px; }
 }

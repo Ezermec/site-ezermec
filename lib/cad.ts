@@ -73,6 +73,13 @@ export const cad = {
   // Sem internet: o aplicativo não faz nenhuma chamada de rede.
   heroChecks: ['Configurado para a sua máquina', 'Funciona sem internet', 'Suporte da Ezermec'],
 
+  // A vitrine do programa na página inicial: o que ele faz, em três linhas.
+  chamada: [
+    'Arquivo pronto para a máquina, sem conversor',
+    'Um clique e o desenho vira uma costura só',
+    'Veja o erro na tela, não no tecido',
+  ],
+
   capa: {
     src: '/assets/cad-desenho-e-costura.jpg',
     w: 1600,

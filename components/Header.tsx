@@ -9,11 +9,12 @@ import { Logo } from './Logo';
 // Itens do menu. `match` decide quando o item fica marcado como página atual —
 // "Produtos" também cobre a página de detalhe do produto, e os links de âncora
 // (#categorias / #contato) só marcam quando já estamos na home.
-const NAV: Array<{ href: string; label: string; match: (path: string) => boolean }> = [
+// `novo` põe a etiqueta "Novo" ao lado do item (hoje, o Ezermec CAD).
+const NAV: Array<{ href: string; label: string; novo?: boolean; match: (path: string) => boolean }> = [
   { href: '/', label: 'Início', match: (p) => p === '/' },
   { href: '/catalogo', label: 'Produtos', match: (p) => p.startsWith('/catalogo') || p.startsWith('/produto') },
   { href: '/#categorias', label: 'Categorias', match: () => false },
-  { href: '/ezermec-cad', label: 'Ezermec CAD', match: (p) => p.startsWith('/ezermec-cad') },
+  { href: '/ezermec-cad', label: 'Ezermec CAD', novo: true, match: (p) => p.startsWith('/ezermec-cad') },
   { href: '/sobre', label: 'Sobre', match: (p) => p.startsWith('/sobre') },
   { href: '/#contato', label: 'Contato', match: () => false },
 ];
@@ -116,6 +117,7 @@ export function Header() {
                 aria-current={active ? 'page' : undefined}
               >
                 {item.label}
+                {item.novo && <span className="nav-novo">Novo</span>}
               </Link>
             );
           })}
@@ -145,7 +147,10 @@ export function Header() {
                   aria-current={active ? 'page' : undefined}
                   onClick={() => setMenuOpen(false)}
                 >
-                  <span>{item.label}</span>
+                  <span>
+                    {item.label}
+                    {item.novo && <span className="nav-novo">Novo</span>}
+                  </span>
                   <i className="ph ph-caret-right" />
                 </Link>
               );
