@@ -49,6 +49,11 @@ function icon(name: string) {
 }
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+// o preço grande do plano, sem o "R$" (que vai menor ao lado): 1.097,00
+const valorBr = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// mensalidade do plano mais curto, base da etiqueta "X% a menos por mês"
+const mensalBase = Math.max(...cad.plans.map((p) => p.mensal ?? 0));
 
 const VISUAIS: Record<CadVisual, () => React.JSX.Element> = {
   desenho: IlustracaoDesenho,
@@ -235,34 +240,39 @@ export default function EzermecCadPage() {
           <header className={css.head}>
             <span className="eyebrow">Planos</span>
             <h2>Escolha o período</h2>
-            <p>Todos incluem o aplicativo completo e o suporte da Ezermec.</p>
+            <p>Quanto maior o período, menor a mensalidade.</p>
           </header>
 
           <div className={css.planos}>
             {cad.plans.map((p) => {
-              // O vitalício é pagamento único: não tem "/mês", percentual nem
-              // total de período.
+              // O vitalício é pagamento único: não tem "/mês" nem total de
+              // período. A etiqueta compara a mensalidade com a do plano mais curto.
               const valor = p.unico ?? p.mensal ?? 0;
-              const desconto = p.de && p.mensal ? Math.round((1 - p.mensal / p.de) * 100) : 0;
+              const menor = Math.round((1 - (p.mensal ?? 0) / mensalBase) * 100);
+              const etiqueta =
+                p.unico !== null ? 'Acesso para sempre' : menor > 0 ? `${menor}% a menos por mês` : 'Para começar';
               const rodape =
                 p.unico !== null
                   ? 'Pagamento único, sem mensalidade'
-                  : `${brl.format((p.mensal ?? 0) * (p.meses ?? 0))} pelos ${p.meses} meses`;
+                  : `${brl.format((p.mensal ?? 0) * (p.meses ?? 0))} no período`;
 
               return (
                 <div key={p.titulo} className={`${css.plano} ${p.destaque ? css.planoDestaque : ''}`}>
                   {p.selo && <span className={css.planoSelo}>{p.selo}</span>}
                   <div className={css.planoPeriodo}>{p.titulo}</div>
-                  <div className={css.planoDe}>
-                    {p.de ? <>de <s>{brl.format(p.de)}</s>{p.unico === null && '/mês'} por</> : 'valor único'}
-                  </div>
                   <div className={css.planoPreco}>
                     <small>R$</small>
-                    <strong>{valor.toFixed(2).replace('.', ',')}</strong>
+                    <strong>{valorBr.format(valor)}</strong>
                     {p.unico === null && <span>/mês</span>}
                   </div>
-                  <span className={css.planoTag}>{desconto > 0 ? `Economize ${desconto}%` : 'Acesso para sempre'}</span>
+                  <span className={css.planoTag}>{etiqueta}</span>
                   <div className={css.planoTotal}>{rodape}</div>
+                  <div className={css.planoExtra}>
+                    <i className="ph ph-desktop" aria-hidden="true" />
+                    <span>
+                      Computador adicional: <b>+ {brl.format(p.adicional)}{p.unico === null && '/mês'}</b>
+                    </span>
+                  </div>
                   <a
                     href={waPlano(p.titulo)}
                     target="_blank"
@@ -274,6 +284,15 @@ export default function EzermecCadPage() {
                 </div>
               );
             })}
+          </div>
+
+          <div className={css.incluso}>
+            <span className={css.chipsRotulo}>Incluído em todos os planos</span>
+            <ul>
+              {cad.incluso.map((it) => (
+                <li key={it.texto}><i className={icon(it.icon)} aria-hidden="true" />{it.texto}</li>
+              ))}
+            </ul>
           </div>
 
           <div className={css.compat}>

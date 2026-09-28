@@ -10,15 +10,16 @@
 // termos de CAD. Base: o briefing da Ezermec e o código do próprio aplicativo.
 
 /**
- * Um plano da tabela de preços. Assinaturas usam `meses` + `mensal` (com `de`
- * como preço cheio riscado); o vitalício usa `unico` e não tem mensalidade.
+ * Um plano da tabela de preços. Assinaturas usam `meses` + `mensal`; o
+ * vitalício usa `unico` e não tem mensalidade. `adicional` é o preço de cada
+ * computador a mais no mesmo CNPJ: por mês nas assinaturas, único no vitalício.
  */
 export interface CadPlan {
   titulo: string;
   meses: number | null;
-  de: number | null;
   mensal: number | null;
   unico: number | null;
+  adicional: number;
   selo: string | null;
   destaque: boolean;
 }
@@ -167,12 +168,21 @@ export const cad = {
     ] satisfies Array<{ titulo: string; texto: string; icone: CadIcone }>,
   },
 
+  // Tabela de preços de setembro de 2026.
   plans: [
-    { titulo: '6 meses', meses: 6, de: 89.7, mensal: 49.7, unico: null, selo: null, destaque: false },
-    { titulo: '12 meses', meses: 12, de: 78.8, mensal: 38.8, unico: null, selo: 'Mais popular', destaque: false },
-    { titulo: '24 meses', meses: 24, de: 69.9, mensal: 29.9, unico: null, selo: 'Melhor mensalidade', destaque: false },
-    { titulo: 'Vitalício', meses: null, de: 958, mensal: null, unico: 897, selo: 'Pague uma vez', destaque: true },
+    { titulo: '6 meses', meses: 6, mensal: 54.7, unico: null, adicional: 9.9, selo: null, destaque: false },
+    { titulo: '12 meses', meses: 12, mensal: 43.8, unico: null, adicional: 9.9, selo: 'Mais popular', destaque: false },
+    { titulo: '24 meses', meses: 24, mensal: 34.9, unico: null, adicional: 9.9, selo: 'Melhor mensalidade', destaque: false },
+    { titulo: 'Vitalício', meses: null, mensal: null, unico: 1097, adicional: 397, selo: 'Pague uma vez', destaque: true },
   ] satisfies CadPlan[],
+
+  // O que todo plano inclui (da tabela de preços).
+  incluso: [
+    { icon: 'ph-squares-four', texto: 'Programa completo, sem módulos extras' },
+    { icon: 'ph-headset', texto: 'Suporte da Ezermec' },
+    { icon: 'ph-arrows-clockwise', texto: 'Atualizações no período' },
+    { icon: 'ph-desktop', texto: 'Computador adicional com desconto' },
+  ],
 
   // `duracao` é o ciclo da animação do passo, em segundos (ver Ilustracoes.tsx):
   // o passo fica na tela o tempo de a animação rodar uma vez inteira.
@@ -231,7 +241,11 @@ export const cad = {
     },
     {
       q: 'Qual a diferença entre os planos?',
-      a: 'Só o período de uso. Todos têm o programa completo e o suporte da Ezermec; o vitalício é pagamento único.',
+      a: 'Só o período de uso: quanto maior, menor a mensalidade. Todos têm o programa completo, o suporte e as atualizações; o vitalício é pagamento único.',
+    },
+    {
+      q: 'Posso usar em mais de um computador?',
+      a: 'Sim. Cada computador a mais, no mesmo CNPJ, custa R$ 9,90 por mês nos planos de 6, 12 e 24 meses, ou R$ 397,00 uma vez só no vitalício.',
     },
   ],
 };

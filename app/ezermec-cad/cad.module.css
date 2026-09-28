@@ -802,16 +802,12 @@
   text-transform: uppercase;
   color: var(--muted);
 }
-.planoDe {
-  margin-top: 10px;
-  font-size: 14.5px;
-  color: var(--muted);
-}
 .planoPreco {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin-top: 4px;
+  margin-top: 12px;
+  white-space: nowrap;
   color: var(--navy);
 }
 .planoPreco small {
@@ -840,10 +836,63 @@
   background: #fdede1;
 }
 .planoTotal {
-  margin: 14px 0 18px;
+  margin-top: 12px;
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--text);
+}
+/* quanto custa cada computador a mais no mesmo CNPJ */
+.planoExtra {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0 20px;
+  padding-top: 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+.planoExtra i {
+  flex: none;
+  margin-top: 1px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.planoExtra b {
+  white-space: nowrap;
+  color: var(--navy);
+}
+
+/* O que todo plano inclui, numa fileira embaixo dos cartões. */
+.incluso {
+  max-width: 1120px;
+  margin: 36px auto 0;
+  text-align: center;
+}
+.incluso > span {
+  display: block;
+}
+.incluso ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.incluso li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.incluso i {
+  font-size: 19px;
+  color: var(--cad-verde);
 }
 .planoBotao {
   justify-content: center;
@@ -1496,6 +1545,15 @@
   .planos {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+  .incluso {
+    margin-top: 28px;
+    text-align: left;
+  }
+  .incluso ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
   .compat {
     margin-top: 32px;
