@@ -61,7 +61,7 @@ export const cad = {
   headline,
   tagline: headline.join(' '),
   description:
-    'O Ezermec CAD é o programa para desenhar as costuras da sua máquina Fischertec. Poupa tempo de desenho e de máquina, linha e tecido — e o arquivo sai pronto, sem conversor.',
+    'O programa que desenha as costuras e gera o arquivo pronto para a máquina, sem conversor. Poupa tempo, linha e tecido.',
 
   // O aplicativo não é baixado direto do site: o cliente pede pelo WhatsApp e
   // a Ezermec envia o instalador. Por isso a página não tem link de download.
@@ -98,53 +98,30 @@ export const cad = {
   // Começar do desenho que a empresa já tem.
   origem: {
     titulo: 'Tem o desenho num arquivo ou só numa foto?',
-    texto: 'O Ezermec CAD abre, põe na medida certa e transforma em costura.',
     itens: [
-      { icon: 'ph-file-pdf', titulo: 'Arquivo do computador', texto: 'DXF ou PDF abre com a medida certa.' },
-      { icon: 'ph-image', titulo: 'Foto ou imagem', texto: 'Entra no tamanho real da peça, como um molde por baixo.' },
-      { icon: 'ph-magic-wand', titulo: 'Traçar sozinho', texto: 'O programa transforma a imagem em linhas de costura.' },
+      { icon: 'ph-file-pdf', titulo: 'Arquivo DXF ou PDF', texto: 'Abre na medida certa.' },
+      { icon: 'ph-image', titulo: 'Foto ou imagem', texto: 'Vira um molde no tamanho real.' },
+      { icon: 'ph-magic-wand', titulo: 'Traçar sozinho', texto: 'A imagem vira linhas de costura.' },
     ],
-    ganho: 'O desenho do cliente, do catálogo ou do fornecedor vira costura sem começar do zero.',
   },
-
-  // As outras vantagens, ao lado do bloco acima.
-  advantages: [
-    {
-      icon: 'ph-eye',
-      title: 'Veja o erro na tela, não no tecido',
-      desc: 'A simulação mostra a agulha andando e o tempo de cada peça antes de produzir.',
-    },
-    {
-      icon: 'ph-fill ph-seal-check',
-      title: 'Feito por quem conhece a máquina',
-      desc: 'Desenvolvido pela Ezermec, revenda autorizada Fischertec.',
-    },
-  ],
 
   // O botão Interligar: o desenho inteiro vira um caminho só.
   interligar: {
     titulo: 'Um clique e o desenho vira uma costura só.',
-    texto: 'A máquina não para para pular de um trecho a outro.',
     antes: { rotulo: 'Sem interligar', conta: '6 costuras · 5 cortes de linha' },
     depois: { rotulo: 'Com Interligar', conta: '1 costura só · nenhum corte' },
-    itens: [
-      'A borda da peça é costurada uma vez só, sem a agulha passar de novo por cima.',
-      'Linhas duplas e triplas saem em zigue-zague, uma atrás da outra.',
-      'Os quadros do colchão ou edredom são costurados em sequência, um levando ao outro.',
-      'A costura termina perto de onde a peça sai do quadro da máquina.',
+    ganhos: [
+      { icon: 'ph-pause', texto: 'Menos paradas' },
+      { icon: 'ph-scissors', texto: 'Menos cortes de linha' },
+      { icon: 'ph-timer', texto: 'Menos tempo de máquina' },
     ],
-    ganho: {
-      titulo: 'Menos parada, menos corte de linha, mais peça pronta.',
-      texto: 'Menos tempo de máquina em cada peça. Quem monta o caminho é o programa, não o operador.',
-    },
   },
 
   // Máquinas: são as opções da tela "Configuração da máquina (NGC)" do app.
   // Usos: as aplicações das próprias máquinas de matelação Fischertec.
   compat: {
-    texto:
-      'A Ezermec prepara a configuração da sua máquina e do quadro e manda junto com o programa. O arquivo já sai com o tamanho do ponto, a velocidade e o quadro certos.',
-    frase: 'Instalou, configurou para a sua máquina, está costurando.',
+    texto: 'A Ezermec, revenda autorizada Fischertec, manda o programa já configurado para a sua máquina e o seu quadro.',
+    frase: 'Instalou, já está costurando.',
     maquinas: ['FIS 20', 'FIS 35', '2 cabeçotes com Gira-e-Corta', 'Máquinas antigas'],
     usos: ['Colchões', 'Edredons', 'Estofados', 'Jaquetas'],
   },
@@ -159,32 +136,32 @@ export const cad = {
     itens: [
       {
         titulo: 'Repetir em série',
-        texto: 'Desenhe um quadro e o programa repete quantas vezes precisar, na distância certa.',
+        texto: 'Um quadro vira a fileira inteira, na distância certa.',
         icone: { cor: COR.modificar, svg: '<rect x="2" y="6" width="4" height="8"/><rect x="8" y="6" width="4" height="8"/><rect x="14" y="6" width="4" height="8"/>' },
       },
       {
         titulo: 'Espelhar',
-        texto: 'Desenhe metade, o programa faz o outro lado igual.',
+        texto: 'Desenhe metade, o programa faz o resto.',
         icone: { cor: COR.modificar, svg: '<path d="M10 2v16" stroke-dasharray="2 2"/><path d="M8 5L3 10l5 5zM12 5l5 5-5 5"/>' },
       },
       {
         titulo: 'Costura dupla e tripla',
-        texto: 'Uma linha vira duas, três ou mais costuras paralelas, na distância escolhida.',
+        texto: 'Uma linha vira duas, três ou mais.',
         icone: { cor: COR.modificar, svg: '<path d="M2 5.5h16M2 14.5h16"/><path d="M2 10h16" stroke-dasharray="2 2" opacity=".5"/><path d="M10 3.5v13" opacity=".5"/>' },
       },
       {
         titulo: 'Encostar',
-        texto: 'Um bloco encosta no outro, rente, sem ficar acertando na mão.',
+        texto: 'Um bloco encosta no outro, rente.',
         icone: { cor: COR.modificar, svg: '<rect x="2.5" y="4.5" width="6" height="11"/><rect x="11.5" y="4.5" width="6" height="11"/><path d="M8.5 10h3"/>' },
       },
       {
         titulo: 'Medida certa',
-        texto: 'Digite 1000 e a linha sai com 1 metro. Cantos arredondados ou cortados, todos de uma vez.',
+        texto: 'Digite 1000 e a linha sai com 1 metro.',
         icone: { cor: COR.apoio, svg: '<path d="M2 12l10-10 6 6-10 10z"/><path d="M6 8l2 2M9 5l2 2M9 11l2 2"/>' },
       },
       {
         titulo: 'Nome e marca',
-        texto: 'Digite o nome, escolha a altura e clique onde começa. Cada letra sai pronta para a agulha.',
+        texto: 'Digite o nome: cada letra sai pronta para a agulha.',
         icone: { cor: COR.desenho, svg: '<path d="M2.5 16L6.5 4l4 12M4 12h5"/><path d="M12.5 4v12M12.5 10.2c.6-1.5 1.8-2.3 3-2.3 1.7 0 2.7 1.3 2.7 4s-1 4-2.7 4c-1.2 0-2.4-.8-3-2.3"/>' },
       },
     ] satisfies Array<{ titulo: string; texto: string; icone: CadIcone }>,
@@ -197,12 +174,14 @@ export const cad = {
     { titulo: 'Vitalício', meses: null, de: 958, mensal: null, unico: 897, selo: 'Pague uma vez', destaque: true },
   ] satisfies CadPlan[],
 
+  // `duracao` é o ciclo da animação do passo, em segundos (ver Ilustracoes.tsx):
+  // o passo fica na tela o tempo de a animação rodar uma vez inteira.
   steps: [
-    { titulo: 'Desenhe', texto: 'No tamanho real da peça, ou a partir de um arquivo ou foto.', visual: 'desenho' },
-    { titulo: 'Dê acabamento', texto: 'Trava, reforço e pausa já saem no arquivo. A peça sai pronta.', visual: 'acabamento' },
-    { titulo: 'Confira', texto: 'Veja a agulha andar, o tempo da peça e se ela cabe no quadro.', visual: 'simulacao' },
-    { titulo: 'Envie', texto: 'O arquivo sai pronto para a máquina. Sem conversor.', visual: 'arquivo' },
-  ] satisfies Array<{ titulo: string; texto: string; visual: CadVisual }>,
+    { titulo: 'Desenhe', texto: 'Na medida real da peça.', visual: 'desenho', duracao: 5 },
+    { titulo: 'Dê acabamento', texto: 'Trava, reforço e pausa já saem no arquivo.', visual: 'acabamento', duracao: 7 },
+    { titulo: 'Confira', texto: 'Veja o erro na tela, não no tecido.', visual: 'simulacao', duracao: 7 },
+    { titulo: 'Envie', texto: 'Direto para a máquina, sem conversor.', visual: 'arquivo', duracao: 6 },
+  ] satisfies Array<{ titulo: string; texto: string; visual: CadVisual; duracao: number }>,
 
   // Os seis grupos da barra de ferramentas da versão 1.0, com as cores do app.
   toolGroups: [
@@ -217,30 +196,30 @@ export const cad = {
   // Tour pela tela. `x` e `y` são a posição do marcador em % do print
   // (tela, 1544x868); `grupos` mostra os grupos de ferramentas na legenda.
   tour: [
-    { x: 17.4, y: 7, titulo: 'Ferramentas', texto: 'Em duas fileiras, cada botão com atalho no teclado.', grupos: true },
-    { x: 40, y: 62, titulo: 'Quadro da máquina', texto: 'A linha tracejada é o quadro. Se a peça não cabe, a tela avisa quanto passa.', grupos: false },
-    { x: 88.7, y: 90, titulo: 'Interligar', texto: 'Um clique e o desenho vira uma costura só, com trava nas pontas.', grupos: false },
-    { x: 88.7, y: 26.5, titulo: 'Camadas e precisão', texto: 'Camadas para organizar e ajudas que acertam cada ponto sozinhas.', grupos: false },
-    { x: 34, y: 2, titulo: 'Máquina e simulação', texto: 'Ajuste a máquina e veja a costura rodando antes de salvar.', grupos: false },
-    { x: 58.4, y: 7, titulo: 'Acabamento', texto: 'Reforço, pausa e retrocesso marcados no desenho saem no arquivo.', grupos: false },
+    { x: 17.4, y: 7, titulo: 'Ferramentas', texto: 'Separadas por cor, com atalho no teclado.', grupos: true },
+    { x: 40, y: 62, titulo: 'Quadro da máquina', texto: 'A tela avisa se a peça não cabe.', grupos: false },
+    { x: 88.7, y: 90, titulo: 'Interligar', texto: 'Uma costura só, com trava nas pontas.', grupos: false },
+    { x: 88.7, y: 26.5, titulo: 'Camadas e precisão', texto: 'Ajudas que acertam cada ponto sozinhas.', grupos: false },
+    { x: 34, y: 2, titulo: 'Máquina e simulação', texto: 'Veja a costura rodando antes de salvar.', grupos: false },
+    { x: 58.4, y: 7, titulo: 'Acabamento', texto: 'Reforço, pausa e retrocesso saem no arquivo.', grupos: false },
   ],
 
   faq: [
     {
       q: 'Funciona com a minha máquina?',
-      a: 'O Ezermec CAD trabalha com as Fischertec FIS 20 e FIS 35, inclusive as de 2 cabeçotes com Gira-e-Corta e os modelos mais antigos. A Ezermec manda a configuração da sua máquina junto com o programa. Na dúvida, chame no WhatsApp que a gente confirma o seu modelo.',
+      a: 'Funciona com as Fischertec FIS 20 e FIS 35, inclusive as de 2 cabeçotes com Gira-e-Corta e os modelos antigos. Na dúvida, chame no WhatsApp que a gente confirma.',
     },
     {
       q: 'O que é o arquivo NGC?',
-      a: 'É o arquivo com o caminho da agulha que a máquina Fischertec executa. O Ezermec CAD gera esse arquivo direto do desenho, já com a configuração da máquina — por isso não precisa de conversor.',
+      a: 'É o arquivo que a máquina Fischertec lê para costurar. O Ezermec CAD gera esse arquivo direto do desenho — sem conversor.',
     },
     {
       q: 'Consigo usar desenhos que eu já tenho?',
-      a: 'Sim. Ele abre arquivos DXF e PDF na medida certa. Foto ou imagem também: entra no tamanho real da peça, como um molde para desenhar por cima — ou o programa traça sozinho.',
+      a: 'Sim. Abre DXF e PDF na medida certa, e uma foto vira molde no tamanho real — ou o programa traça sozinho.',
     },
     {
       q: 'Precisa de internet?',
-      a: 'Não. O programa funciona instalado no computador, sem internet.',
+      a: 'Não. Funciona instalado no computador, sem internet.',
     },
     {
       q: 'Qual computador eu preciso?',
@@ -248,11 +227,11 @@ export const cad = {
     },
     {
       q: 'Como recebo o programa?',
-      a: 'Escolha o plano e chame a gente no WhatsApp. A Ezermec envia o instalador junto com a configuração da sua máquina e do quadro: instalou, já está costurando.',
+      a: 'Chame a gente no WhatsApp. A Ezermec envia o instalador já configurado para a sua máquina e o seu quadro.',
     },
     {
       q: 'Qual a diferença entre os planos?',
-      a: 'Só o período de uso. Todos incluem o aplicativo completo e o suporte da Ezermec. Quanto maior o período, menor a mensalidade — e o vitalício é pagamento único.',
+      a: 'Só o período de uso. Todos têm o programa completo e o suporte da Ezermec; o vitalício é pagamento único.',
     },
   ],
 };

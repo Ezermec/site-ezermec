@@ -12,6 +12,8 @@ import {
   InterligarAntes,
   InterligarDepois,
 } from './Ilustracoes';
+import InterligarDemo from './InterligarDemo';
+import Passos from './Passos';
 import css from './cad.module.css';
 
 export const metadata: Metadata = {
@@ -122,13 +124,51 @@ export default function EzermecCadPage() {
         </div>
       </section>
 
-      {/* POR QUE COMPENSA — a grande vantagem, contada como comparação. */}
+      {/* INTERLIGAR — o mesmo desenho costurado sem e com o botão, lado a lado. */}
+      <section className={css.section} id="interligar">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Interligar</span>
+            <h2>{interligar.titulo}</h2>
+          </header>
+
+          <InterligarDemo
+            antes={{ ...interligar.antes, arte: <InterligarAntes /> }}
+            depois={{ ...interligar.depois, arte: <InterligarDepois /> }}
+          />
+
+          <ul className={css.ganhos}>
+            {interligar.ganhos.map((g) => (
+              <li key={g.texto}><i className={icon(g.icon)} aria-hidden="true" />{g.texto}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* COMO FUNCIONA — os quatro passos numa tela grande, um de cada vez. */}
+      <section className={`${css.section} ${css.faixa}`} id="como-funciona">
+        <div className="container">
+          <header className={css.head}>
+            <span className="eyebrow">Como funciona</span>
+            <h2>Do desenho à máquina em 4 passos</h2>
+          </header>
+
+          <Passos
+            passos={cad.steps.map(({ titulo, texto, duracao }) => ({ titulo, texto, duracao }))}
+            artes={cad.steps.map((p) => {
+              const Visual = VISUAIS[p.visual];
+              return <Visual key={p.visual} />;
+            })}
+          />
+        </div>
+      </section>
+
+      {/* POR QUE COMPENSA — a etapa do conversor, que o Ezermec CAD elimina. */}
       <section className={css.section} id="vantagens">
         <div className="container">
           <header className={css.head}>
             <span className="eyebrow">Por que compensa</span>
             <h2>Sem conversor NGC.</h2>
-            <p>O arquivo já sai pronto, direto do desenho para a máquina.</p>
           </header>
 
           <div className={css.comparacao}>
@@ -168,12 +208,11 @@ export default function EzermecCadPage() {
             </div>
           </div>
 
-          {/* Começar do desenho que a empresa já tem: arquivo, foto ou traço automático. */}
+          {/* Começar do desenho que a empresa já tem. */}
           <div className={css.origem}>
-            <div className={css.origemTexto}>
+            <div>
               <span className="eyebrow">Do arquivo ou da foto para a máquina</span>
               <h3>{origem.titulo}</h3>
-              <p>{origem.texto}</p>
             </div>
             <ul className={css.origemItens}>
               {origem.itens.map((it) => (
@@ -186,133 +225,12 @@ export default function EzermecCadPage() {
                 </li>
               ))}
             </ul>
-            <p className={css.origemGanho}>
-              <i className="ph-fill ph-check-circle" />
-              {origem.ganho}
-            </p>
-          </div>
-
-          <ul className={css.vantagens}>
-            {cad.advantages.map((v) => (
-              <li key={v.title}>
-                <i className={icon(v.icon)} />
-                <div>
-                  <strong>{v.title}</strong>
-                  <span>{v.desc}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* INTERLIGAR — o mesmo desenho antes e depois do botão. */}
-      <section className={`${css.section} ${css.faixa}`} id="interligar">
-        <div className="container">
-          <header className={css.head}>
-            <span className="eyebrow">Interligar</span>
-            <h2>{interligar.titulo}</h2>
-            <p>{interligar.texto}</p>
-          </header>
-
-          <div className={css.antesDepois}>
-            <figure className={`${css.quadro} ${css.quadroAntes}`}>
-              <InterligarAntes />
-              <figcaption>
-                <strong>{interligar.antes.rotulo}</strong>
-                <span>{interligar.antes.conta}</span>
-              </figcaption>
-            </figure>
-
-            <div className={css.clique} aria-hidden="true">
-              <span className={css.cliqueSeta}><i className="ph ph-arrow-right" /></span>
-              <span className={css.cliqueTexto}>1 clique</span>
-            </div>
-
-            <figure className={`${css.quadro} ${css.quadroDepois}`}>
-              <InterligarDepois />
-              <figcaption>
-                <strong>{interligar.depois.rotulo}</strong>
-                <span>{interligar.depois.conta}</span>
-              </figcaption>
-            </figure>
-          </div>
-
-          <div className={css.interDetalhe}>
-            <ul className={css.interItens}>
-              {interligar.itens.map((t) => (
-                <li key={t}><i className="ph-fill ph-check-circle" />{t}</li>
-              ))}
-            </ul>
-            <div className={css.interGanho}>
-              <span className="eyebrow">O ganho</span>
-              <strong>{interligar.ganho.titulo}</strong>
-              <p>{interligar.ganho.texto}</p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* DESENHE MAIS RÁPIDO — cada cartão traz o botão do programa que faz aquilo. */}
-      <section className={css.section} id="desenhe-mais-rapido">
-        <div className="container">
-          <header className={css.head}>
-            <span className="eyebrow">{rapido.olho}</span>
-            <h2>{rapido.titulo}</h2>
-            <p>{rapido.texto}</p>
-          </header>
-
-          <ul className={css.rapido}>
-            {rapido.itens.map((it) => (
-              <li key={it.titulo}>
-                <span className={css.ferramenta} style={{ '--gc': it.icone.cor } as CSSProperties}>
-                  <svg viewBox="0 0 20 20" aria-hidden="true" dangerouslySetInnerHTML={{ __html: it.icone.svg }} />
-                </span>
-                <div>
-                  <strong>{it.titulo}</strong>
-                  <span>{it.texto}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* COMPATIBILIDADE — a primeira dúvida de quem vai comprar. */}
-      <section className={`${css.compat} ${css.faixa}`}>
-        <div className="container">
-          <div className={css.compatGrade}>
-            <div>
-              <span className="eyebrow">Chega configurado</span>
-              <h2>Pronto para a sua Fischertec</h2>
-              <p>{cad.compat.texto}</p>
-              <p className={css.compatFrase}>
-                <i className="ph-fill ph-check-circle" />
-                {cad.compat.frase}
-              </p>
-            </div>
-            <div>
-              <div className={css.grupoChips}>
-                <div className={css.chipsRotulo}>Máquinas</div>
-                <ul className={css.chips}>
-                  {cad.compat.maquinas.map((m) => (
-                    <li key={m}><i className="ph-fill ph-check-circle" />{m}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className={css.grupoChips}>
-                <div className={css.chipsRotulo}>Para quem faz</div>
-                <ul className={css.chips}>
-                  {cad.compat.usos.map((u) => <li key={u}>{u}</li>)}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PLANOS */}
-      <section className={css.section} id="planos">
+      {/* PLANOS — e, logo abaixo, as máquinas com que o programa funciona. */}
+      <section className={`${css.section} ${css.faixa}`} id="planos">
         <div className="container">
           <header className={css.head}>
             <span className="eyebrow">Planos</span>
@@ -357,32 +275,59 @@ export default function EzermecCadPage() {
               );
             })}
           </div>
+
+          <div className={css.compat}>
+            <div>
+              <span className="eyebrow">Chega configurado</span>
+              <h3>Pronto para a sua Fischertec</h3>
+              <p>{cad.compat.texto}</p>
+              <p className={css.compatFrase}>
+                <i className="ph-fill ph-check-circle" />
+                {cad.compat.frase}
+              </p>
+            </div>
+            <div>
+              <div className={css.grupoChips}>
+                <div className={css.chipsRotulo}>Máquinas</div>
+                <ul className={css.chips}>
+                  {cad.compat.maquinas.map((m) => (
+                    <li key={m}><i className="ph-fill ph-check-circle" />{m}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className={css.grupoChips}>
+                <div className={css.chipsRotulo}>Para quem faz</div>
+                <ul className={css.chips}>
+                  {cad.compat.usos.map((u) => <li key={u}>{u}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* COMO FUNCIONA — os quatro passos, cada um com a sua ilustração. */}
-      <section className={`${css.section} ${css.faixa}`} id="como-funciona">
+      {/* DESENHE MAIS RÁPIDO — cada cartão traz o botão do programa que faz aquilo. */}
+      <section className={css.section} id="desenhe-mais-rapido">
         <div className="container">
           <header className={css.head}>
-            <span className="eyebrow">Como funciona</span>
-            <h2>Do desenho à máquina em 4 passos</h2>
+            <span className="eyebrow">{rapido.olho}</span>
+            <h2>{rapido.titulo}</h2>
+            <p>{rapido.texto}</p>
           </header>
 
-          <ol className={css.passos}>
-            {cad.steps.map((p, i) => {
-              const Visual = VISUAIS[p.visual];
-              return (
-                <li key={p.titulo} className={css.passo}>
-                  <div className={css.passoArte}><Visual /></div>
-                  <div className={css.passoTexto}>
-                    <span className={css.passoN}>Passo {i + 1}</span>
-                    <h3>{p.titulo}</h3>
-                    <p>{p.texto}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
+          <ul className={css.rapido}>
+            {rapido.itens.map((it) => (
+              <li key={it.titulo}>
+                <span className={css.ferramenta} style={{ '--gc': it.icone.cor } as CSSProperties}>
+                  <svg viewBox="0 0 20 20" aria-hidden="true" dangerouslySetInnerHTML={{ __html: it.icone.svg }} />
+                </span>
+                <div>
+                  <strong>{it.titulo}</strong>
+                  <span>{it.texto}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
