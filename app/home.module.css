@@ -15,7 +15,7 @@
 /* ---------- Topo ---------- */
 
 .topo {
-  padding: 48px 0 44px;
+  padding: 56px 0;
   background:
     radial-gradient(ellipse 55% 65% at 88% 8%, rgba(245, 102, 12, 0.07), transparent 62%),
     linear-gradient(180deg, #fff 0%, var(--bg) 100%);
@@ -67,11 +67,11 @@
   color: var(--orange);
   transition: transform 0.15s;
 }
-.novidadeCurto {
-  display: none;
-}
 .novidade:hover i {
   transform: translateX(3px);
+}
+.novidadeCurto {
+  display: none;
 }
 
 .titulo {
@@ -84,7 +84,7 @@
   color: var(--navy);
 }
 .lead {
-  max-width: 540px;
+  max-width: 520px;
   margin: 18px 0 0;
   text-wrap: pretty;
   font-size: 18px;
@@ -92,54 +92,11 @@
   color: var(--text);
 }
 
-/* Atalhos para as primeiras categorias, logo abaixo da busca. */
-.atalhos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 10px;
-  margin-top: 14px;
-}
-.atalhos > span {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
-.atalhos ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.atalhos a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 100px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--navy);
-  background: #fff;
-  border: 1px solid var(--border);
-  transition: border-color 0.15s, color 0.15s;
-}
-.atalhos a:hover {
-  color: var(--orange);
-  border-color: var(--orange);
-}
-.atalhos i {
-  font-size: 15px;
-  color: var(--orange);
-}
-
 .botoes {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 26px;
+  margin-top: 30px;
 }
 .botoes a {
   padding: 15px 26px;
@@ -152,13 +109,45 @@
   color: var(--green);
 }
 
+/* Os quatro motivos para comprar aqui, separados dos botões por um fio. */
+.motivos {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 14px 36px;
+  margin: 32px 0 0;
+  padding: 28px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.motivos li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--navy);
+}
+.motivoIcone {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 19px;
+  color: var(--orange);
+  background: #fdede1;
+}
+
 /* A foto, com o selo da revenda montado na borda. */
 .topoFoto {
   min-width: 0;
 }
 .fotoCaixa {
   position: relative;
-  max-width: 540px;
+  max-width: 500px;
   margin-left: auto;
 }
 .foto {
@@ -208,52 +197,6 @@
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   color: var(--orange);
-}
-
-/* Faixa com os quatro motivos para comprar aqui. */
-.confianca {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 44px 0 0;
-  padding: 0;
-  list-style: none;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  box-shadow: 0 16px 40px -30px rgba(5, 40, 87, 0.3);
-}
-.confianca li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 20px 22px;
-}
-.confianca li + li {
-  border-left: 1px solid var(--border);
-}
-.confiancaIcone {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 23px;
-  color: var(--orange);
-  background: #fdede1;
-}
-.confianca strong {
-  display: block;
-  font-size: 15.5px;
-  color: var(--navy);
-}
-.confianca li div span {
-  display: block;
-  margin-top: 2px;
-  font-size: 13.5px;
-  line-height: 1.35;
-  color: var(--text);
 }
 
 /* ---------- Vitrine do Ezermec CAD ---------- */
@@ -496,128 +439,70 @@
   color: var(--orange);
 }
 
+/* Categorias em lista: ícone, nome e a seta de "entrar". */
 .categorias {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .categoria {
   display: flex;
-  flex-direction: column;
-  padding: 18px;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 14px 16px;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.categoria:hover {
+  border-color: var(--border2);
+  box-shadow: 0 14px 30px -22px rgba(5, 40, 87, 0.4);
 }
 .categoriaIcone {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
-  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 23px;
   color: var(--navy);
   background: #eef3fa;
-  transition: background 0.18s, color 0.18s;
+  transition: background 0.15s, color 0.15s;
 }
 .categoria:hover .categoriaIcone {
   color: #fff;
   background: var(--navy);
 }
 .categoriaNome {
-  margin-top: 14px;
+  flex: 1;
+  min-width: 0;
   font-size: 15.5px;
   font-weight: 700;
   line-height: 1.25;
   color: var(--navy);
 }
-.categoriaConta {
-  margin-top: 4px;
-  font-family: var(--font-mono), monospace;
-  font-size: 12px;
+.categoriaSeta {
+  flex: none;
+  font-size: 16px;
   color: var(--muted);
+  transition: transform 0.15s, color 0.15s;
+}
+.categoria:hover .categoriaSeta {
+  color: var(--orange);
+  transform: translateX(3px);
 }
 
 .produtos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 18px;
-}
-
-/* ---------- Sobre ---------- */
-
-.sobre {
-  margin-top: 80px;
-  background: #fff;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.sobreGrade {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 56px;
-  align-items: center;
-  padding-top: 72px;
-  padding-bottom: 72px;
-}
-.sobre h2 {
-  margin: 12px 0 0;
-  text-wrap: balance;
-  font-size: clamp(26px, 3vw, 38px);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--navy);
-}
-.sobreGrade > div > p {
-  max-width: 520px;
-  margin: 16px 0 26px;
-  font-size: 16.5px;
-  line-height: 1.65;
-  color: var(--text);
-}
-.sobreGrade :global(.btn) {
-  padding: 14px 24px;
-  font-size: 15.5px;
-}
-.mvv {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.mvv li {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 20px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-}
-.mvvIcone {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
-  font-size: 23px;
-  color: #fff;
-  background: var(--navy);
-}
-.mvv strong {
-  font-size: 16.5px;
-  color: var(--navy);
-}
-.mvv li p {
-  margin: 3px 0 0;
-  font-size: 14.5px;
-  line-height: 1.5;
-  color: var(--text);
 }
 
 /* ---------- Contato ---------- */
@@ -650,6 +535,26 @@
   font-size: 16px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.92);
+}
+/* onde fica e quando atende */
+.chamadaInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+.chamadaInfo li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.chamadaInfo i {
+  font-size: 17px;
 }
 .chamadaBotoes {
   display: flex;
@@ -691,18 +596,9 @@
   .topoGrade {
     gap: 36px;
   }
-  /* os quatro motivos em duas fileiras de dois */
-  .confianca {
+  .motivos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .confianca li + li {
-    border-left: 0;
-  }
-  .confianca li:nth-child(even) {
-    border-left: 1px solid var(--border);
-  }
-  .confianca li:nth-child(n + 3) {
-    border-top: 1px solid var(--border);
+    gap: 12px 20px;
   }
   .cad {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -710,10 +606,7 @@
     padding: 40px;
   }
   .categorias {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .sobreGrade {
-    gap: 36px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -722,6 +615,9 @@
   .topoGrade {
     grid-template-columns: minmax(0, 1fr);
     gap: 32px;
+  }
+  .motivos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .fotoCaixa {
     max-width: none;
@@ -748,10 +644,7 @@
     max-width: none;
   }
   .categorias {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .sobreGrade {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -760,7 +653,7 @@
   /* A foto vem logo depois do título: `display: contents` solta os itens do
      bloco de texto para poderem ser reordenados junto com ela. */
   .topo {
-    padding: 22px 0 28px;
+    padding: 22px 0 30px;
   }
   /* stretch: com o `center` do computador os itens encolheriam à largura
      do conteúdo, e os botões ficariam estreitos no meio da tela */
@@ -777,8 +670,8 @@
   .titulo { order: 2; }
   .lead { order: 3; }
   .topoFoto { order: 4; margin-top: 20px; }
-  .atalhos { order: 5; }
-  .botoes { order: 6; }
+  .botoes { order: 5; }
+  .motivos { order: 6; }
 
   .novidade {
     gap: 8px;
@@ -821,26 +714,6 @@
     height: 38px;
     font-size: 21px;
   }
-  /* os atalhos viram uma fileira só, que desliza */
-  .atalhos {
-    margin: 18px -24px 0;
-  }
-  .atalhos > span {
-    display: none;
-  }
-  .atalhos ul {
-    flex-wrap: nowrap;
-    width: 100%;
-    padding: 0 24px 2px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .atalhos ul::-webkit-scrollbar {
-    display: none;
-  }
-  .atalhos a {
-    white-space: nowrap;
-  }
   .botoes {
     flex-direction: column;
     gap: 10px;
@@ -851,35 +724,19 @@
     width: 100%;
     padding: 14px 20px;
   }
-
-  /* Os quatro motivos viram uma fileira que desliza, como antes. */
-  .confianca {
-    display: flex;
-    gap: 10px;
-    margin: 26px -24px 0;
-    padding: 0 24px 4px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 24px;
-    scrollbar-width: none;
-    background: none;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+  .motivos {
+    gap: 12px 14px;
+    margin-top: 24px;
+    padding-top: 20px;
   }
-  .confianca::-webkit-scrollbar {
-    display: none;
+  .motivos li {
+    gap: 8px;
+    font-size: 13.5px;
   }
-  .confianca li,
-  .confianca li + li,
-  .confianca li:nth-child(even),
-  .confianca li:nth-child(n + 3) {
-    flex: 0 0 232px;
-    padding: 14px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    scroll-snap-align: start;
+  .motivoIcone {
+    width: 32px;
+    height: 32px;
+    font-size: 17px;
   }
 
   .cadSecao {
@@ -942,10 +799,13 @@
   .secaoTopo {
     margin-bottom: 20px;
   }
-  /* As categorias deslizam na horizontal, com encaixe em cada cartão. */
+  /* As categorias deslizam na horizontal, em duas fileiras, com encaixe. */
   .categorias {
-    display: flex;
-    gap: 12px;
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: none;
+    grid-auto-columns: 200px;
+    grid-auto-flow: column;
+    gap: 10px;
     margin: 0 -24px;
     padding: 0 24px 4px;
     overflow-x: auto;
@@ -956,25 +816,23 @@
   .categorias::-webkit-scrollbar {
     display: none;
   }
-  .categoria {
-    flex: 0 0 150px;
+  .categorias li {
     scroll-snap-align: start;
   }
-
-  .sobre {
-    margin-top: 56px;
+  .categoria {
+    gap: 12px;
+    padding: 12px 14px;
   }
-  .sobreGrade {
-    gap: 28px;
-    padding-top: 52px;
-    padding-bottom: 52px;
+  .categoriaIcone {
+    width: 40px;
+    height: 40px;
+    font-size: 21px;
   }
-  .sobreGrade :global(.btn) {
-    justify-content: center;
-    width: 100%;
+  .categoriaNome {
+    font-size: 14.5px;
   }
-  .mvv li {
-    padding: 16px;
+  .categoriaSeta {
+    display: none;
   }
 
   .contato {
@@ -983,6 +841,9 @@
   }
   .chamada {
     padding: 28px 22px;
+  }
+  .chamadaInfo {
+    flex-direction: column;
   }
   .chamadaBotoes,
   .chamadaBotoes a {
@@ -998,15 +859,6 @@
   .titulo {
     font-size: 29px;
   }
-  .atalhos {
-    margin-right: -16px;
-    margin-left: -16px;
-  }
-  .atalhos ul {
-    padding-right: 16px;
-    padding-left: 16px;
-  }
-  .confianca,
   .categorias {
     margin-right: -16px;
     margin-left: -16px;

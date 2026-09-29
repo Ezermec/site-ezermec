@@ -23,6 +23,9 @@ export const site = {
     encodeURIComponent('Olá! Gostaria de mais informações sobre os produtos da Ezermec.'),
   mailGeneral: 'mailto:' + email + '?subject=' + encodeURIComponent('Contato - Ezermec'),
   telHref: 'tel:+55' + phoneDisplay.replace(/\D/g, ''),
+  // Onde fica e quando atende (rodapé e chamada de contato da página inicial).
+  cidade: 'Blumenau - Santa Catarina',
+  horario: ['Seg a Qui, 8h às 17h', 'Sex, 8h às 16h'],
 };
 
 /** Link de WhatsApp para orçamento de um produto específico. */

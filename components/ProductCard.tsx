@@ -15,9 +15,15 @@ export function ProductCard({ product: p, variant = 'home' }: { product: Product
           // eslint-disable-next-line @next/next/no-img-element
           <img src={productImageUrl(cover)} alt={p.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <i className={`ph ${p.icon}`} style={{ fontSize: iconSize, color: 'rgba(5,40,87,.13)' }} />
+          // Produto ainda sem foto: o ícone dele num círculo, em vez de um
+          // fundo de "imagem faltando".
+          <span className="pcard-icone">
+            <i className={`ph ${p.icon}`} style={{ fontSize: iconSize }} />
+          </span>
         )}
-        <span className="pcard-code">{p.code}</span>
+        {/* Na página inicial o cartão fica enxuto: sem o código, que só
+            interessa a quem já está procurando no catálogo. */}
+        {variant !== 'home' && <span className="pcard-code">{p.code}</span>}
         {variant !== 'related' && <StockBadge stock={p.stock} />}
       </div>
       <div style={{ padding: variant === 'related' ? 15 : 16, display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -29,10 +35,12 @@ export function ProductCard({ product: p, variant = 'home' }: { product: Product
         ) : (
           <span className="mono" style={{ fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.05em' }}>{p.brand}</span>
         )}
-        <span style={{ fontWeight: 700, fontSize: variant === 'related' ? 15 : 15.5, lineHeight: 1.3, color: 'var(--navy)', margin: '5px 0 0', flex: variant === 'related' ? 1 : undefined }}>
+        {/* O resumo só aparece no catálogo; nos outros cartões o nome ocupa a
+            sobra, para o "Ver detalhes" ficar alinhado embaixo. */}
+        <span style={{ fontWeight: 700, fontSize: variant === 'related' ? 15 : 15.5, lineHeight: 1.3, color: 'var(--navy)', margin: '5px 0 0', flex: variant === 'catalog' ? undefined : 1 }}>
           {p.name}
         </span>
-        {variant !== 'related' && (
+        {variant === 'catalog' && (
           <span style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.45, margin: '7px 0 0', flex: 1 }}>{p.short}</span>
         )}
         {variant === 'catalog' ? (

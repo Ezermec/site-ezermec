@@ -16,10 +16,9 @@ export function Footer() {
           </div>
           <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#dce7f4' }}>Peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Qualidade, estoque e atendimento especializado.</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-            <a href={site.waHref} target="_blank" rel="noopener" className="ez-lift" style={social}><i className="ph-fill ph-whatsapp-logo" /></a>
-            <a href="#" className="ez-lift" style={social}><i className="ph-fill ph-instagram-logo" /></a>
-            <a href="#" className="ez-lift" style={social}><i className="ph-fill ph-linkedin-logo" /></a>
-            <a href={site.mailGeneral} className="ez-lift" style={social}><i className="ph-fill ph-envelope-simple" /></a>
+            {/* Instagram e LinkedIn voltam quando houver os endereços das páginas. */}
+            <a href={site.waHref} target="_blank" rel="noopener" className="ez-lift" style={social} aria-label="WhatsApp"><i className="ph-fill ph-whatsapp-logo" /></a>
+            <a href={site.mailGeneral} className="ez-lift" style={social} aria-label="E-mail"><i className="ph-fill ph-envelope-simple" /></a>
           </div>
         </div>
 
@@ -46,11 +45,11 @@ export function Footer() {
         <div>
           <div style={colTitle}>Contato</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14, color: '#dce7f4' }}>
-            <a href={site.waHref} target="_blank" rel="noopener" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph-fill ph-whatsapp-logo" style={{ color: 'var(--green)', fontSize: 18 }} />{site.phoneDisplay}</a>
+            <a href={site.waHref} target="_blank" rel="noopener" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph-fill ph-whatsapp-logo" style={{ color: 'var(--green)', fontSize: 18 }} />Chamar no WhatsApp</a>
             <a href={site.telHref} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-phone" style={{ fontSize: 18 }} />{site.phoneDisplay}</a>
             <a href={site.mailGeneral} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-envelope-simple" style={{ fontSize: 18 }} />{site.email}</a>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-map-pin" style={{ fontSize: 18, marginTop: 2 }} />Blumenau - Santa Catarina</span>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-clock" style={{ fontSize: 18, marginTop: 2 }} />Seg a Qui, 8h às 17h<br />Sex, 8h às 16h</span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-map-pin" style={{ fontSize: 18, marginTop: 2 }} />{site.cidade}</span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-clock" style={{ fontSize: 18, marginTop: 2 }} /><span>{site.horario.map((h) => <span key={h} style={{ display: 'block' }}>{h}</span>)}</span></span>
           </div>
         </div>
       </div>

@@ -95,7 +95,9 @@ body[data-menu-open] .wa-float { display: none !important; }
 
 /* Cards de produto */
 .pcard { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; text-decoration: none; }
-.pcard-img { position: relative; aspect-ratio: 1/1; background: repeating-linear-gradient(135deg,#f1f5fa,#f1f5fa 11px,#e8edf3 11px,#e8edf3 22px); display: flex; align-items: center; justify-content: center; }
+.pcard-img { position: relative; aspect-ratio: 1/1; background: linear-gradient(150deg, #f6f9fc 0%, #e6edf6 100%); display: flex; align-items: center; justify-content: center; }
+/* Produto ainda sem foto: o ícone num círculo branco, com cara de ilustração. */
+.pcard-icone { display: flex; align-items: center; justify-content: center; width: 46%; aspect-ratio: 1/1; border-radius: 50%; color: rgba(5,40,87,.45); background: #fff; box-shadow: 0 16px 32px -20px rgba(5,40,87,.45); }
 .pcard-code { position: absolute; top: 10px; left: 10px; font-family: var(--font-mono), monospace; font-size: 11px; background: #fff; border: 1px solid var(--border); color: var(--text); padding: 4px 8px; border-radius: 6px; }
 .badge { position: absolute; font-weight: 600; border-radius: 100px; }
 .badge-em { background: #e6f4ec; color: #1f8a5b; }
@@ -278,11 +280,7 @@ body[data-menu-open] .wa-float { display: none !important; }
   /* Com o card estreito, o código e a etiqueta de estoque se sobrepunham no
      topo. A etiqueta desce para o rodapé da imagem. */
   .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
-  .product-grid .pcard-img i { font-size: 46px !important; }
-
-  /* A busca do topo da home ficaria colada na busca do cabeçalho — duas
-     caixas de busca iguais, uma embaixo da outra. No celular fica só a do cabeçalho. */
-  .hero-search { display: none !important; }
+  .product-grid .pcard-img i { font-size: 34px !important; }
 
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }

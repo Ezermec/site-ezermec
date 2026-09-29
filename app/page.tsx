@@ -5,7 +5,6 @@ import { DIFERENCIAIS } from '@/lib/content';
 import { cad } from '@/lib/cad';
 import { site } from '@/lib/config';
 import { AnimaNaTela } from '@/components/AnimaNaTela';
-import { HeroSearch } from '@/components/HeroSearch';
 import { ProductCard } from '@/components/ProductCard';
 import { InterligarAntes, InterligarDepois } from './ezermec-cad/Ilustracoes';
 import css from './home.module.css';
@@ -15,27 +14,16 @@ const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' 
 // A menor mensalidade do Ezermec CAD, para a chamada "planos a partir de".
 const cadAPartir = Math.min(...cad.plans.flatMap((p) => (p.mensal ? [p.mensal] : [])));
 
-const MVV = [
-  { icon: 'ph-target', titulo: 'Missão', texto: 'Manter a indústria em movimento com a peça certa, na hora certa.' },
-  { icon: 'ph-eye', titulo: 'Visão', texto: 'Ser referência em peças e manutenção industrial na região.' },
-  { icon: 'ph-handshake', titulo: 'Valores', texto: 'Qualidade, confiança e atendimento especializado.' },
-];
+const linkCategoria = (nome: string) => `/catalogo?cat=${encodeURIComponent(nome)}`;
 
 export default async function HomePage() {
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
   const featured = getFeatured(products);
 
-  const catCounts = products.reduce<Record<string, number>>((acc, p) => {
-    acc[p.cat] = (acc[p.cat] || 0) + 1;
-    return acc;
-  }, {});
-  const linkCategoria = (nome: string) => `/catalogo?cat=${encodeURIComponent(nome)}`;
-  // Atalhos do topo: as primeiras categorias, na ordem definida no painel.
-  const atalhos = categories.slice(0, 4);
-
   return (
     <main className={`ez-fade ${css.page}`}>
-      {/* TOPO — o que a Ezermec vende, a busca e o aviso do Ezermec CAD. */}
+      {/* TOPO — o que a Ezermec vende, os dois caminhos (catálogo ou
+          orçamento) e por que comprar aqui. A busca fica no cabeçalho. */}
       <section className={css.topo}>
         <div className={`container ${css.topoGrade}`}>
           <div className={css.topoTexto}>
@@ -48,24 +36,8 @@ export default async function HomePage() {
 
             <h1 className={css.titulo}>Peças e soluções para manutenção industrial.</h1>
             <p className={css.lead}>
-              Revenda autorizada Fischertec: peças originais, entrega para todo o Brasil e ajuda
-              técnica para achar a peça certa.
+              Peças para máquinas industriais, com o atendimento de quem entende de manutenção.
             </p>
-
-            <HeroSearch />
-
-            {atalhos.length > 0 && (
-              <div className={css.atalhos}>
-                <span>Categorias:</span>
-                <ul>
-                  {atalhos.map((c) => (
-                    <li key={c.id}>
-                      <Link href={linkCategoria(c.name)}><i className={`ph ${c.icon}`} aria-hidden="true" />{c.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             <div className={css.botoes}>
               <Link href="/catalogo" className="btn btn-navy ez-lift">
@@ -75,6 +47,15 @@ export default async function HomePage() {
                 <i className="ph-fill ph-whatsapp-logo" />Pedir orçamento
               </a>
             </div>
+
+            <ul className={css.motivos}>
+              {DIFERENCIAIS.map((d) => (
+                <li key={d.texto}>
+                  <span className={css.motivoIcone}><i className={`ph ${d.icon}`} /></span>
+                  {d.texto}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className={css.topoFoto}>
@@ -85,7 +66,7 @@ export default async function HomePage() {
                   alt="Peça de reposição para máquina industrial de costura, ao lado de uma agulha"
                   width={1254}
                   height={1254}
-                  sizes="(max-width: 880px) 100vw, 540px"
+                  sizes="(max-width: 880px) 100vw, 500px"
                   priority
                 />
               </div>
@@ -98,21 +79,6 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Os quatro motivos para comprar aqui, num relance. */}
-        <div className="container">
-          <ul className={css.confianca}>
-            {DIFERENCIAIS.map((d) => (
-              <li key={d.title}>
-                <span className={css.confiancaIcone}><i className={`ph ${d.icon}`} /></span>
-                <div>
-                  <strong>{d.title}</strong>
-                  <span>{d.desc}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
@@ -186,7 +152,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIAS */}
+      {/* CATEGORIAS — a lista toda, para achar a peça pelo tipo. */}
       <section id="categorias" className={`container ${css.secao}`}>
         <div className={css.secaoTopo}>
           <div>
@@ -197,18 +163,17 @@ export default async function HomePage() {
             Ver todos os produtos <i className="ph ph-arrow-right" />
           </Link>
         </div>
-        <div className={css.categorias}>
-          {categories.map((c) => {
-            const count = catCounts[c.name] || 0;
-            return (
-              <Link key={c.id} href={linkCategoria(c.name)} className={`${css.categoria} ez-card-h`}>
+        <ul className={css.categorias}>
+          {categories.map((c) => (
+            <li key={c.id}>
+              <Link href={linkCategoria(c.name)} className={css.categoria}>
                 <span className={css.categoriaIcone}><i className={`ph ${c.icon}`} /></span>
                 <span className={css.categoriaNome}>{c.name}</span>
-                <span className={css.categoriaConta}>{count} {count === 1 ? 'item' : 'itens'}</span>
+                <i className={`ph ph-caret-right ${css.categoriaSeta}`} aria-hidden="true" />
               </Link>
-            );
-          })}
-        </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* DESTAQUES */}
@@ -227,41 +192,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SOBRE */}
-      <section id="sobre" className={css.sobre}>
-        <div className={`container ${css.sobreGrade}`}>
-          <div>
-            <span className="eyebrow">Sobre a Ezermec</span>
-            <h2>Especialistas em peças para máquinas industriais</h2>
-            <p>
-              Peças, manutenção industrial e assistência técnica em Blumenau (SC). Como revenda
-              autorizada Fischertec, entregamos peças originais com o suporte que a sua produção
-              precisa para não parar.
-            </p>
-            <Link href="/sobre" className="btn btn-navy ez-lift">
-              Conhecer nossa história <i className="ph ph-arrow-right" />
-            </Link>
-          </div>
-          <ul className={css.mvv}>
-            {MVV.map((m) => (
-              <li key={m.titulo}>
-                <span className={css.mvvIcone}><i className={`ph ${m.icon}`} /></span>
-                <div>
-                  <strong>{m.titulo}</strong>
-                  <p>{m.texto}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* CONTATO */}
+      {/* CONTATO — como pedir, e onde e quando a Ezermec atende. */}
       <section id="contato" className={`container ${css.contato}`}>
         <div className={css.chamada}>
           <div>
             <h2>Precisa de uma peça?</h2>
             <p>Mande o nome, o código ou uma foto da peça pelo WhatsApp e receba a cotação sem compromisso.</p>
+            <ul className={css.chamadaInfo}>
+              <li><i className="ph ph-map-pin" aria-hidden="true" />{site.cidade}</li>
+              <li><i className="ph ph-clock" aria-hidden="true" />{site.horario.join(' · ')}</li>
+            </ul>
           </div>
           <div className={css.chamadaBotoes}>
             <a href={site.waHref} target="_blank" rel="noopener" className={`btn ez-lift ${css.btnBranco}`}>
