@@ -19,6 +19,8 @@ const linkCategoria = (nome: string) => `/catalogo?cat=${encodeURIComponent(nome
 export default async function HomePage() {
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
   const featured = getFeatured(products);
+  // Atalhos: os primeiros tipos de peça, na ordem definida no painel.
+  const tipos = categories.slice(0, 6);
 
   return (
     <main className={`ez-fade ${css.page}`}>
@@ -173,41 +175,34 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIAS — a lista toda, para achar a peça pelo tipo. */}
+      {/* PEÇAS — as mais procuradas, com uma linha de atalhos para os
+          primeiros tipos de peça; a lista completa fica no catálogo. */}
       <section id="categorias" className={`container ${css.secao}`}>
         <div className={css.secaoTopo}>
           <div>
             <span className="eyebrow">Peças</span>
-            <h2>Encontre a peça pelo tipo</h2>
-          </div>
-          <Link href="/catalogo" className={css.verTudo}>
-            Ver todas as peças <i className="ph ph-arrow-right" />
-          </Link>
-        </div>
-        <ul className={css.categorias}>
-          {categories.map((c) => (
-            <li key={c.id}>
-              <Link href={linkCategoria(c.name)} className={css.categoria}>
-                <span className={css.categoriaIcone}><i className={`ph ${c.icon}`} /></span>
-                <span className={css.categoriaNome}>{c.name}</span>
-                <i className={`ph ph-caret-right ${css.categoriaSeta}`} aria-hidden="true" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* DESTAQUES */}
-      <section className={`container ${css.secao}`}>
-        <div className={css.secaoTopo}>
-          <div>
-            <span className="eyebrow">Em destaque</span>
             <h2>Peças mais procuradas</h2>
           </div>
           <Link href="/catalogo" className={css.verTudo}>
             Ver catálogo completo <i className="ph ph-arrow-right" />
           </Link>
         </div>
+        <ul className={css.tipos} aria-label="Tipos de peça">
+          {tipos.map((c) => (
+            <li key={c.id}>
+              <Link href={linkCategoria(c.name)}>
+                <i className={`ph ${c.icon}`} aria-hidden="true" />{c.name}
+              </Link>
+            </li>
+          ))}
+          {categories.length > tipos.length && (
+            <li>
+              <Link href="/catalogo" className={css.tiposTodos}>
+                Todas as categorias <i className="ph ph-arrow-right" aria-hidden="true" />
+              </Link>
+            </li>
+          )}
+        </ul>
         <div className={`product-grid ${css.produtos}`}>
           {featured.map((p) => <ProductCard key={p.slug} product={p} variant="home" />)}
         </div>

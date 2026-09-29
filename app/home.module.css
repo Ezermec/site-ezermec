@@ -489,64 +489,51 @@
   color: var(--orange);
 }
 
-/* Categorias em lista: ícone, nome e a seta de "entrar". */
-.categorias {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin: 0;
+/* Atalhos para os primeiros tipos de peça, logo acima dos produtos. */
+.tipos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
   padding: 0;
   list-style: none;
 }
-.categoria {
-  display: flex;
+.tipos a {
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
-  height: 100%;
-  padding: 14px 16px;
+  gap: 7px;
+  padding: 8px 14px 8px 11px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--navy);
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
-.categoria:hover {
-  border-color: var(--border2);
-  box-shadow: 0 14px 30px -22px rgba(5, 40, 87, 0.4);
+.tipos a:hover {
+  color: var(--orange);
+  border-color: var(--orange);
 }
-.categoriaIcone {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 23px;
-  color: var(--navy);
-  background: #eef3fa;
-  transition: background 0.15s, color 0.15s;
+.tipos i {
+  font-size: 17px;
+  color: var(--orange);
 }
-.categoria:hover .categoriaIcone {
+/* o último atalho leva à lista completa, no catálogo */
+.tipos .tiposTodos {
+  padding-left: 14px;
   color: #fff;
   background: var(--navy);
+  border-color: var(--navy);
 }
-.categoriaNome {
-  flex: 1;
-  min-width: 0;
-  font-size: 15.5px;
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--navy);
+.tipos .tiposTodos:hover {
+  color: #fff;
+  border-color: var(--navy);
 }
-.categoriaSeta {
-  flex: none;
-  font-size: 16px;
-  color: var(--muted);
-  transition: transform 0.15s, color 0.15s;
-}
-.categoria:hover .categoriaSeta {
-  color: var(--orange);
-  transform: translateX(3px);
+.tipos .tiposTodos i {
+  font-size: 15px;
+  color: #fff;
 }
 
 .produtos {
@@ -750,9 +737,6 @@
     column-gap: 36px;
     padding: 40px;
   }
-  .categorias {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
 /* Tablet: o topo e a vitrine viram uma coluna só. */
@@ -801,9 +785,6 @@
   }
   .cadTopo p {
     max-width: none;
-  }
-  .categorias {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -993,39 +974,15 @@
   .secaoTopo {
     margin-bottom: 20px;
   }
-  /* As categorias deslizam na horizontal, em duas fileiras, com encaixe. */
-  .categorias {
-    grid-template-rows: repeat(2, auto);
-    grid-template-columns: none;
-    grid-auto-columns: 200px;
-    grid-auto-flow: column;
-    gap: 10px;
-    margin: 0 -24px;
-    padding: 0 24px 4px;
+  /* Os atalhos numa fileira só, que desliza para o lado. */
+  .tipos {
+    flex-wrap: nowrap;
+    margin: 0 -24px 18px;
+    padding: 0 24px 2px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 24px;
     scrollbar-width: none;
   }
-  .categorias::-webkit-scrollbar {
-    display: none;
-  }
-  .categorias li {
-    scroll-snap-align: start;
-  }
-  .categoria {
-    gap: 12px;
-    padding: 12px 14px;
-  }
-  .categoriaIcone {
-    width: 40px;
-    height: 40px;
-    font-size: 21px;
-  }
-  .categoriaNome {
-    font-size: 14.5px;
-  }
-  .categoriaSeta {
+  .tipos::-webkit-scrollbar {
     display: none;
   }
 
@@ -1053,12 +1010,11 @@
   .titulo {
     font-size: 29px;
   }
-  .categorias {
+  .tipos {
     margin-right: -16px;
     margin-left: -16px;
     padding-right: 16px;
     padding-left: 16px;
-    scroll-padding-left: 16px;
   }
 }
 
