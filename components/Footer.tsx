@@ -1,62 +1,72 @@
 import Link from 'next/link';
 import { site } from '@/lib/config';
+import { SLOGAN } from '@/lib/content';
 import { Logo } from './Logo';
+import css from './footer.module.css';
 
-const colTitle = { fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase' as const, color: 'var(--orange2)', marginBottom: 14 };
-const colLink = { color: '#dce7f4', textAlign: 'left' as const, fontSize: 14, textDecoration: 'none' };
-const social = { width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 19 };
-
+// O rodapé segue as frentes da Ezermec: peças, software e a empresa. Não lista
+// categorias pelo nome porque elas vêm do banco e mudam pelo painel.
 export function Footer() {
   return (
-    <footer style={{ background: 'var(--navy)', color: '#fff', marginTop: 20 }}>
-      <div className="container" style={{ paddingTop: 56, paddingBottom: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 36 }}>
-        <div style={{ maxWidth: 300 }}>
-          <div style={{ marginBottom: 16 }}>
-            <Logo variant="white" height={40} />
-          </div>
-          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#dce7f4' }}>Peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Qualidade, estoque e atendimento especializado.</p>
-          <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-            {/* Instagram e LinkedIn voltam quando houver os endereços das páginas. */}
-            <a href={site.waHref} target="_blank" rel="noopener" className="ez-lift" style={social} aria-label="WhatsApp"><i className="ph-fill ph-whatsapp-logo" /></a>
-            <a href={site.mailGeneral} className="ez-lift" style={social} aria-label="E-mail"><i className="ph-fill ph-envelope-simple" /></a>
-          </div>
+    <footer className={css.rodape}>
+      <div className={`container ${css.grade}`}>
+        <div className={css.marca}>
+          <Logo variant="white" height={40} />
+          <p>{SLOGAN}</p>
+          <span className={css.selo}>
+            <i className="ph-fill ph-seal-check" aria-hidden="true" />Revenda autorizada Fischertec
+          </span>
         </div>
 
-        <div>
-          <div style={colTitle}>Menu</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <Link href="/" className="ez-lift" style={colLink}>Início</Link>
-            <Link href="/catalogo" className="ez-lift" style={colLink}>Produtos</Link>
-            <Link href="/#categorias" className="ez-lift" style={colLink}>Categorias</Link>
-            <Link href="/ezermec-cad" className="ez-lift" style={colLink}>Ezermec CAD</Link>
-            <Link href="/sobre" className="ez-lift" style={colLink}>Sobre</Link>
-          </div>
-        </div>
+        <nav className={css.coluna} aria-label="Peças">
+          <span className={css.titulo}>Peças</span>
+          <Link href="/catalogo">Catálogo de peças</Link>
+          <Link href="/#categorias">Categorias</Link>
+          <a href={site.waHref} target="_blank" rel="noopener">Pedir orçamento</a>
+        </nav>
 
-        <div>
-          <div style={colTitle}>Categorias</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <Link href="/catalogo?cat=Lan%C3%A7adeiras" className="ez-lift" style={colLink}>Lançadeiras</Link>
-            <Link href="/catalogo?cat=Agulhas" className="ez-lift" style={colLink}>Agulhas</Link>
-            <Link href="/catalogo?cat=Rolamentos" className="ez-lift" style={colLink}>Rolamentos</Link>
-          </div>
-        </div>
+        <nav className={css.coluna} aria-label="Software">
+          <span className={css.titulo}>Software</span>
+          <Link href="/ezermec-cad">Ezermec CAD</Link>
+          <Link href="/ezermec-cad#planos">Planos e preços</Link>
+          <Link href="/ezermec-cad#perguntas">Perguntas frequentes</Link>
+        </nav>
 
-        <div>
-          <div style={colTitle}>Contato</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14, color: '#dce7f4' }}>
-            <a href={site.waHref} target="_blank" rel="noopener" style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph-fill ph-whatsapp-logo" style={{ color: 'var(--green)', fontSize: 18 }} />Chamar no WhatsApp</a>
-            <a href={site.telHref} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-phone" style={{ fontSize: 18 }} />{site.phoneDisplay}</a>
-            <a href={site.mailGeneral} style={{ display: 'flex', gap: 10, alignItems: 'center', color: '#dce7f4' }}><i className="ph ph-envelope-simple" style={{ fontSize: 18 }} />{site.email}</a>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-map-pin" style={{ fontSize: 18, marginTop: 2 }} />{site.cidade}</span>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}><i className="ph ph-clock" style={{ fontSize: 18, marginTop: 2 }} /><span>{site.horario.map((h) => <span key={h} style={{ display: 'block' }}>{h}</span>)}</span></span>
-          </div>
+        <nav className={css.coluna} aria-label="Empresa">
+          <span className={css.titulo}>Empresa</span>
+          <Link href="/sobre">Sobre a Ezermec</Link>
+          <Link href="/#contato">Contato</Link>
+        </nav>
+
+        <div className={`${css.coluna} ${css.atendimento}`}>
+          <span className={css.titulo}>Atendimento</span>
+          <a href={site.waHref} target="_blank" rel="noopener">
+            <i className={`ph-fill ph-whatsapp-logo ${css.whats}`} aria-hidden="true" />Chamar no WhatsApp
+          </a>
+          <a href={site.telHref}>
+            <i className="ph ph-phone" aria-hidden="true" />{site.phoneDisplay}
+          </a>
+          <a href={site.mailGeneral}>
+            <i className="ph ph-envelope-simple" aria-hidden="true" />{site.email}
+          </a>
+          <span>
+            <i className="ph ph-map-pin" aria-hidden="true" />{site.cidade}
+          </span>
+          <span>
+            <i className="ph ph-clock" aria-hidden="true" />
+            <span>
+              {site.horario.map((h) => <span key={h} className={css.linha}>{h}</span>)}
+            </span>
+          </span>
         </div>
       </div>
-      <div style={{ borderTop: '1px solid rgba(255,255,255,.1)' }}>
-        <div className="container mono" style={{ paddingTop: 18, paddingBottom: 18, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, fontSize: 12.5, color: '#8fa6c4' }}>
-          <span>© 2026 Ezermec — Todos os direitos reservados.</span>
-          <span>Revenda autorizada Fischertec</span>
+
+      <div className={css.base}>
+        <div className={`container ${css.baseLinha}`}>
+          <span>© 2026 Ezermec. Todos os direitos reservados.</span>
+          <Link href="/painel" className={css.restrita}>
+            <i className="ph ph-lock-key" aria-hidden="true" />Área restrita
+          </Link>
         </div>
       </div>
     </footer>

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts, getFeatured, getCategories } from '@/lib/data';
-import { DIFERENCIAIS } from '@/lib/content';
+import { COMO_COMPRAR, DIFERENCIAIS } from '@/lib/content';
 import { cad } from '@/lib/cad';
 import { site } from '@/lib/config';
 import { AnimaNaTela } from '@/components/AnimaNaTela';
@@ -22,8 +22,8 @@ export default async function HomePage() {
 
   return (
     <main className={`ez-fade ${css.page}`}>
-      {/* TOPO — o que a Ezermec vende, os dois caminhos (catálogo ou
-          orçamento) e por que comprar aqui. A busca fica no cabeçalho. */}
+      {/* TOPO — as duas frentes da Ezermec: as peças (a foto) e o software
+          (o cartão do Ezermec CAD por cima dela). A busca fica no cabeçalho. */}
       <section className={css.topo}>
         <div className={`container ${css.topoGrade}`}>
           <div className={css.topoTexto}>
@@ -34,52 +34,73 @@ export default async function HomePage() {
               <i className="ph ph-arrow-right" aria-hidden="true" />
             </Link>
 
-            <h1 className={css.titulo}>Peças e soluções para manutenção industrial.</h1>
+            <h1 className={css.titulo}>
+              Peças e software para a sua <span>produção não parar.</span>
+            </h1>
             <p className={css.lead}>
-              Peças para máquinas industriais, com o atendimento de quem entende de manutenção.
+              Revenda autorizada Fischertec, com peças originais e assistência técnica — e criadora
+              do {cad.name}, o programa que desenha as costuras da sua máquina.
             </p>
 
             <div className={css.botoes}>
               <Link href="/catalogo" className="btn btn-navy ez-lift">
-                Ver catálogo <i className="ph ph-arrow-right" />
+                Ver peças <i className="ph ph-arrow-right" />
               </Link>
-              <a href={site.waHref} target="_blank" rel="noopener" className={`btn btn-white ez-lift ${css.btnWhats}`}>
-                <i className="ph-fill ph-whatsapp-logo" />Pedir orçamento
-              </a>
+              <Link href="/ezermec-cad" className={`btn btn-white ez-lift ${css.btnCad}`}>
+                <i className="ph ph-desktop" />Conhecer o {cad.name}
+              </Link>
             </div>
-
-            <ul className={css.motivos}>
-              {DIFERENCIAIS.map((d) => (
-                <li key={d.texto}>
-                  <span className={css.motivoIcone}><i className={`ph ${d.icon}`} /></span>
-                  {d.texto}
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <div className={css.topoFoto}>
-            <div className={css.fotoCaixa}>
-              <div className={css.foto}>
-                <Image
-                  src="/assets/hero-industria-manutencao.png"
-                  alt="Peça de reposição para máquina industrial de costura, ao lado de uma agulha"
-                  width={1254}
-                  height={1254}
-                  sizes="(max-width: 880px) 100vw, 500px"
-                  priority
-                />
-              </div>
-              <div className={css.selo}>
-                <span className={css.seloIcone}><i className="ph-fill ph-seal-check" /></span>
-                <div>
-                  <strong>Revenda autorizada</strong>
-                  <span>Fischertec</span>
-                </div>
-              </div>
+          <div className={css.topoVisual}>
+            <div className={css.foto}>
+              <Image
+                src="/assets/hero-industria-manutencao.png"
+                alt="Peça de reposição para máquina industrial de costura, ao lado de uma agulha"
+                width={1254}
+                height={1254}
+                sizes="(max-width: 880px) 100vw, 500px"
+                priority
+              />
+              <span className={css.selo}>
+                <i className="ph-fill ph-seal-check" aria-hidden="true" />Revenda autorizada Fischertec
+              </span>
             </div>
+
+            {/* O software, por cima da foto das peças. */}
+            <Link href="/ezermec-cad" className={css.cadCartao}>
+              <Image
+                src={cad.capa.src}
+                alt={cad.capa.alt}
+                width={cad.capa.w}
+                height={cad.capa.h}
+                sizes="(max-width: 760px) 60vw, 300px"
+              />
+              <span className={css.cadCartaoTexto}>
+                <span>
+                  <strong>{cad.name}</strong>
+                  <small>O desenho vira costura</small>
+                </span>
+                <i className="ph ph-arrow-up-right" aria-hidden="true" />
+              </span>
+            </Link>
           </div>
         </div>
+      </section>
+
+      {/* Os quatro motivos para comprar aqui, numa faixa logo abaixo do topo. */}
+      <section className={css.confianca} aria-label="Por que comprar da Ezermec">
+        <ul className="container">
+          {DIFERENCIAIS.map((d) => (
+            <li key={d.titulo}>
+              <span className={css.confiancaIcone}><i className={`ph ${d.icon}`} /></span>
+              <span>
+                <strong>{d.titulo}</strong>
+                <small>{d.texto}</small>
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* EZERMEC CAD — a vitrine do programa, com a corrida do Interligar
@@ -156,11 +177,11 @@ export default async function HomePage() {
       <section id="categorias" className={`container ${css.secao}`}>
         <div className={css.secaoTopo}>
           <div>
-            <span className="eyebrow">Categorias</span>
+            <span className="eyebrow">Peças</span>
             <h2>Encontre a peça pelo tipo</h2>
           </div>
           <Link href="/catalogo" className={css.verTudo}>
-            Ver todos os produtos <i className="ph ph-arrow-right" />
+            Ver todas as peças <i className="ph ph-arrow-right" />
           </Link>
         </div>
         <ul className={css.categorias}>
@@ -181,7 +202,7 @@ export default async function HomePage() {
         <div className={css.secaoTopo}>
           <div>
             <span className="eyebrow">Em destaque</span>
-            <h2>Produtos mais procurados</h2>
+            <h2>Peças mais procuradas</h2>
           </div>
           <Link href="/catalogo" className={css.verTudo}>
             Ver catálogo completo <i className="ph ph-arrow-right" />
@@ -190,6 +211,26 @@ export default async function HomePage() {
         <div className={`product-grid ${css.produtos}`}>
           {featured.map((p) => <ProductCard key={p.slug} product={p} variant="home" />)}
         </div>
+      </section>
+
+      {/* COMO COMPRAR — não há carrinho: o pedido é por orçamento. */}
+      <section className={`container ${css.secao}`} aria-labelledby="como-comprar">
+        <div className={css.passosTopo}>
+          <span className="eyebrow">Como comprar</span>
+          <h2 id="como-comprar">Pedir uma peça é simples</h2>
+        </div>
+        <ol className={css.passos}>
+          {COMO_COMPRAR.map((p, i) => (
+            <li key={p.titulo}>
+              <span className={css.passoIcone}>
+                <i className={`ph ${p.icon}`} aria-hidden="true" />
+                <b>{i + 1}</b>
+              </span>
+              <strong>{p.titulo}</strong>
+              <span>{p.texto}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* CONTATO — como pedir, e onde e quando a Ezermec atende. */}

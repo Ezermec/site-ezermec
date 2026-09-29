@@ -13,13 +13,29 @@ import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 const archivo = Archivo({ subsets: ['latin'], weight: ['400', '500', '600', '700', '800'], variable: '--font-archivo' });
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-mono' });
 
+const descricao =
+  'Peças, manutenção e software para máquinas industriais. Revenda autorizada Fischertec e criadora do Ezermec CAD, o programa que desenha as costuras da sua Fischertec.';
+
 export const metadata: Metadata = {
   // Base para as URLs absolutas dos metadados (compartilhamento, canônicas).
   metadataBase: new URL(siteUrl),
-  title: 'Ezermec — Peças e soluções para manutenção industrial',
-  description:
-    'Ezermec — peças e soluções para manutenção industrial. Revenda autorizada Fischertec. Catálogo profissional de peças para máquinas industriais.',
+  // Cada página define só o próprio nome; o " · Ezermec" vem do modelo.
+  title: {
+    default: 'Ezermec — Peças, manutenção e software para máquinas industriais',
+    template: '%s · Ezermec',
+  },
+  description: descricao,
   icons: { icon: '/assets/logo-ezermec-icon.png' },
+  // A prévia do link quando ele é compartilhado no WhatsApp e nas redes.
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Ezermec',
+    title: 'Ezermec — Peças, manutenção e software para máquinas industriais',
+    description: descricao,
+    images: [{ url: '/assets/og-ezermec.jpg', width: 1200, height: 630, alt: 'Ezermec: peças, manutenção e software para máquinas industriais' }],
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

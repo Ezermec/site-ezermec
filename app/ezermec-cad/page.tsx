@@ -17,7 +17,8 @@ import Passos from './Passos';
 import css from './cad.module.css';
 
 export const metadata: Metadata = {
-  title: `${cad.name} — desenhos de costura para máquinas Fischertec`,
+  // `absolute`: o nome do programa já basta, sem o " · Ezermec" do modelo.
+  title: { absolute: `${cad.name} — desenhos de costura para máquinas Fischertec` },
   description: cad.description,
   // A foto do desenho ao lado do tecido vira a prévia quando o link é
   // compartilhado no WhatsApp — que é por onde o programa é vendido.

@@ -6,14 +6,13 @@ import { useEffect, useRef, useState } from 'react';
 import { site } from '@/lib/config';
 import { Logo } from './Logo';
 
-// Itens do menu. `match` decide quando o item fica marcado como página atual —
-// "Produtos" também cobre a página de detalhe do produto, e os links de âncora
-// (#categorias / #contato) só marcam quando já estamos na home.
+// Itens do menu: as duas frentes da Ezermec (peças e o software) e a empresa.
+// `match` decide quando o item fica marcado como página atual — "Peças" também
+// cobre a página de cada produto, e "Contato" (um trecho da home) nunca marca.
 // `novo` põe a etiqueta "Novo" ao lado do item (hoje, o Ezermec CAD).
 const NAV: Array<{ href: string; label: string; novo?: boolean; match: (path: string) => boolean }> = [
   { href: '/', label: 'Início', match: (p) => p === '/' },
-  { href: '/catalogo', label: 'Produtos', match: (p) => p.startsWith('/catalogo') || p.startsWith('/produto') },
-  { href: '/#categorias', label: 'Categorias', match: () => false },
+  { href: '/catalogo', label: 'Peças', match: (p) => p.startsWith('/catalogo') || p.startsWith('/produto') },
   { href: '/ezermec-cad', label: 'Ezermec CAD', novo: true, match: (p) => p.startsWith('/ezermec-cad') },
   { href: '/sobre', label: 'Sobre', match: (p) => p.startsWith('/sobre') },
   { href: '/#contato', label: 'Contato', match: () => false },
@@ -88,7 +87,7 @@ export function Header() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter') submit(); }}
-            placeholder="Busque por nome, código, marca, categoria ou fornecedor…"
+            placeholder="Busque peças por nome, código ou marca…"
             aria-label="Buscar produtos"
           />
           <button onClick={submit} className="btn-search ez-lift">Buscar</button>
@@ -121,15 +120,9 @@ export function Header() {
               </Link>
             );
           })}
-          <span style={{ flex: 1 }} />
-          <Link
-            href="/painel"
-            title="Acesso restrito ao administrador"
-            aria-current={pathname.startsWith('/painel') ? 'page' : undefined}
-            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', padding: '13px 14px', fontSize: 13.5, fontWeight: 600, color: pathname.startsWith('/painel') ? 'var(--orange)' : 'var(--muted)' }}
-          >
-            <i className="ph ph-lock-key" style={{ fontSize: 16 }} />Painel
-          </Link>
+          <span className="nav-selo">
+            <i className="ph-fill ph-seal-check" aria-hidden="true" />Revenda autorizada Fischertec
+          </span>
         </div>
       </nav>
 
@@ -165,9 +158,9 @@ export function Header() {
                 {site.phoneDisplay}
               </span>
             </a>
-            <Link href="/painel" className="drawer-painel" onClick={() => setMenuOpen(false)}>
-              <i className="ph ph-lock-key" />Painel
-            </Link>
+            <a href={site.waHref} target="_blank" rel="noopener" className="drawer-whats">
+              <i className="ph-fill ph-whatsapp-logo" />Chamar no WhatsApp
+            </a>
           </div>
         </div>
       )}

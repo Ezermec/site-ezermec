@@ -1,31 +1,58 @@
 'use client';
 
-import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useState } from 'react';
+import { site } from '@/lib/config';
 import type { Product, StockStatus } from '@/lib/types';
+import { CabecalhoPagina } from './CabecalhoPagina';
 import { ProductCard } from './ProductCard';
+import css from './catalogo.module.css';
 
-const PER_PAGE = 8;
+const PER_PAGE = 12;
 type Sort = 'relevance' | 'name-asc' | 'name-desc' | 'recent';
+type Estoque = 'all' | StockStatus;
+
+const ORDENS: Array<[Sort, string]> = [
+  ['relevance', 'Relevância'],
+  ['name-asc', 'Nome (A-Z)'],
+  ['name-desc', 'Nome (Z-A)'],
+  ['recent', 'Mais recentes'],
+];
+const ESTOQUES: Array<[Estoque, string]> = [
+  ['all', 'Todas'],
+  ['em', 'Em estoque'],
+  ['baixo', 'Estoque baixo'],
+  ['sem', 'Sem estoque'],
+];
 
 function uniq(arr: string[]): string[] {
   return Array.from(new Set(arr));
 }
 
+/** WhatsApp para pedir uma peça que não está no catálogo, já com o que foi buscado. */
+function waProcura(termo: string) {
+  const texto = termo
+    ? `Olá! Procuro esta peça: "${termo}". Vocês têm?`
+    : 'Olá! Procuro uma peça que não encontrei no catálogo do site.';
+  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(texto)}`;
+}
+
 export function CatalogClient({
   products,
+  categorias,
   initialQuery = '',
   initialCat = 'all',
 }: {
   products: Product[];
+  /** Categorias do painel, na ordem e com o ícone de lá. */
+  categorias: Array<{ name: string; icon: string }>;
   initialQuery?: string;
   initialCat?: string;
 }) {
   const [query, setQuery] = useState(initialQuery);
   const [activeCategory, setActiveCategory] = useState(initialCat);
   const [activeBrand, setActiveBrand] = useState('all');
-  const [activeStock, setActiveStock] = useState<'all' | StockStatus>('all');
+  const [activeStock, setActiveStock] = useState<Estoque>('all');
   const [sort, setSort] = useState<Sort>('relevance');
   const [page, setPage] = useState(1);
   // Folha de filtros do celular. No desktop a barra e a folha ficam
@@ -76,16 +103,34 @@ export function CatalogClient({
     return { bySearch, catCounts, brandCounts, total, pageCount, current, paged };
   }, [products, term, activeCategory, activeBrand, activeStock, sort, page]);
 
-  const catKeys = ['all', ...uniq(products.map((p) => p.cat))];
-  const brandKeys = ['all', ...uniq(products.map((p) => p.brand))];
-  const stockKeys: Array<['all' | StockStatus, string]> = [['all', 'Todos'], ['em', 'Em estoque'], ['baixo', 'Estoque baixo'], ['sem', 'Sem estoque']];
+  // A ordem e os ícones das categorias vêm do painel; alguma que só exista
+  // nos produtos entra no fim, com um ícone genérico.
+  const catLista = useMemo(() => {
+    const nomes = new Set(categorias.map((c) => c.name));
+    const extras = uniq(products.map((p) => p.cat))
+      .filter((n) => !nomes.has(n))
+      .map((name) => ({ name, icon: 'ph-package' }));
+    return [...categorias, ...extras];
+  }, [categorias, products]);
+  const marcas = useMemo(() => uniq(products.map((p) => p.brand)).sort((a, b) => a.localeCompare(b)), [products]);
+
+  const escolherCategoria = (k: string) => { setActiveCategory(k); setPage(1); };
+  const escolherMarca = (k: string) => { setActiveBrand(k); setPage(1); };
+  const escolherEstoque = (k: Estoque) => { setActiveStock(k); setPage(1); };
+  const ordenar = (k: Sort) => { setSort(k); setPage(1); };
 
   function clearFilters() {
     setQuery(''); setActiveCategory('all'); setActiveBrand('all'); setActiveStock('all'); setPage(1);
   }
 
-  const activeCount =
-    (activeCategory === 'all' ? 0 : 1) + (activeBrand === 'all' ? 0 : 1) + (activeStock === 'all' ? 0 : 1);
+  const rotuloEstoque = ESTOQUES.find(([k]) => k === activeStock)?.[1] ?? '';
+  // Os filtros em uso, como etiquetas que se desfazem com um clique.
+  const ativos = [
+    activeCategory !== 'all' && { rotulo: activeCategory, limpar: () => escolherCategoria('all') },
+    activeBrand !== 'all' && { rotulo: activeBrand, limpar: () => escolherMarca('all') },
+    activeStock !== 'all' && { rotulo: rotuloEstoque, limpar: () => escolherEstoque('all') },
+  ].filter(Boolean) as Array<{ rotulo: string; limpar: () => void }>;
+  const activeCount = ativos.length;
 
   // Com a folha aberta, trava a rolagem do fundo e permite fechar com Esc.
   useEffect(() => {
@@ -102,111 +147,183 @@ export function CatalogClient({
     };
   }, [sheetOpen]);
 
+  const contagem = (n: number) => <em className={css.conta}>{n}</em>;
+
   return (
-    <main className="ez-fade container" style={{ paddingTop: 26, paddingBottom: 60 }}>
-      <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
-        <Link href="/" style={{ color: 'var(--muted)' }}>Início</Link>
-        <i className="ph ph-caret-right" style={{ fontSize: 12 }} /><span style={{ color: 'var(--navy)' }}>Catálogo</span>
-      </div>
-      <h1 style={{ fontSize: 'clamp(26px,3vw,34px)', fontWeight: 800, letterSpacing: '-.02em', margin: '0 0 22px' }}>Catálogo de produtos</h1>
-
-      {/* BARRA DE FILTROS DO CELULAR — no desktop fica escondida por CSS. */}
-      <div className="mfilter-bar">
-        <button type="button" className="mfilter-btn" onClick={() => setSheetOpen(true)}>
-          <i className="ph ph-sliders-horizontal" />Filtros
-          {activeCount > 0 && <span className="mfilter-count">{activeCount}</span>}
-        </button>
-        <div className="mfilter-sort">
-          <i className="ph ph-arrows-down-up" />
-          <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setPage(1); }} aria-label="Ordenar produtos">
-            <option value="relevance">Relevância</option>
-            <option value="name-asc">Nome (A-Z)</option>
-            <option value="name-desc">Nome (Z-A)</option>
-            <option value="recent">Mais recentes</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="catalog-grid">
-        {/* FILTROS */}
-        <aside style={{ position: 'sticky', top: 126, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 18 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontWeight: 700, fontSize: 14 }}>Filtros</span>
-              <button onClick={clearFilters} style={{ background: 'none', border: 'none', color: 'var(--orange)', fontWeight: 600, fontSize: 12.5, cursor: 'pointer' }}>Limpar</button>
-            </div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '6px 0 8px' }}>Categorias</div>
-            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 260, overflow: 'auto' }}>
-              {catKeys.map((k) => (
-                <button key={k} onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
-                  <span>{k === 'all' ? 'Todas as categorias' : k}</span>
-                  <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.catCounts[k] || 0)}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 18 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 8px' }}>Marcas</div>
-            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {brandKeys.map((k) => (
-                <button key={k} onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
-                  <span>{k === 'all' ? 'Todas as marcas' : k}</span>
-                  <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.brandCounts[k] || 0)}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 16, padding: 18 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 8px' }}>Disponibilidade</div>
-            <div className="filter-list" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {stockKeys.map(([k, label]) => (
-                <button key={k} onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
-                  <span>{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* RESULTADOS */}
-        <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14, flexWrap: 'wrap', background: '#fff', border: '1px solid var(--border)', borderRadius: 14, padding: '12px 16px', marginBottom: 18 }}>
-            <span style={{ fontSize: 14, color: 'var(--text)' }}>
-              <strong style={{ color: 'var(--navy)' }}>{view.total}</strong> resultado(s)
-              {term && <> para &quot;<strong style={{ color: 'var(--navy)' }}>{query}</strong>&quot;</>}
-            </span>
-            <label className="sort-desktop" style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13.5, color: 'var(--text)' }}>Ordenar por
-              <select value={sort} onChange={(e) => { setSort(e.target.value as Sort); setPage(1); }} style={{ border: '1px solid var(--border)', background: 'var(--bg)', borderRadius: 9, padding: '9px 12px', fontFamily: 'var(--font-archivo), sans-serif', fontSize: 13.5, fontWeight: 600, color: 'var(--navy)', cursor: 'pointer' }}>
-                <option value="relevance">Relevância</option>
-                <option value="name-asc">Nome (A-Z)</option>
-                <option value="name-desc">Nome (Z-A)</option>
-                <option value="recent">Mais recentes</option>
-              </select>
-            </label>
-          </div>
-
-          {view.total > 0 ? (
-            <>
-              <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 18 }}>
-                {view.paged.map((p) => <ProductCard key={p.slug} product={p} variant="catalog" />)}
-              </div>
-              {view.pageCount > 1 && (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginTop: 34, flexWrap: 'wrap' }}>
-                  {Array.from({ length: view.pageCount }, (_, i) => i + 1).map((n) => (
-                    <button key={n} onClick={() => setPage(n)} className={`page-btn ez-lift${n === view.current ? ' active' : ''}`}>{n}</button>
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '70px 20px', background: '#fff', border: '1px dashed var(--border2)', borderRadius: 18 }}>
-              <i className="ph ph-magnifying-glass" style={{ fontSize: 44, color: 'var(--border2)' }} />
-              <div style={{ fontWeight: 700, fontSize: 18, marginTop: 14 }}>Nenhum produto encontrado</div>
-              <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 6 }}>Tente outro termo ou limpe os filtros.</div>
-              <button onClick={clearFilters} className="ez-lift" style={{ marginTop: 18, background: 'var(--navy)', color: '#fff', border: 'none', borderRadius: 10, padding: '12px 22px', fontWeight: 700, cursor: 'pointer' }}>Limpar filtros</button>
-            </div>
+    <main className="ez-fade">
+      <CabecalhoPagina
+        passos={[{ nome: 'Início', href: '/' }, { nome: 'Peças' }]}
+        olho="Catálogo"
+        titulo="Catálogo de peças"
+        texto="Peças originais Fischertec e de fabricantes homologados. Não achou a sua? A gente procura para você."
+      >
+        <div className={css.busca}>
+          <i className="ph ph-magnifying-glass" aria-hidden="true" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+            placeholder="Nome, código ou marca da peça"
+            aria-label="Buscar no catálogo"
+          />
+          {query && (
+            <button type="button" onClick={() => { setQuery(''); setPage(1); }} aria-label="Limpar a busca">
+              <i className="ph ph-x" />
+            </button>
           )}
-        </section>
+        </div>
+      </CabecalhoPagina>
+
+      <div className={`container ${css.corpo}`}>
+        {/* BARRA DE FILTROS DO CELULAR — no desktop fica escondida por CSS. */}
+        <div className="mfilter-bar">
+          <button type="button" className="mfilter-btn" onClick={() => setSheetOpen(true)}>
+            <i className="ph ph-sliders-horizontal" />Filtros
+            {activeCount > 0 && <span className="mfilter-count">{activeCount}</span>}
+          </button>
+          <div className="mfilter-sort">
+            <i className="ph ph-arrows-down-up" />
+            <select value={sort} onChange={(e) => ordenar(e.target.value as Sort)} aria-label="Ordenar peças">
+              {ORDENS.map(([k, rotulo]) => <option key={k} value={k}>{rotulo}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div className={css.grade}>
+          {/* FILTROS */}
+          <aside className={css.filtros} aria-label="Filtros">
+            <div className={css.filtrosTopo}>
+              <strong><i className="ph ph-sliders-horizontal" aria-hidden="true" />Filtrar</strong>
+              {activeCount > 0 && <button type="button" onClick={clearFilters}>Limpar</button>}
+            </div>
+
+            <div className={css.grupo}>
+              <span className={css.grupoNome}>Categoria</span>
+              <ul>
+                <li>
+                  <button type="button" onClick={() => escolherCategoria('all')} aria-pressed={activeCategory === 'all'} className={css.opcao}>
+                    <i className="ph ph-squares-four" aria-hidden="true" />
+                    <span>Todas as categorias</span>
+                    {contagem(view.bySearch.length)}
+                  </button>
+                </li>
+                {catLista.map((c) => (
+                  <li key={c.name}>
+                    <button type="button" onClick={() => escolherCategoria(c.name)} aria-pressed={activeCategory === c.name} className={css.opcao}>
+                      <i className={`ph ${c.icon}`} aria-hidden="true" />
+                      <span>{c.name}</span>
+                      {contagem(view.catCounts[c.name] || 0)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={css.grupo}>
+              <span className={css.grupoNome}>Marca</span>
+              <ul>
+                <li>
+                  <button type="button" onClick={() => escolherMarca('all')} aria-pressed={activeBrand === 'all'} className={css.opcao}>
+                    <span>Todas as marcas</span>
+                    {contagem(view.bySearch.length)}
+                  </button>
+                </li>
+                {marcas.map((m) => (
+                  <li key={m}>
+                    <button type="button" onClick={() => escolherMarca(m)} aria-pressed={activeBrand === m} className={css.opcao}>
+                      <span>{m}</span>
+                      {contagem(view.brandCounts[m] || 0)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={css.grupo}>
+              <span className={css.grupoNome}>Disponibilidade</span>
+              <ul>
+                {ESTOQUES.map(([k, rotulo]) => (
+                  <li key={k}>
+                    <button type="button" onClick={() => escolherEstoque(k)} aria-pressed={activeStock === k} className={css.opcao}>
+                      {k !== 'all' && <span className={`${css.bolinha} ${css[`bolinha_${k}`]}`} aria-hidden="true" />}
+                      <span>{rotulo}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+
+          {/* RESULTADOS */}
+          <section className={css.resultados} aria-label="Peças encontradas">
+            <div className={css.barra}>
+              <span className={css.total} aria-live="polite">
+                <strong>{view.total}</strong> {view.total === 1 ? 'peça' : 'peças'}
+                {term && <> para “<strong>{query.trim()}</strong>”</>}
+              </span>
+              {ativos.map((a) => (
+                <button key={a.rotulo} type="button" className={css.chip} onClick={a.limpar} aria-label={`Tirar o filtro ${a.rotulo}`}>
+                  {a.rotulo}<i className="ph ph-x" aria-hidden="true" />
+                </button>
+              ))}
+              <label className={`sort-desktop ${css.ordem}`}>
+                Ordenar por
+                <select value={sort} onChange={(e) => ordenar(e.target.value as Sort)}>
+                  {ORDENS.map(([k, rotulo]) => <option key={k} value={k}>{rotulo}</option>)}
+                </select>
+              </label>
+            </div>
+
+            {view.total > 0 ? (
+              <>
+                <div className={`product-grid ${css.produtos}`}>
+                  {view.paged.map((p) => <ProductCard key={p.slug} product={p} variant="catalog" />)}
+                </div>
+
+                {view.pageCount > 1 && (
+                  <nav className={css.paginas} aria-label="Páginas">
+                    <button type="button" className="page-btn ez-lift" onClick={() => setPage(view.current - 1)} disabled={view.current === 1} aria-label="Página anterior">
+                      <i className="ph ph-caret-left" />
+                    </button>
+                    {Array.from({ length: view.pageCount }, (_, i) => i + 1).map((n) => (
+                      <button key={n} type="button" onClick={() => setPage(n)} className={`page-btn ez-lift${n === view.current ? ' active' : ''}`} aria-current={n === view.current ? 'page' : undefined}>
+                        {n}
+                      </button>
+                    ))}
+                    <button type="button" className="page-btn ez-lift" onClick={() => setPage(view.current + 1)} disabled={view.current === view.pageCount} aria-label="Próxima página">
+                      <i className="ph ph-caret-right" />
+                    </button>
+                  </nav>
+                )}
+
+                <div className={css.ajuda}>
+                  <span className={css.ajudaIcone}><i className="ph ph-chat-circle-text" aria-hidden="true" /></span>
+                  <div>
+                    <strong>Não achou a peça que procura?</strong>
+                    <span>Mande o nome, o código ou uma foto pelo WhatsApp que a gente procura para você.</span>
+                  </div>
+                  <a href={waProcura(query.trim())} target="_blank" rel="noopener" className={`btn ez-lift ${css.ajudaBotao}`}>
+                    <i className="ph-fill ph-whatsapp-logo" />Pedir pelo WhatsApp
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className={css.vazio}>
+                <span className={css.vazioIcone}><i className="ph ph-magnifying-glass" aria-hidden="true" /></span>
+                <strong>Essa peça não está no catálogo do site</strong>
+                <p>Mande o nome, o código ou uma foto pelo WhatsApp que a gente procura para você.</p>
+                <div className={css.vazioBotoes}>
+                  <a href={waProcura(query.trim())} target="_blank" rel="noopener" className={`btn ez-lift ${css.ajudaBotao}`}>
+                    <i className="ph-fill ph-whatsapp-logo" />Pedir pelo WhatsApp
+                  </a>
+                  <button type="button" onClick={clearFilters} className="btn btn-white ez-lift">
+                    Limpar a busca e os filtros
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
       </div>
 
       {/* FOLHA DE FILTROS — sobe de baixo, como nos aplicativos de compras.
@@ -229,7 +346,7 @@ export function CatalogClient({
                 {([
                   ['cat', 'Categoria', activeCategory === 'all' ? null : activeCategory],
                   ['brand', 'Marca', activeBrand === 'all' ? null : activeBrand],
-                  ['stock', 'Disponibilidade', activeStock === 'all' ? null : stockKeys.find(([k]) => k === activeStock)?.[1] ?? null],
+                  ['stock', 'Disponibilidade', activeStock === 'all' ? null : rotuloEstoque],
                 ] as Array<['cat' | 'brand' | 'stock', string, string | null]>).map(([key, label, selecionado]) => (
                   <button
                     key={key}
@@ -244,22 +361,22 @@ export function CatalogClient({
               </div>
 
               <div className="sheet-options">
-                {sheetGroup === 'cat' && catKeys.map((k) => (
-                  <button key={k} type="button" onClick={() => { setActiveCategory(k); setPage(1); }} className={`filter-btn${activeCategory === k ? ' active' : ''}`}>
-                    <span>{k === 'all' ? 'Todas as categorias' : k}</span>
-                    <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.catCounts[k] || 0)}</span>
+                {sheetGroup === 'cat' && [{ name: 'all', icon: '' }, ...catLista].map((c) => (
+                  <button key={c.name} type="button" onClick={() => escolherCategoria(c.name)} className={`filter-btn${activeCategory === c.name ? ' active' : ''}`}>
+                    <span>{c.name === 'all' ? 'Todas as categorias' : c.name}</span>
+                    <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{c.name === 'all' ? view.bySearch.length : (view.catCounts[c.name] || 0)}</span>
                   </button>
                 ))}
 
-                {sheetGroup === 'brand' && brandKeys.map((k) => (
-                  <button key={k} type="button" onClick={() => { setActiveBrand(k); setPage(1); }} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
+                {sheetGroup === 'brand' && ['all', ...marcas].map((k) => (
+                  <button key={k} type="button" onClick={() => escolherMarca(k)} className={`filter-btn${activeBrand === k ? ' active' : ''}`}>
                     <span>{k === 'all' ? 'Todas as marcas' : k}</span>
                     <span className="mono" style={{ fontSize: 12, opacity: .6 }}>{k === 'all' ? view.bySearch.length : (view.brandCounts[k] || 0)}</span>
                   </button>
                 ))}
 
-                {sheetGroup === 'stock' && stockKeys.map(([k, label]) => (
-                  <button key={k} type="button" onClick={() => { setActiveStock(k); setPage(1); }} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
+                {sheetGroup === 'stock' && ESTOQUES.map(([k, label]) => (
+                  <button key={k} type="button" onClick={() => escolherEstoque(k)} className={`filter-btn${activeStock === k ? ' active' : ''}`}>
                     <span>{label}</span>
                   </button>
                 ))}
@@ -269,7 +386,7 @@ export function CatalogClient({
             <div className="sheet-foot">
               <button type="button" className="sheet-clear" onClick={clearFilters}>Limpar</button>
               <button type="button" className="sheet-apply" onClick={() => setSheetOpen(false)}>
-                Ver {view.total} {view.total === 1 ? 'produto' : 'produtos'}
+                Ver {view.total} {view.total === 1 ? 'peça' : 'peças'}
               </button>
             </div>
           </div>

@@ -1,0 +1,410 @@
+/* Catálogo de peças: busca no topo, filtros na lateral, resultados à direita. */
+
+/* Busca dentro da página, logo abaixo do título. */
+.busca {
+  display: flex;
+  align-items: center;
+  max-width: 560px;
+  padding: 0 8px 0 16px;
+  background: #fff;
+  border: 1.5px solid var(--border2);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -22px rgba(5, 40, 87, 0.45);
+  transition: border-color 0.15s;
+}
+.busca:focus-within {
+  border-color: var(--orange);
+}
+.busca > i {
+  font-size: 20px;
+  color: var(--muted);
+}
+.busca input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 10px;
+  font: 500 16px var(--font-archivo), system-ui, sans-serif;
+  color: var(--navy);
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+/* o X nativo dos campos de busca some; o nosso fica no lugar */
+.busca input::-webkit-search-cancel-button {
+  display: none;
+}
+.busca button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.busca button:hover {
+  color: var(--navy);
+}
+
+.corpo {
+  padding-top: 32px;
+  padding-bottom: 72px;
+}
+.grade {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* ---------- Filtros ---------- */
+
+/* A lateral rola com a página: com as categorias, as marcas e o estoque ela
+   fica mais alta que a tela, e presa no lugar ganharia uma rolagem própria. */
+.filtros {
+  padding: 18px 14px 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.filtrosTopo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.filtrosTopo strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--navy);
+}
+.filtrosTopo strong i {
+  font-size: 18px;
+  color: var(--orange);
+}
+.filtrosTopo button {
+  font: 600 13px var(--font-archivo), system-ui, sans-serif;
+  color: var(--orange);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.grupo {
+  padding: 14px 0 8px;
+}
+.grupo + .grupo {
+  border-top: 1px solid var(--border);
+}
+.grupoNome {
+  display: block;
+  padding: 0 6px 8px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.grupo ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 8px;
+  font: 500 14px var(--font-archivo), system-ui, sans-serif;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.opcao:hover {
+  color: var(--navy);
+  background: var(--bg);
+}
+.opcao > i {
+  flex: none;
+  font-size: 18px;
+  color: var(--muted);
+}
+.opcao > span:not(.bolinha) {
+  flex: 1;
+  min-width: 0;
+}
+.conta {
+  flex: none;
+  min-width: 26px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11.5px;
+  font-style: normal;
+  text-align: center;
+  color: var(--muted);
+  background: var(--bg);
+}
+/* a opção escolhida */
+.opcao[aria-pressed='true'] {
+  font-weight: 700;
+  color: var(--navy);
+  background: #eef3fa;
+}
+.opcao[aria-pressed='true'] > i {
+  color: var(--orange);
+}
+.opcao[aria-pressed='true'] .conta {
+  color: #fff;
+  background: var(--navy);
+}
+/* a cor de cada situação de estoque, como nas etiquetas dos cartões */
+.bolinha {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin: 0 4px;
+  border-radius: 50%;
+}
+.bolinha_em {
+  background: #1f8a5b;
+}
+.bolinha_baixo {
+  background: #e0a100;
+}
+.bolinha_sem {
+  background: #c0392b;
+}
+
+/* ---------- Resultados ---------- */
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.total {
+  margin-right: 4px;
+  font-size: 15px;
+  color: var(--text);
+}
+.total strong {
+  color: var(--navy);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 12px;
+  font: 600 13px var(--font-archivo), system-ui, sans-serif;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.chip:hover {
+  border-color: var(--orange);
+}
+.chip i {
+  font-size: 13px;
+  color: var(--muted);
+}
+.ordem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: auto;
+  font-size: 13.5px;
+  color: var(--text);
+}
+.ordem select {
+  padding: 9px 12px;
+  font: 600 13.5px var(--font-archivo), system-ui, sans-serif;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.paginas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 34px;
+}
+.paginas button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Não achou? A gente procura. */
+.ajuda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 36px;
+  padding: 20px 22px;
+  background: #fff;
+  border: 1px dashed var(--border2);
+  border-radius: 18px;
+}
+.ajudaIcone {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  font-size: 24px;
+  color: var(--orange);
+  background: #fdede1;
+}
+.ajuda > div {
+  flex: 1;
+  min-width: 220px;
+}
+.ajuda strong {
+  display: block;
+  font-size: 16px;
+  color: var(--navy);
+}
+.ajuda div span {
+  display: block;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.ajudaBotao {
+  padding: 13px 20px;
+  font-size: 15px;
+  color: #fff;
+  background: var(--green);
+}
+.ajudaBotao:hover {
+  color: #fff;
+}
+.ajudaBotao i {
+  font-size: 19px;
+}
+
+.vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 24px;
+  text-align: center;
+  background: #fff;
+  border: 1px dashed var(--border2);
+  border-radius: 20px;
+}
+.vazioIcone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  font-size: 30px;
+  color: var(--navy);
+  background: #eef3fa;
+}
+.vazio strong {
+  margin-top: 18px;
+  font-size: 19px;
+  color: var(--navy);
+}
+.vazio p {
+  max-width: 420px;
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.vazioBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.vazioBotoes :global(.btn-white) {
+  padding: 13px 20px;
+  font-size: 15px;
+}
+
+/* Tablet: a lateral fica mais estreita. */
+@media (max-width: 1080px) {
+  .grade {
+    grid-template-columns: 236px minmax(0, 1fr);
+    gap: 22px;
+  }
+}
+
+/* Celular: a lateral dá lugar à barra com "Filtros" e "Ordenar", que abre a
+   folha de baixo para cima (estilos globais .mfilter-bar e .sheet). */
+@media (max-width: 760px) {
+  .busca input {
+    padding: 13px 8px;
+    font-size: 15.5px;
+  }
+  .corpo {
+    padding-top: 6px;
+    padding-bottom: 56px;
+  }
+  .grade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .filtros {
+    display: none;
+  }
+  .barra {
+    margin-bottom: 14px;
+  }
+  .ajuda {
+    padding: 18px;
+  }
+  .ajudaBotao {
+    justify-content: center;
+    width: 100%;
+  }
+  .vazio {
+    padding: 44px 18px;
+  }
+  .vazioBotoes,
+  .vazioBotoes > * {
+    width: 100%;
+    justify-content: center;
+  }
+}

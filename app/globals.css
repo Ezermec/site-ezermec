@@ -12,6 +12,13 @@
 
 * { box-sizing: border-box; }
 
+/* Âncoras (#categorias, #contato) param abaixo do cabeçalho fixo, e não
+   atrás dele. A rolagem suave só para quem não pediu menos movimento. */
+html { scroll-padding-top: calc(var(--header-h, 112px) + 16px); }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -27,6 +34,13 @@ button { font-family: inherit; }
 input::placeholder { color: var(--muted); }
 
 .mono { font-family: var(--font-mono), monospace; }
+
+/* Foco visível só para quem navega pelo teclado. */
+a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid rgba(245, 102, 12, .55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
 
 @keyframes ezup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes drawerin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
@@ -63,6 +77,9 @@ input::placeholder { color: var(--muted); }
 .ez-navbtn:hover { border-bottom: 2px solid var(--orange); color: var(--navy); }
 /* Página atual: destaque permanente no menu */
 .ez-navbtn.active { border-bottom: 2px solid var(--orange); color: var(--orange); font-weight: 700; }
+/* Selo da revenda no fim da faixa do menu. */
+.nav-selo { display: flex; align-items: center; gap: 7px; margin-left: auto; font-size: 13px; font-weight: 600; color: var(--text); }
+.nav-selo i { font-size: 17px; color: var(--orange); }
 .wa-pill { display: flex; align-items: center; gap: 8px; background: var(--green); color: #fff; padding: 10px 16px; border-radius: 11px; font-weight: 600; font-size: 14px; }
 .wa-pill:hover { color: #fff; }
 
@@ -104,20 +121,12 @@ body[data-menu-open] .wa-float { display: none !important; }
 .badge-baixo { background: #fcf0dc; color: #b26b00; }
 .badge-sem { background: #fbe9e7; color: #c0392b; }
 
-/* Grade de imagem placeholder */
-.hslot { background: repeating-linear-gradient(135deg,#eef3f9,#eef3f9 12px,#e3eaf3 12px,#e3eaf3 24px); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: var(--muted); text-align: center; padding: 20px; width: 100%; height: 100%; }
 
-/* Catálogo */
-.catalog-grid { display: grid; grid-template-columns: 270px 1fr; gap: 26px; align-items: start; }
+/* Catálogo: opções da folha de filtros do celular e botões de página. */
 .filter-btn { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 10px 12px; border-radius: 10px; font: 500 13.5px var(--font-archivo), system-ui, sans-serif; cursor: pointer; transition: all .15s; background: #fff; color: var(--text); border: 1px solid var(--border); }
 .filter-btn.active { background: var(--navy); color: #fff; border: 1px solid var(--navy); box-shadow: 0 6px 14px -6px rgba(5,40,87,.5); }
 .page-btn { min-width: 42px; height: 42px; padding: 0 12px; border-radius: 11px; font: 700 14px var(--font-archivo), system-ui, sans-serif; cursor: pointer; transition: .15s; background: #fff; color: var(--navy); border: 1px solid var(--border); }
 .page-btn.active { background: var(--orange); color: #fff; border: 1px solid var(--orange); box-shadow: 0 8px 18px -8px rgba(245,102,12,.6); }
-
-@media (max-width: 860px) {
-  .catalog-grid { grid-template-columns: 1fr; }
-  .catalog-grid aside { position: static !important; top: auto !important; }
-}
 
 /* ================================================================
    CELULAR
@@ -178,18 +187,16 @@ body[data-menu-open] .wa-float { display: none !important; }
   .drawer-call i { font-size: 22px; color: var(--orange); }
   .drawer-call span { display: flex; flex-direction: column; line-height: 1.2; }
   .drawer-call small { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-  .drawer-painel { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14.5px; font-weight: 600; }
-  .drawer-painel i { font-size: 17px; }
+  .drawer-whats { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 14px 18px; border-radius: 12px; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; }
+  .drawer-whats:hover { color: #fff; }
+  .drawer-whats i { font-size: 20px; }
 
   /* CATÁLOGO — o painel lateral de filtros dá lugar a uma barra fixa com
      "Filtros" e "Ordenar", que abre uma folha deslizante de baixo. É o
      padrão dos aplicativos de compras. */
-  .catalog-grid > * { min-width: 0; }
-  /* !important porque o <aside> define `display` no próprio style. */
-  .catalog-grid aside { display: none !important; }
 
-  /* O "Ordenar por" já está na barra; no cabeçalho de resultados ficaria
-     duplicado. (!important porque o <label> define `display` inline.) */
+  /* O "Ordenar por" já está na barra; nos resultados ficaria duplicado.
+     (!important para vencer o `display` do estilo próprio do catálogo.) */
   .sort-desktop { display: none !important; }
 
   .mfilter-bar {
@@ -281,6 +288,11 @@ body[data-menu-open] .wa-float { display: none !important; }
      topo. A etiqueta desce para o rodapé da imagem. */
   .product-grid .badge { top: auto !important; bottom: 8px; right: 8px !important; font-size: 10px !important; padding: 3px 7px !important; }
   .product-grid .pcard-img i { font-size: 34px !important; }
+  /* Em duas colunas estreitas o cartão fica só com marca, nome e botão:
+     a categoria e o resumo alongavam demais cada um. O nome ocupa a sobra. */
+  .product-grid .pcard-cat,
+  .product-grid .pcard-resumo { display: none; }
+  .product-grid .pcard-nome { flex: 1; }
 
   /* Botão flutuante do WhatsApp menor, para cobrir menos conteúdo. */
   .wa-float { width: 52px !important; height: 52px !important; font-size: 27px !important; right: 16px !important; bottom: 16px !important; }

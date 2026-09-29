@@ -30,18 +30,18 @@ export function ProductCard({ product: p, variant = 'home' }: { product: Product
         {variant === 'catalog' ? (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
             <span className="mono" style={{ fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.05em' }}>{p.brand}</span>
-            <span style={{ fontSize: 11, color: 'var(--muted)' }}>{p.cat}</span>
+            <span className="pcard-cat" style={{ fontSize: 11, color: 'var(--muted)' }}>{p.cat}</span>
           </div>
         ) : (
           <span className="mono" style={{ fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.05em' }}>{p.brand}</span>
         )}
         {/* O resumo só aparece no catálogo; nos outros cartões o nome ocupa a
             sobra, para o "Ver detalhes" ficar alinhado embaixo. */}
-        <span style={{ fontWeight: 700, fontSize: variant === 'related' ? 15 : 15.5, lineHeight: 1.3, color: 'var(--navy)', margin: '5px 0 0', flex: variant === 'catalog' ? undefined : 1 }}>
+        <span className="pcard-nome" style={{ fontWeight: 700, fontSize: variant === 'related' ? 15 : 15.5, lineHeight: 1.3, color: 'var(--navy)', margin: '5px 0 0', flex: variant === 'catalog' ? undefined : 1 }}>
           {p.name}
         </span>
         {variant === 'catalog' && (
-          <span style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.45, margin: '7px 0 0', flex: 1 }}>{p.short}</span>
+          <span className="pcard-resumo" style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.45, margin: '7px 0 0', flex: 1 }}>{p.short}</span>
         )}
         {variant === 'catalog' ? (
           <span className="ez-lift" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, color: 'var(--navy)', fontWeight: 700, fontSize: 14, marginTop: 14, border: '1.5px solid var(--border)', borderRadius: 10, padding: 10 }}>

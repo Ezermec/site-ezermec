@@ -1,0 +1,360 @@
+/* Página de cada peça: galeria e orçamento em cima; descrição, ficha
+   técnica e peças parecidas embaixo. */
+
+.topo {
+  padding-top: 24px;
+  padding-bottom: 56px;
+}
+.principal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+.info {
+  min-width: 0;
+}
+.marca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.marca span {
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.marca a {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--navy);
+  background: #eef3fa;
+}
+.marca a:hover {
+  color: var(--navy);
+  background: var(--border2);
+}
+.nome {
+  margin: 12px 0 0;
+  text-wrap: balance;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+/* A situação do estoque, com a mesma cor das etiquetas dos cartões. */
+.estoque {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 16px 0 0;
+  font-size: 14.5px;
+}
+.estoque strong {
+  font-weight: 700;
+}
+.estoque span:last-child {
+  color: var(--text);
+}
+.estoquePonto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+.estoque_em strong {
+  color: #1f8a5b;
+}
+.estoque_em .estoquePonto {
+  background: #1f8a5b;
+  box-shadow: 0 0 0 4px #e6f4ec;
+}
+.estoque_baixo strong {
+  color: #b26b00;
+}
+.estoque_baixo .estoquePonto {
+  background: #e0a100;
+  box-shadow: 0 0 0 4px #fcf0dc;
+}
+.estoque_sem strong {
+  color: #c0392b;
+}
+.estoque_sem .estoquePonto {
+  background: #c0392b;
+  box-shadow: 0 0 0 4px #fbe9e7;
+}
+
+.resumo {
+  margin: 18px 0 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.codigos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 0;
+}
+.codigos div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.codigos dt {
+  color: var(--muted);
+}
+.codigos dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+/* O pedido de orçamento: um botão principal e dois de apoio. */
+.orcamento {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 24px 50px -36px rgba(5, 40, 87, 0.45);
+}
+.orcamento > strong {
+  font-size: 17px;
+  color: var(--navy);
+}
+.orcamento > span {
+  margin-top: 4px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.botaoWhats {
+  justify-content: center;
+  margin-top: 16px;
+  padding: 16px 20px;
+  font-size: 16px;
+  color: #fff;
+  background: var(--green);
+  box-shadow: 0 14px 28px -16px rgba(37, 211, 102, 0.8);
+}
+.botaoWhats:hover {
+  color: #fff;
+}
+.botaoWhats i {
+  font-size: 21px;
+}
+.orcamentoMais {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.orcamentoMais > * {
+  flex: 1;
+  justify-content: center;
+  padding: 12px 16px;
+  font-size: 14.5px;
+}
+.orcamentoMais i {
+  font-size: 18px;
+}
+
+.garantias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.garantias li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.garantias i {
+  font-size: 18px;
+  color: var(--orange);
+}
+
+/* ---------- Detalhes ---------- */
+
+.detalhes {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.detalhesGrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 48px;
+  padding-top: 52px;
+  padding-bottom: 56px;
+}
+.detalhes h2 {
+  margin: 0 0 16px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+.descricao {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-line;
+}
+.duvida {
+  display: flex;
+  gap: 14px;
+  margin-top: 26px;
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.duvida > i {
+  flex: none;
+  font-size: 26px;
+  color: var(--orange);
+}
+.duvida strong {
+  display: block;
+  font-size: 15px;
+  color: var(--navy);
+}
+.duvida span {
+  display: block;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.specs {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 18px;
+  font-size: 14.5px;
+}
+.specs div:nth-child(odd) {
+  background: var(--bg);
+}
+.specs dt {
+  color: var(--text);
+}
+.specs dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  color: var(--navy);
+}
+
+/* ---------- Relacionados ---------- */
+
+.relacionados {
+  padding-top: 52px;
+  padding-bottom: 64px;
+}
+.relacionadosTopo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.relacionadosTopo h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.relacionadosTopo a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.relacionadosTopo a:hover {
+  color: var(--orange);
+}
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 880px) {
+  .principal {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .detalhesGrade {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 760px) {
+  .topo {
+    padding-top: 16px;
+    padding-bottom: 40px;
+  }
+  .principal {
+    margin-top: 16px;
+  }
+  .nome {
+    font-size: 26px;
+  }
+  .orcamento {
+    padding: 18px;
+  }
+  .detalhesGrade {
+    padding-top: 40px;
+    padding-bottom: 44px;
+  }
+  .specs div {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+  .relacionados {
+    padding-top: 40px;
+    padding-bottom: 52px;
+  }
+}

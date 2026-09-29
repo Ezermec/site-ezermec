@@ -5,8 +5,6 @@ import type { StockStatus } from '@/lib/types';
 import { productImageUrl } from '@/lib/storage';
 import { StockBadge } from './StockBadge';
 
-const HATCH = 'repeating-linear-gradient(135deg,#f1f5fa,#f1f5fa 11px,#e8edf3 11px,#e8edf3 22px)';
-
 export function ProductGallery({
   images,
   name,
@@ -24,12 +22,23 @@ export function ProductGallery({
 
   return (
     <div>
-      <div style={{ position: 'relative', aspectRatio: '1/1', borderRadius: 20, overflow: 'hidden', border: '1px solid var(--border)', background: hasImages ? '#fff' : HATCH, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* Sem foto, o fundo e o ícone num círculo são os mesmos dos cartões
+          (.pcard-img / .pcard-icone), para a peça não parecer "sem imagem". */}
+      <div
+        className={hasImages ? undefined : 'pcard-img'}
+        style={{
+          position: 'relative', aspectRatio: '1/1', borderRadius: 22, overflow: 'hidden',
+          border: '1px solid var(--border)', background: hasImages ? '#fff' : undefined,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}
+      >
         {current ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={productImageUrl(current)} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         ) : (
-          <i className={`ph ${icon}`} style={{ fontSize: 96, color: 'rgba(5,40,87,.13)' }} />
+          <span className="pcard-icone" style={{ width: '38%' }}>
+            <i className={`ph ${icon}`} style={{ fontSize: 88 }} />
+          </span>
         )}
         <StockBadge stock={stock} big />
       </div>
@@ -41,6 +50,8 @@ export function ProductGallery({
               key={path}
               type="button"
               onClick={() => setSelected(i)}
+              aria-label={`Foto ${i + 1}`}
+              aria-pressed={i === selected}
               style={{ aspectRatio: '1/1', borderRadius: 12, overflow: 'hidden', border: `2px solid ${i === selected ? 'var(--orange)' : 'var(--border)'}`, padding: 0, cursor: 'pointer', background: '#fff' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

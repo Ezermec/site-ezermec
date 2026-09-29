@@ -1,0 +1,133 @@
+.rodape {
+  color: #c9d6e8;
+  background: var(--navy);
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.4fr);
+  gap: 40px;
+  padding-top: 64px;
+  padding-bottom: 52px;
+}
+
+.marca p {
+  max-width: 280px;
+  margin: 18px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.selo i {
+  font-size: 16px;
+  color: var(--orange2);
+}
+
+.coluna {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14.5px;
+}
+.titulo {
+  margin-bottom: 4px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange2);
+}
+.coluna a {
+  color: #c9d6e8;
+  transition: color 0.15s;
+}
+.coluna a:hover {
+  color: #fff;
+}
+.atendimento a,
+.atendimento > span:not(.titulo) {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.45;
+}
+.atendimento i {
+  flex: none;
+  margin-top: 1px;
+  font-size: 18px;
+  color: #8fa6c4;
+}
+.atendimento .whats {
+  color: var(--green);
+}
+.linha {
+  display: block;
+}
+
+.base {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.baseLinha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-size: 13px;
+  color: #8fa6c4;
+}
+.restrita {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #8fa6c4;
+}
+.restrita:hover {
+  color: #fff;
+}
+
+/* Notebook e tablet: a marca ocupa a linha de cima. */
+@media (max-width: 1080px) {
+  .grade {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px 28px;
+  }
+  .marca {
+    grid-column: 1 / -1;
+  }
+  .marca p {
+    max-width: 420px;
+  }
+}
+
+/* Celular: duas colunas; o atendimento, com o e-mail, fica numa linha só dele. */
+@media (max-width: 760px) {
+  .grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 20px;
+    padding-top: 48px;
+    padding-bottom: 36px;
+  }
+  .atendimento {
+    grid-column: 1 / -1;
+  }
+  .baseLinha {
+    padding-bottom: 88px; /* espaço para o botão flutuante do WhatsApp */
+  }
+}

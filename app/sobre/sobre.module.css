@@ -1,0 +1,371 @@
+/* Página Sobre: apresentação com a ficha da empresa, as frentes de
+   trabalho, os princípios e o contato. */
+
+.topo {
+  padding: 26px 0 64px;
+  background:
+    radial-gradient(ellipse 50% 90% at 92% 0%, rgba(245, 102, 12, 0.07), transparent 65%),
+    linear-gradient(rgba(5, 40, 87, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(5, 40, 87, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.topoGrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 56px;
+  align-items: center;
+}
+.olho {
+  display: block;
+  margin-top: 30px;
+}
+.titulo {
+  margin: 12px 0 0;
+  text-wrap: balance;
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+}
+.texto {
+  max-width: 600px;
+  margin: 18px 0 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text);
+}
+.texto + .texto {
+  margin-top: 12px;
+}
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+.botoes a {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+
+/* A ficha da empresa: cartão azul com o logo e os dados principais. */
+.ficha {
+  padding: 30px 28px;
+  color: #fff;
+  background:
+    radial-gradient(ellipse 80% 60% at 100% 0%, rgba(22, 88, 170, 0.55), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--navy);
+  border-radius: 24px;
+  box-shadow: 0 40px 80px -40px rgba(5, 40, 87, 0.6);
+}
+.ficha ul {
+  display: grid;
+  gap: 18px;
+  margin: 26px 0 0;
+  padding: 24px 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.ficha li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.fichaIcone {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 22px;
+  color: var(--orange2);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.ficha small {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9fb4cf;
+}
+.ficha strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 15.5px;
+  line-height: 1.35;
+}
+
+/* ---------- Seções ---------- */
+
+.secao {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.cabeca {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.cabeca h2 {
+  margin: 12px 0 0;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+.cabeca p {
+  margin: 12px 0 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.cabecaEscura h2 {
+  color: #fff;
+}
+.cabecaEscura :global(.eyebrow) {
+  color: var(--orange2);
+}
+
+.frentes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.frentes li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 26px 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.frenteIcone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  font-size: 26px;
+  color: var(--orange);
+  background: #fdede1;
+}
+.frentes strong {
+  margin-top: 18px;
+  font-size: 17.5px;
+  line-height: 1.25;
+  color: var(--navy);
+}
+.frentes li > span:not(.frenteIcone) {
+  margin-top: 8px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+/* o software, a frente nova, em destaque */
+.frenteSoftware {
+  border-color: var(--navy) !important;
+  box-shadow: 0 24px 50px -32px rgba(5, 40, 87, 0.55);
+}
+.frenteSoftware .frenteIcone {
+  color: #fff;
+  background: var(--navy);
+}
+.frenteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.principios {
+  padding: 72px 0;
+  background: var(--navy);
+}
+.mvv {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mvv li {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 26px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+}
+.mvv i {
+  font-size: 30px;
+  color: var(--orange2);
+}
+.mvv strong {
+  margin-top: 16px;
+  font-size: 18px;
+  color: #fff;
+}
+.mvv span {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #dce7f4;
+}
+
+.contato {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+.chamada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 44px;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #f5660c, #ff7a1a);
+  box-shadow: 0 30px 60px -30px rgba(245, 102, 12, 0.5);
+}
+.chamada h2 {
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.chamada p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.92);
+}
+.chamadaBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chamadaBotoes a {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+.btnBranco {
+  color: var(--navy);
+  background: #fff;
+}
+.btnBranco:hover {
+  color: var(--navy);
+}
+.btnBranco i {
+  font-size: 20px;
+  color: var(--green);
+}
+.btnMarinho {
+  color: #fff;
+  background: rgba(5, 40, 87, 0.9);
+}
+.btnMarinho:hover {
+  color: #fff;
+}
+.btnMarinho i {
+  font-size: 20px;
+}
+
+@media (max-width: 1080px) {
+  .topoGrade {
+    gap: 36px;
+  }
+  .frentes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 880px) {
+  .topoGrade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ficha {
+    max-width: 520px;
+  }
+  .mvv {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .topo {
+    padding: 18px 0 44px;
+  }
+  .olho {
+    margin-top: 22px;
+  }
+  .titulo {
+    font-size: 30px;
+  }
+  .texto {
+    font-size: 16px;
+  }
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .botoes a {
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+  }
+  .ficha {
+    padding: 24px 20px;
+  }
+  .secao {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .cabeca {
+    margin-bottom: 28px;
+  }
+  .frentes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .frentes li {
+    padding: 22px 20px;
+  }
+  .principios {
+    padding: 56px 0;
+  }
+  .contato {
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+  .chamada {
+    padding: 28px 22px;
+  }
+  .chamadaBotoes,
+  .chamadaBotoes a {
+    width: 100%;
+  }
+  .chamadaBotoes a {
+    justify-content: center;
+  }
+}
