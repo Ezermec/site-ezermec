@@ -456,7 +456,7 @@
   color: #8be3a6;
 }
 
-/* ---------- Seções de loja: categorias e destaques ---------- */
+/* ---------- Seções de loja: peças em destaque ---------- */
 
 .secao {
   padding-top: 72px;
@@ -487,53 +487,6 @@
 }
 .verTudo:hover {
   color: var(--orange);
-}
-
-/* Atalhos para os primeiros tipos de peça, logo acima dos produtos. */
-.tipos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 22px;
-  padding: 0;
-  list-style: none;
-}
-.tipos a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 14px 8px 11px;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--navy);
-  background: #fff;
-  border: 1px solid var(--border);
-  transition: border-color 0.15s, color 0.15s;
-}
-.tipos a:hover {
-  color: var(--orange);
-  border-color: var(--orange);
-}
-.tipos i {
-  font-size: 17px;
-  color: var(--orange);
-}
-/* o último atalho leva à lista completa, no catálogo */
-.tipos .tiposTodos {
-  padding-left: 14px;
-  color: #fff;
-  background: var(--navy);
-  border-color: var(--navy);
-}
-.tipos .tiposTodos:hover {
-  color: #fff;
-  border-color: var(--navy);
-}
-.tipos .tiposTodos i {
-  font-size: 15px;
-  color: #fff;
 }
 
 .produtos {
@@ -974,18 +927,6 @@
   .secaoTopo {
     margin-bottom: 20px;
   }
-  /* Os atalhos numa fileira só, que desliza para o lado. */
-  .tipos {
-    flex-wrap: nowrap;
-    margin: 0 -24px 18px;
-    padding: 0 24px 2px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .tipos::-webkit-scrollbar {
-    display: none;
-  }
-
   .contato {
     padding-top: 52px;
     padding-bottom: 48px;
@@ -1009,12 +950,6 @@
 @media (max-width: 400px) {
   .titulo {
     font-size: 29px;
-  }
-  .tipos {
-    margin-right: -16px;
-    margin-left: -16px;
-    padding-right: 16px;
-    padding-left: 16px;
   }
 }
 

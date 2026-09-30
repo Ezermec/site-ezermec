@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/catalogo`, lastModified: agora, changeFrequency: 'daily', priority: 0.9 },
     { url: `${siteUrl}/ezermec-cad`, lastModified: agora, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteUrl}/sobre`, lastModified: agora, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${siteUrl}/contato`, lastModified: agora, changeFrequency: 'monthly', priority: 0.6 },
   ];
 
   // Se o banco estiver fora do ar na hora da geração, o sitemap sai com as

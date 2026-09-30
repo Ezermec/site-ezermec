@@ -21,7 +21,6 @@ export function Footer() {
         <nav className={css.coluna} aria-label="Peças">
           <span className={css.titulo}>Peças</span>
           <Link href="/catalogo">Catálogo de peças</Link>
-          <Link href="/#categorias">Categorias</Link>
           <a href={site.waHref} target="_blank" rel="noopener">Pedir orçamento</a>
         </nav>
 
@@ -35,7 +34,7 @@ export function Footer() {
         <nav className={css.coluna} aria-label="Empresa">
           <span className={css.titulo}>Empresa</span>
           <Link href="/sobre">Sobre a Ezermec</Link>
-          <Link href="/#contato">Contato</Link>
+          <Link href="/contato">Contato</Link>
         </nav>
 
         <div className={`${css.coluna} ${css.atendimento}`}>

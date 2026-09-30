@@ -8,14 +8,14 @@ import { Logo } from './Logo';
 
 // Itens do menu: as duas frentes da Ezermec (peças e o software) e a empresa.
 // `match` decide quando o item fica marcado como página atual — "Peças" também
-// cobre a página de cada produto, e "Contato" (um trecho da home) nunca marca.
+// cobre a página de cada produto.
 // `novo` põe a etiqueta "Novo" ao lado do item (hoje, o Ezermec CAD).
 const NAV: Array<{ href: string; label: string; novo?: boolean; match: (path: string) => boolean }> = [
   { href: '/', label: 'Início', match: (p) => p === '/' },
   { href: '/catalogo', label: 'Peças', match: (p) => p.startsWith('/catalogo') || p.startsWith('/produto') },
   { href: '/ezermec-cad', label: 'Ezermec CAD', novo: true, match: (p) => p.startsWith('/ezermec-cad') },
   { href: '/sobre', label: 'Sobre', match: (p) => p.startsWith('/sobre') },
-  { href: '/#contato', label: 'Contato', match: () => false },
+  { href: '/contato', label: 'Contato', match: (p) => p.startsWith('/contato') },
 ];
 
 export function Header() {
